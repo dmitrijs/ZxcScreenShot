@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -93,9 +94,6 @@ namespace LighterShot
             MouseMove += mouse_Move;
             KeyUp += key_press;
             g = CreateGraphics();
-
-
-            // take screenshot
 
 //            pictureBox1.Dock = DockStyle.Fill;
             var bitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Size.Width, Screen.PrimaryScreen.Bounds.Size.Height);
@@ -497,7 +495,14 @@ namespace LighterShot
 
         private void FormOverlay_FormClosed(object sender, FormClosedEventArgs e)
         {
-            InstanceRef.Show();
+            if (InstanceRef != null)
+            {
+                InstanceRef.Show();
+            }
+            else
+            {
+                Application.Exit();
+            }
         }
 
         #region:::::::::::::::::::::::::::::::::::::::::::Mouse Buttons:::::::::::::::::::::::::::::::::::::::::::
@@ -537,5 +542,16 @@ namespace LighterShot
         }
 
         #endregion
+
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            var box = new Rectangle(100, 50, 120, 70);
+
+            e.Graphics.SetClip(box, CombineMode.Exclude);
+            using (var b = new SolidBrush(Color.FromArgb(128, 0, 0, 0)))
+            {
+                e.Graphics.FillRectangle(b, this.ClientRectangle);
+            }
+        }
     }
 }
