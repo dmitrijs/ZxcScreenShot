@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 
@@ -18,8 +19,7 @@ namespace LighterShot
             }
         }
 
-        public static void CaptureImage(Point sourcePoint, Point destinationPoint, Rectangle selectionRectangle,
-            string filePath, string extension)
+        public static void CaptureImage(Point sourcePoint, Point destinationPoint, Rectangle selectionRectangle)
         {
             using (var bitmap = new Bitmap(selectionRectangle.Width, selectionRectangle.Height))
             {
@@ -28,34 +28,12 @@ namespace LighterShot
                     g.CopyFromScreen(sourcePoint, destinationPoint, selectionRectangle.Size);
                 }
 
-                if (SaveToClipboard)
-                {
-                    Clipboard.SetImage(bitmap);
-                }
-                else
-                {
-                    switch (extension)
-                    {
-                        case ".bmp":
-                            bitmap.Save(filePath, ImageFormat.Bmp);
-                            break;
-                        case ".jpg":
-                            bitmap.Save(filePath, ImageFormat.Jpeg);
-                            break;
-                        case ".gif":
-                            bitmap.Save(filePath, ImageFormat.Gif);
-                            break;
-                        case ".tiff":
-                            bitmap.Save(filePath, ImageFormat.Tiff);
-                            break;
-                        case ".png":
-                            bitmap.Save(filePath, ImageFormat.Png);
-                            break;
-                        default:
-                            bitmap.Save(filePath, ImageFormat.Jpeg);
-                            break;
-                    }
-                }
+                // update clipboard
+                Clipboard.SetImage(bitmap);
+
+                // save to file
+                var path = @"c:\Users\dmitr_000\Desktop\Screen shots\lightershot\";
+                bitmap.Save(path + "Screen shot " + DateTime.Now.ToString("yyyy-dd-M HH.mm.ss") + ".png", ImageFormat.Png);
             }
         }
     }

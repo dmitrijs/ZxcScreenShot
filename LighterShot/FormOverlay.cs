@@ -83,8 +83,8 @@ namespace LighterShot
 
             Cursor = Cursors.Arrow;
             this.ControlBox = false;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
             //            this.Opacity = 0.1D;
             //            this.TransparencyKey = System.Drawing.Color.White;
 
@@ -106,63 +106,37 @@ namespace LighterShot
 
         #endregion
 
-        public void SaveSelection(bool showCursor)
+        public void SaveSelection()
         {
-            var curPos = new Point(Cursor.Position.X - CurrentTopLeft.X, Cursor.Position.Y - CurrentTopLeft.Y);
-            var curSize = new Size();
-            curSize.Height = Cursor.Current.Size.Height;
-            curSize.Width = Cursor.Current.Size.Width;
-
             ScreenPath = "";
-
-//            if (!ScreenShot.SaveToClipboard)
-//            {
-//
-//                saveFileDialog1.DefaultExt = "bmp";
-//                saveFileDialog1.Filter = "bmp files (*.bmp)|*.bmp|jpg files (*.jpg)|*.jpg|gif files (*.gif)|*.gif|tiff files (*.tiff)|*.tiff|png files (*.png)|*.png";
-//                saveFileDialog1.Title = "Save screenshot to...";
-//                saveFileDialog1.ShowDialog();
-//                ScreenPath = saveFileDialog1.FileName;
-//
-//            }
-
-
+            
             if (ScreenPath != "" || ScreenShot.SaveToClipboard)
             {
                 //Allow 250 milliseconds for the screen to repaint itself (we don't want to include this form in the capture)
                 Thread.Sleep(250);
 
-                var StartPoint = new Point(CurrentTopLeft.X, CurrentTopLeft.Y);
+                var startPoint = new Point(CurrentTopLeft.X, CurrentTopLeft.Y);
                 var bounds = new Rectangle(CurrentTopLeft.X, CurrentTopLeft.Y, CurrentBottomRight.X - CurrentTopLeft.X,
                     CurrentBottomRight.Y - CurrentTopLeft.Y);
-                string fi = "";
 
-                if (ScreenPath != "")
+                ScreenShot.CaptureImage(startPoint, Point.Empty, bounds);
+                
+                MessageBox.Show("Area saved to clipboard and file", "Lightershot", MessageBoxButtons.OK);
+
+                if (InstanceRef != null)
                 {
-                    fi = new FileInfo(ScreenPath).Extension;
+                    InstanceRef.Show();
                 }
-
-                ScreenShot.CaptureImage(StartPoint, Point.Empty, bounds, ScreenPath, fi);
-
-
-                if (ScreenShot.SaveToClipboard)
-                {
-                    MessageBox.Show("Area saved to clipboard", "TeboScreen", MessageBoxButtons.OK);
-                }
-                else
-                {
-                    MessageBox.Show("Area saved to file", "TeboScreen", MessageBoxButtons.OK);
-                }
-
-
-                InstanceRef.Show();
                 Close();
             }
 
             else
             {
-                MessageBox.Show("File save cancelled", "TeboScreen", MessageBoxButtons.OK);
-                InstanceRef.Show();
+                MessageBox.Show("File save cancelled", "Lightershot", MessageBoxButtons.OK);
+                if (InstanceRef != null)
+                {
+                    InstanceRef.Show();
+                }
                 Close();
             }
         }
@@ -174,7 +148,7 @@ namespace LighterShot
                 (RectangleDrawn &&
                  (CursorPosition() == CursPos.WithinSelectionArea || CursorPosition() == CursPos.OutsideSelectionArea)))
             {
-                SaveSelection(true);
+                SaveSelection();
             }
         }
 
@@ -517,7 +491,7 @@ namespace LighterShot
             if (RectangleDrawn &&
                 (CursorPosition() == CursPos.WithinSelectionArea || CursorPosition() == CursPos.OutsideSelectionArea))
             {
-                SaveSelection(false);
+                SaveSelection();
             }
         }
 
@@ -550,11 +524,6 @@ namespace LighterShot
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-//            if (!RectangleDrawn)
-//            {
-//                return;
-//            }
-
             var box = new Rectangle(CurrentTopLeft.X, CurrentTopLeft.Y, CurrentBottomRight.X - CurrentTopLeft.X, CurrentBottomRight.Y - CurrentTopLeft.Y); // new Rectangle(100, 50, 120, 70);
 
             e.Graphics.SetClip(box, CombineMode.Exclude);
