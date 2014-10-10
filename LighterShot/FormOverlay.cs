@@ -575,7 +575,7 @@ namespace LighterShot
             e.Graphics.DrawRectangle(new Pen(Brushes.White, 1), blCorner);
             e.Graphics.DrawRectangle(new Pen(Brushes.White, 1), brCorner);
 
-            float[] dashValues = { 3 };
+            float[] dashValues = { 3, 3 };
             using (var dashedPen = new Pen(Color.White, 1) {DashPattern = dashValues})
             {
                 e.Graphics.DrawLine(dashedPen, new Point(box.Left + 4, box.Top), new Point(box.Left + box.Width - 2, box.Top));
