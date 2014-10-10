@@ -82,18 +82,18 @@ namespace LighterShot
             InitializeComponent();
 
             Cursor = Cursors.Arrow;
-            //            this.ControlBox = false;
-//            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-//            this.Opacity = 0.1D;
-//            this.TransparencyKey = System.Drawing.Color.White;
-//            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.ControlBox = false;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            //            this.Opacity = 0.1D;
+            //            this.TransparencyKey = System.Drawing.Color.White;
 
-            MouseDown += mouse_Click;
-            MouseDoubleClick += mouse_DClick;
-            MouseUp += mouse_Up;
-            MouseMove += mouse_Move;
-            KeyUp += key_press;
-            g = CreateGraphics();
+            pictureBox1.MouseDown += mouse_Click;
+            pictureBox1.MouseDoubleClick += mouse_DClick;
+            pictureBox1.MouseUp += mouse_Up;
+            pictureBox1.MouseMove += mouse_Move;
+            //pictureBox1.KeyUp += key_press;
+            g = CreateGraphics();// pictureBox1.CreateGraphics();
 
 //            pictureBox1.Dock = DockStyle.Fill;
             var bitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Size.Width, Screen.PrimaryScreen.Bounds.Size.Height);
@@ -399,6 +399,7 @@ namespace LighterShot
                     g.DrawRectangle(MyPen, CurrentTopLeft.X, CurrentTopLeft.Y, RectangleWidth, RectangleHeight);
                 }
             }
+            pictureBox1.Invalidate();
         }
 
         private void DragSelection()
@@ -450,6 +451,8 @@ namespace LighterShot
 
             //Draw a new rectangle
             g.DrawRectangle(MyPen, CurrentTopLeft.X, CurrentTopLeft.Y, RectangleWidth, RectangleHeight);
+
+            pictureBox1.Invalidate();
         }
 
         private void DrawSelection()
@@ -487,6 +490,8 @@ namespace LighterShot
             //Draw a new rectangle
             g.DrawRectangle(MyPen, CurrentTopLeft.X, CurrentTopLeft.Y, CurrentBottomRight.X - CurrentTopLeft.X,
                 CurrentBottomRight.Y - CurrentTopLeft.Y);
+
+            pictureBox1.Invalidate();
         }
 
         private void FormOverlay_Load(object sender, EventArgs e)
@@ -545,12 +550,38 @@ namespace LighterShot
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            var box = new Rectangle(100, 50, 120, 70);
+//            if (!RectangleDrawn)
+//            {
+//                return;
+//            }
+
+            var box = new Rectangle(CurrentTopLeft.X, CurrentTopLeft.Y, CurrentBottomRight.X - CurrentTopLeft.X, CurrentBottomRight.Y - CurrentTopLeft.Y); // new Rectangle(100, 50, 120, 70);
 
             e.Graphics.SetClip(box, CombineMode.Exclude);
             using (var b = new SolidBrush(Color.FromArgb(128, 0, 0, 0)))
             {
                 e.Graphics.FillRectangle(b, this.ClientRectangle);
+            }
+            
+            e.Graphics.ResetClip();
+
+            var tlCorner = new Rectangle(box.Left - 2, box.Top - 2, 5, 5);
+            var trCorner = new Rectangle(box.Left + box.Width - 2, box.Top - 2, 5, 5);
+            var blCorner = new Rectangle(box.Left - 2, box.Top + box.Height - 2, 5, 5);
+            var brCorner = new Rectangle(box.Left + box.Width - 2, box.Top + box.Height - 2, 5, 5);
+
+            e.Graphics.DrawRectangle(new Pen(Brushes.White, 1), tlCorner);
+            e.Graphics.DrawRectangle(new Pen(Brushes.White, 1), trCorner);
+            e.Graphics.DrawRectangle(new Pen(Brushes.White, 1), blCorner);
+            e.Graphics.DrawRectangle(new Pen(Brushes.White, 1), brCorner);
+
+            float[] dashValues = { 3 };
+            using (var dashedPen = new Pen(Color.White, 1) {DashPattern = dashValues})
+            {
+                e.Graphics.DrawLine(dashedPen, new Point(box.Left + 4, box.Top), new Point(box.Left + box.Width - 2, box.Top));
+                e.Graphics.DrawLine(dashedPen, new Point(box.Left + box.Width, box.Top + 4), new Point(box.Left + box.Width, box.Top + box.Height - 2));
+                e.Graphics.DrawLine(dashedPen, new Point(box.Left + box.Width - 2, box.Top + box.Height), new Point(box.Left + 2, box.Top + box.Height));
+                e.Graphics.DrawLine(dashedPen, new Point(box.Left, box.Top + box.Height - 2), new Point(box.Left, box.Top + 2));
             }
         }
     }
