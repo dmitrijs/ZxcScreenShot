@@ -40,6 +40,8 @@ namespace LighterShot
             BottomRight
         }
 
+        private bool _drawFrame = true;
+
         private readonly Pen EraserPen = new Pen(Color.FromArgb(255, 255, 192), 1);
         private readonly Pen MyPen = new Pen(Color.Black, 1);
         private readonly Graphics g;
@@ -115,7 +117,10 @@ namespace LighterShot
             var bounds = new Rectangle(CurrentTopLeft.X, CurrentTopLeft.Y, CurrentBottomRight.X - CurrentTopLeft.X,
                 CurrentBottomRight.Y - CurrentTopLeft.Y);
 
-            ScreenShot.CaptureImage(startPoint, Point.Empty, bounds);
+            _drawFrame = false;
+            pictureBox1.Invalidate();
+            ScreenShot.CaptureImage(startPoint, Point.Empty, bounds, pictureBox1);
+            _drawFrame = true;
                 
             MessageBox.Show("Area saved to clipboard and file", "Lightershot", MessageBoxButtons.OK);
 
@@ -524,23 +529,26 @@ namespace LighterShot
             
             e.Graphics.ResetClip();
 
-            var tlCorner = new Rectangle(box.Left - 2, box.Top - 2, 5, 5);
-            var trCorner = new Rectangle(box.Left + box.Width - 2, box.Top - 2, 5, 5);
-            var blCorner = new Rectangle(box.Left - 2, box.Top + box.Height - 2, 5, 5);
-            var brCorner = new Rectangle(box.Left + box.Width - 2, box.Top + box.Height - 2, 5, 5);
-
-            e.Graphics.DrawRectangle(new Pen(Brushes.White, 1), tlCorner);
-            e.Graphics.DrawRectangle(new Pen(Brushes.White, 1), trCorner);
-            e.Graphics.DrawRectangle(new Pen(Brushes.White, 1), blCorner);
-            e.Graphics.DrawRectangle(new Pen(Brushes.White, 1), brCorner);
-
-            float[] dashValues = { 3, 3 };
-            using (var dashedPen = new Pen(Color.White, 1) {DashPattern = dashValues})
+            if (_drawFrame)
             {
-                e.Graphics.DrawLine(dashedPen, new Point(box.Left + 4, box.Top), new Point(box.Left + box.Width - 2, box.Top));
-                e.Graphics.DrawLine(dashedPen, new Point(box.Left + box.Width, box.Top + 4), new Point(box.Left + box.Width, box.Top + box.Height - 2));
-                e.Graphics.DrawLine(dashedPen, new Point(box.Left + box.Width - 2, box.Top + box.Height), new Point(box.Left + 2, box.Top + box.Height));
-                e.Graphics.DrawLine(dashedPen, new Point(box.Left, box.Top + box.Height - 2), new Point(box.Left, box.Top + 2));
+                var tlCorner = new Rectangle(box.Left - 2, box.Top - 2, 5, 5);
+                var trCorner = new Rectangle(box.Left + box.Width - 2, box.Top - 2, 5, 5);
+                var blCorner = new Rectangle(box.Left - 2, box.Top + box.Height - 2, 5, 5);
+                var brCorner = new Rectangle(box.Left + box.Width - 2, box.Top + box.Height - 2, 5, 5);
+
+                e.Graphics.DrawRectangle(new Pen(Brushes.White, 1), tlCorner);
+                e.Graphics.DrawRectangle(new Pen(Brushes.White, 1), trCorner);
+                e.Graphics.DrawRectangle(new Pen(Brushes.White, 1), blCorner);
+                e.Graphics.DrawRectangle(new Pen(Brushes.White, 1), brCorner);
+
+                float[] dashValues = { 3, 3 };
+                using (var dashedPen = new Pen(Color.White, 1) { DashPattern = dashValues })
+                {
+                    e.Graphics.DrawLine(dashedPen, new Point(box.Left + 4, box.Top), new Point(box.Left + box.Width - 2, box.Top));
+                    e.Graphics.DrawLine(dashedPen, new Point(box.Left + box.Width, box.Top + 4), new Point(box.Left + box.Width, box.Top + box.Height - 2));
+                    e.Graphics.DrawLine(dashedPen, new Point(box.Left + box.Width - 2, box.Top + box.Height), new Point(box.Left + 2, box.Top + box.Height));
+                    e.Graphics.DrawLine(dashedPen, new Point(box.Left, box.Top + box.Height - 2), new Point(box.Left, box.Top + 2));
+                }
             }
         }
     }
