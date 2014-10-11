@@ -385,14 +385,14 @@ namespace LighterShot
                     g.DrawRectangle(MyPen, CurrentTopLeft.X, CurrentTopLeft.Y, RectangleWidth, RectangleHeight);
                 }
             }
-            UpdateUI();
+            UpdateUi();
         }
 
         private void MoveDrawingTool()
         {
             _drawings.Peek().To = Cursor.Position;
 
-            UpdateUI();
+            UpdateUi();
         }
 
         private void DragSelection()
@@ -445,7 +445,7 @@ namespace LighterShot
             //Draw a new rectangle
             g.DrawRectangle(MyPen, CurrentTopLeft.X, CurrentTopLeft.Y, RectangleWidth, RectangleHeight);
 
-            UpdateUI();
+            UpdateUi();
         }
 
         private void DrawSelection()
@@ -484,7 +484,7 @@ namespace LighterShot
             g.DrawRectangle(MyPen, CurrentTopLeft.X, CurrentTopLeft.Y, CurrentBottomRight.X - CurrentTopLeft.X,
                 CurrentBottomRight.Y - CurrentTopLeft.Y);
 
-            UpdateUI();
+            UpdateUi();
         }
 
         private void FormOverlay_Load(object sender, EventArgs e)
@@ -587,7 +587,7 @@ namespace LighterShot
 
         #endregion
 
-        private void UpdateUI()
+        private void UpdateUi()
         {
             // move panel
             panelTools.Left = CurrentBottomRight.X + 10;
@@ -637,22 +637,8 @@ namespace LighterShot
             }
 
             DrawAllTools(e.Graphics);
-
-//            DrawPanel(e.Graphics);
         }
-
-        private void DrawPanel(Graphics picG)
-        {
-            var left = CurrentBottomRight.X + 10;
-            var top = CurrentBottomRight.Y - panelTools.Height;
-            var height = 200;
-
-            picG.FillRectangle(Brushes.Wheat, left + 240, top, 40, height);
-
-            var file = Assembly.GetExecutingAssembly().GetManifestResourceStream("LighterShot.images.rect.png");
-            picG.DrawImage(Image.FromStream(file), new Rectangle(left + 240, top, 40, 30));
-        }
-
+        
         private void DrawAllTools(Graphics picG)
         {
             foreach (var drawing in _drawings.Reverse())
