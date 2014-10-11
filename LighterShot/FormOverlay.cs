@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -23,7 +25,8 @@ namespace LighterShot
             BottomLeftSizing,
             RightSizing,
             TopRightSizing,
-            BottomRightSizing
+            BottomRightSizing,
+            DrawingTool
         }
 
         public enum CursPos
@@ -40,6 +43,8 @@ namespace LighterShot
             BottomRight
         }
 
+        private Stack<DrawingTool> _drawings = new Stack<DrawingTool>();
+
         private readonly Pen EraserPen = new Pen(Color.FromArgb(255, 255, 192), 1);
         private readonly Pen MyPen = new Pen(Color.Black, 1);
         private readonly Graphics g;
@@ -55,12 +60,14 @@ namespace LighterShot
 
         public int RectangleHeight = new int();
         public int RectangleWidth = new int();
-        private string ScreenPath;
 
         private SolidBrush TransparentBrush = new SolidBrush(Color.White);
         private SolidBrush eraserBrush = new SolidBrush(Color.FromArgb(255, 255, 192));
 
         public Form InstanceRef { get; set; }
+
+        // tells that user has clicked any of Tool buttons
+        private DrawingTool.DrawingToolType _goingToDrawTool = DrawingTool.DrawingToolType.NotDrawingTool;
 
         protected override void OnMouseClick(MouseEventArgs e)
         {
@@ -101,6 +108,10 @@ namespace LighterShot
 
             pictureBox1.Image = bitmap;
 
+            _drawings.Clear();
+
+            timer1.Enabled = true;
+
 //            g.DrawImage((Image)bitmap, new Point(0, 0));
         }
 
@@ -125,46 +136,14 @@ namespace LighterShot
             }
             Close();
         }
-
-
+        
         public void key_press(object sender, KeyEventArgs e)
         {
             if (e.KeyCode.ToString() == "C" && e.Control && RectangleDrawn)
             {
                 SaveSelection();
             }
-
-            if (e.KeyCode.ToString() == "S" &&
-                (RectangleDrawn &&
-                 (CursorPosition() == CursPos.WithinSelectionArea || CursorPosition() == CursPos.OutsideSelectionArea)))
-            {
-                SaveSelection();
-            }
         }
-
-        private void mouse_Move(object sender, MouseEventArgs e)
-        {
-            if (LeftButtonDown && !RectangleDrawn)
-            {
-                DrawSelection();
-            }
-
-            if (RectangleDrawn)
-            {
-                CursorPosition();
-
-                if (CurrentAction == ClickAction.Dragging)
-                {
-                    DragSelection();
-                }
-
-                if (CurrentAction != ClickAction.Dragging && CurrentAction != ClickAction.Outside)
-                {
-                    ResizeSelection();
-                }
-            }
-        }
-
 
         private CursPos CursorPosition()
         {
@@ -366,6 +345,13 @@ namespace LighterShot
             UpdateUI();
         }
 
+        private void MoveDrawingTool()
+        {
+            _drawings.Peek().To = Cursor.Position;
+
+            UpdateUI();
+        }
+
         private void DragSelection()
         {
             //Ensure that the rectangle stays within the bounds of the screen
@@ -475,23 +461,29 @@ namespace LighterShot
         }
 
         #region:::::::::::::::::::::::::::::::::::::::::::Mouse Buttons:::::::::::::::::::::::::::::::::::::::::::
-
-        private void mouse_DClick(object sender, MouseEventArgs e)
-        {
-            if (RectangleDrawn &&
-                (CursorPosition() == CursPos.WithinSelectionArea || CursorPosition() == CursPos.OutsideSelectionArea))
-            {
-                SaveSelection();
-            }
-        }
-
+        
         private void mouse_Click(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                SetClickAction();
                 LeftButtonDown = true;
                 ClickPoint = new Point(MousePosition.X, MousePosition.Y);
+
+                if (_goingToDrawTool == DrawingTool.DrawingToolType.NotDrawingTool)
+                {
+                    SetClickAction();
+                }
+                else
+                {
+                    CurrentAction = ClickAction.DrawingTool;
+                    _drawings.Push(new DrawingTool
+                                   {
+                                       Type = _goingToDrawTool,
+                                       From = ClickPoint,
+                                       To = ClickPoint
+                                   });
+                    _goingToDrawTool = DrawingTool.DrawingToolType.NotDrawingTool;
+                }
 
                 if (RectangleDrawn)
                 {
@@ -503,12 +495,52 @@ namespace LighterShot
             }
         }
 
+        private void mouse_DClick(object sender, MouseEventArgs e)
+        {
+            if (RectangleDrawn)
+            {
+                SaveSelection();
+            }
+        }
+
         private void mouse_Up(object sender, MouseEventArgs e)
         {
             RectangleDrawn = true;
             LeftButtonDown = false;
             CurrentAction = ClickAction.NoClick;
             panelTools.Visible = true;
+
+            buttonDrawRect.Enabled = true;
+            buttonDrawLine.Enabled = true;
+            buttonDrawArrow.Enabled = true;
+        }
+
+        private void mouse_Move(object sender, MouseEventArgs e)
+        {
+            if (LeftButtonDown && !RectangleDrawn)
+            {
+                DrawSelection();
+            }
+
+            if (RectangleDrawn)
+            {
+                CursorPosition();
+
+                if (CurrentAction == ClickAction.Dragging)
+                {
+                    DragSelection();
+                }
+
+                if (CurrentAction == ClickAction.DrawingTool)
+                {
+                    MoveDrawingTool();
+                }
+
+                if (CurrentAction != ClickAction.Dragging && CurrentAction != ClickAction.Outside && CurrentAction != ClickAction.DrawingTool)
+                {
+                    ResizeSelection();
+                }
+            }
         }
 
         #endregion
@@ -553,16 +585,77 @@ namespace LighterShot
                 e.Graphics.DrawLine(dashedPen, new Point(box.Left + box.Width - 2, box.Top + box.Height), new Point(box.Left + 2, box.Top + box.Height));
                 e.Graphics.DrawLine(dashedPen, new Point(box.Left, box.Top + box.Height - 2), new Point(box.Left, box.Top + 2));
             }
+
+            DrawAllTools(e.Graphics);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void DrawAllTools(Graphics picG)
         {
+            foreach (var drawing in _drawings.Reverse())
+            {
+                var dest = drawing.To;
 
+                switch (drawing.Type)
+                {
+                    case DrawingTool.DrawingToolType.Rectangle:
+                        var topLeft = new Point { X = Math.Min(drawing.From.X, drawing.To.X), Y = Math.Min(drawing.From.Y, drawing.To.Y) };
+                        var bottomRight = new Point { X = Math.Max(drawing.From.X, drawing.To.X), Y = Math.Max(drawing.From.Y, drawing.To.Y) };
+
+                        if (topLeft.X < CurrentTopLeft.X) topLeft.X = CurrentTopLeft.X;
+                        if (topLeft.Y < CurrentTopLeft.Y) topLeft.Y = CurrentTopLeft.Y;
+                        if (bottomRight.X > CurrentBottomRight.X) bottomRight.X = CurrentBottomRight.X;
+                        if (bottomRight.Y > CurrentBottomRight.Y) bottomRight.Y = CurrentBottomRight.Y;
+
+                        picG.DrawRectangle(new Pen(Color.Green, 3), new Rectangle { Location = topLeft, Width = bottomRight.X - topLeft.X, Height = bottomRight.Y - topLeft.Y });
+                        break;
+
+                    case DrawingTool.DrawingToolType.Line:
+                        if (dest.X < CurrentTopLeft.X) dest.X = CurrentTopLeft.X;
+                        if (dest.Y < CurrentTopLeft.Y) dest.Y = CurrentTopLeft.Y;
+                        if (dest.X > CurrentBottomRight.X) dest.X = CurrentBottomRight.X;
+                        if (dest.Y > CurrentBottomRight.Y) dest.Y = CurrentBottomRight.Y;
+
+                        picG.DrawLine(new Pen(Color.Red, 3), drawing.From, dest);
+                        break;
+
+                    case DrawingTool.DrawingToolType.Arrow:
+                        if (dest.X < CurrentTopLeft.X) dest.X = CurrentTopLeft.X;
+                        if (dest.Y < CurrentTopLeft.Y) dest.Y = CurrentTopLeft.Y;
+                        if (dest.X > CurrentBottomRight.X) dest.X = CurrentBottomRight.X;
+                        if (dest.Y > CurrentBottomRight.Y) dest.Y = CurrentBottomRight.Y;
+
+                        picG.DrawLine(new Pen(Color.Blue, 3), drawing.From, dest);
+                        break;
+                }
+            }
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void buttonDrawRect_Click(object sender, EventArgs e)
+        {
+            _goingToDrawTool = DrawingTool.DrawingToolType.Rectangle;
+            buttonDrawRect.Enabled = false;
+        }
+
+        private void buttonDrawLine_Click(object sender, EventArgs e)
+        {
+            _goingToDrawTool = DrawingTool.DrawingToolType.Line;
+            buttonDrawLine.Enabled = false;
+        }
+
+        private void buttonDrawArrow_Click(object sender, EventArgs e)
+        {
+            _goingToDrawTool = DrawingTool.DrawingToolType.Arrow;
+            buttonDrawArrow.Enabled = false;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            label1.Text = _goingToDrawTool.ToString() + @"/" + CurrentAction.ToString();
         }
     }
 }
