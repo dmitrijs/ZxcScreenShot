@@ -227,7 +227,15 @@ namespace LighterShot
                 (Cursor.Position.X >= CurrentTopLeft.X + 10 && Cursor.Position.X <= CurrentBottomRight.X - 10) &&
                 (Cursor.Position.Y >= CurrentTopLeft.Y + 10 && Cursor.Position.Y <= CurrentBottomRight.Y - 10))
             {
-                Cursor = Cursors.Hand;
+                if (_goingToDrawTool != DrawingTool.DrawingToolType.NotDrawingTool ||
+                    CurrentAction == ClickAction.DrawingTool)
+                {
+                    Cursor = Cursors.Hand;   
+                }
+                else
+                {
+                    Cursor = Cursors.SizeAll;
+                }
                 return CursPos.WithinSelectionArea;
             }
 
@@ -504,6 +512,7 @@ namespace LighterShot
                 else
                 {
                     CurrentAction = ClickAction.DrawingTool;
+                    Cursor = Cursors.Hand;
                     _drawings.Push(new DrawingTool
                                    {
                                        Type = _goingToDrawTool,
@@ -682,8 +691,6 @@ namespace LighterShot
                         if (_holdingShift)
                         {
                             // force straight vertical or horizontal line
-//                            var hLen = Math.Abs(dest.X - src.X);
-//                            var vLen = Math.Abs(dest.Y - src.Y);
                             if (Math.Abs(dest.X - src.X) < 20) // vertical
                             {
                                 dest.X = src.X;
@@ -691,6 +698,7 @@ namespace LighterShot
                             {
                                 dest.Y = src.Y;
                             }
+                            drawing.To = dest;
                             // diagonal?
                         }
 
