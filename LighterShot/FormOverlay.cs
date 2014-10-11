@@ -92,7 +92,7 @@ namespace LighterShot
             pictureBox1.MouseDoubleClick += mouse_DClick;
             pictureBox1.MouseUp += mouse_Up;
             pictureBox1.MouseMove += mouse_Move;
-            //pictureBox1.KeyUp += key_press;
+            KeyUp += key_press;
             g = CreateGraphics();// pictureBox1.CreateGraphics();
 
 //            pictureBox1.Dock = DockStyle.Fill;
@@ -108,42 +108,32 @@ namespace LighterShot
 
         public void SaveSelection()
         {
-            ScreenPath = "";
-            
-            if (ScreenPath != "" || ScreenShot.SaveToClipboard)
-            {
-                //Allow 250 milliseconds for the screen to repaint itself (we don't want to include this form in the capture)
-                Thread.Sleep(250);
+            //Allow 250 milliseconds for the screen to repaint itself (we don't want to include this form in the capture)
+            Thread.Sleep(250);
 
-                var startPoint = new Point(CurrentTopLeft.X, CurrentTopLeft.Y);
-                var bounds = new Rectangle(CurrentTopLeft.X, CurrentTopLeft.Y, CurrentBottomRight.X - CurrentTopLeft.X,
-                    CurrentBottomRight.Y - CurrentTopLeft.Y);
+            var startPoint = new Point(CurrentTopLeft.X, CurrentTopLeft.Y);
+            var bounds = new Rectangle(CurrentTopLeft.X, CurrentTopLeft.Y, CurrentBottomRight.X - CurrentTopLeft.X,
+                CurrentBottomRight.Y - CurrentTopLeft.Y);
 
-                ScreenShot.CaptureImage(startPoint, Point.Empty, bounds);
+            ScreenShot.CaptureImage(startPoint, Point.Empty, bounds);
                 
-                MessageBox.Show("Area saved to clipboard and file", "Lightershot", MessageBoxButtons.OK);
+            MessageBox.Show("Area saved to clipboard and file", "Lightershot", MessageBoxButtons.OK);
 
-                if (InstanceRef != null)
-                {
-                    InstanceRef.Show();
-                }
-                Close();
-            }
-
-            else
+            if (InstanceRef != null)
             {
-                MessageBox.Show("File save cancelled", "Lightershot", MessageBoxButtons.OK);
-                if (InstanceRef != null)
-                {
-                    InstanceRef.Show();
-                }
-                Close();
+                InstanceRef.Show();
             }
+            Close();
         }
 
 
         public void key_press(object sender, KeyEventArgs e)
         {
+            if (e.KeyCode.ToString() == "C" && e.Control && RectangleDrawn)
+            {
+                SaveSelection();
+            }
+
             if (e.KeyCode.ToString() == "S" &&
                 (RectangleDrawn &&
                  (CursorPosition() == CursPos.WithinSelectionArea || CursorPosition() == CursPos.OutsideSelectionArea)))

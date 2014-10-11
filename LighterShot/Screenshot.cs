@@ -7,8 +7,6 @@ namespace LighterShot
 {
     internal static class ScreenShot
     {
-        public static bool SaveToClipboard = true;
-
         public static Bitmap GetScreenCapture(Bitmap bitmap)
         {
             using (Graphics g = Graphics.FromImage(bitmap))
