@@ -95,9 +95,12 @@
             this.buttonDrawArrow.Name = "buttonDrawArrow";
             this.buttonDrawArrow.Size = new System.Drawing.Size(47, 39);
             this.buttonDrawArrow.TabIndex = 4;
+            this.buttonDrawArrow.TabStop = false;
             this.buttonDrawArrow.Text = "arrow";
             this.buttonDrawArrow.UseVisualStyleBackColor = true;
             this.buttonDrawArrow.Click += new System.EventHandler(this.buttonDrawArrow_Click);
+            this.buttonDrawArrow.KeyDown += new System.Windows.Forms.KeyEventHandler(this.buttonDrawArrow_KeyDown);
+            this.buttonDrawArrow.KeyUp += new System.Windows.Forms.KeyEventHandler(this.buttonDrawArrow_KeyUp);
             // 
             // buttonDrawLine
             // 
@@ -117,6 +120,7 @@
             this.buttonDrawRect.Name = "buttonDrawRect";
             this.buttonDrawRect.Size = new System.Drawing.Size(47, 37);
             this.buttonDrawRect.TabIndex = 2;
+            this.buttonDrawRect.TabStop = false;
             this.buttonDrawRect.Text = "rect";
             this.buttonDrawRect.UseVisualStyleBackColor = true;
             this.buttonDrawRect.Click += new System.EventHandler(this.buttonDrawRect_Click);

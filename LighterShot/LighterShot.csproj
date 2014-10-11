@@ -88,6 +88,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="images\arrow.png" />
+    <EmbeddedResource Include="images\arrow_hover.png" />
+    <EmbeddedResource Include="images\close.png" />
+    <EmbeddedResource Include="images\close_hover.png" />
+    <EmbeddedResource Include="images\line.png" />
+    <EmbeddedResource Include="images\line_hover.png" />
+    <EmbeddedResource Include="images\rect.png" />
+    <EmbeddedResource Include="images\rect_hover.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
