@@ -363,7 +363,7 @@ namespace LighterShot
                     g.DrawRectangle(MyPen, CurrentTopLeft.X, CurrentTopLeft.Y, RectangleWidth, RectangleHeight);
                 }
             }
-            pictureBox1.Invalidate();
+            UpdateUI();
         }
 
         private void DragSelection()
@@ -416,7 +416,7 @@ namespace LighterShot
             //Draw a new rectangle
             g.DrawRectangle(MyPen, CurrentTopLeft.X, CurrentTopLeft.Y, RectangleWidth, RectangleHeight);
 
-            pictureBox1.Invalidate();
+            UpdateUI();
         }
 
         private void DrawSelection()
@@ -455,7 +455,7 @@ namespace LighterShot
             g.DrawRectangle(MyPen, CurrentTopLeft.X, CurrentTopLeft.Y, CurrentBottomRight.X - CurrentTopLeft.X,
                 CurrentBottomRight.Y - CurrentTopLeft.Y);
 
-            pictureBox1.Invalidate();
+            UpdateUI();
         }
 
         private void FormOverlay_Load(object sender, EventArgs e)
@@ -508,9 +508,20 @@ namespace LighterShot
             RectangleDrawn = true;
             LeftButtonDown = false;
             CurrentAction = ClickAction.NoClick;
+            panelTools.Visible = true;
         }
 
         #endregion
+
+        private void UpdateUI()
+        {
+            // move panel
+            panelTools.Left = CurrentBottomRight.X + 10;
+            panelTools.Top = CurrentBottomRight.Y - panelTools.Height;
+
+            // redraw rectangle
+            pictureBox1.Invalidate();
+        }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
@@ -542,6 +553,16 @@ namespace LighterShot
                 e.Graphics.DrawLine(dashedPen, new Point(box.Left + box.Width - 2, box.Top + box.Height), new Point(box.Left + 2, box.Top + box.Height));
                 e.Graphics.DrawLine(dashedPen, new Point(box.Left, box.Top + box.Height - 2), new Point(box.Left, box.Top + 2));
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

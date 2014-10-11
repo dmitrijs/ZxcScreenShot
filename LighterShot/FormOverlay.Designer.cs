@@ -29,7 +29,13 @@
         private void InitializeComponent()
         {
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.panelTools = new System.Windows.Forms.Panel();
+            this.buttonDrawRect = new System.Windows.Forms.Button();
+            this.buttonDrawLine = new System.Windows.Forms.Button();
+            this.buttonDrawArrow = new System.Windows.Forms.Button();
+            this.buttonCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panelTools.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -42,17 +48,73 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
+            // panelTools
+            // 
+            this.panelTools.Controls.Add(this.buttonCancel);
+            this.panelTools.Controls.Add(this.buttonDrawArrow);
+            this.panelTools.Controls.Add(this.buttonDrawLine);
+            this.panelTools.Controls.Add(this.buttonDrawRect);
+            this.panelTools.Location = new System.Drawing.Point(585, 205);
+            this.panelTools.Name = "panelTools";
+            this.panelTools.Size = new System.Drawing.Size(55, 175);
+            this.panelTools.TabIndex = 2;
+            this.panelTools.Visible = false;
+            // 
+            // buttonDrawRect
+            // 
+            this.buttonDrawRect.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonDrawRect.Location = new System.Drawing.Point(3, 3);
+            this.buttonDrawRect.Name = "buttonDrawRect";
+            this.buttonDrawRect.Size = new System.Drawing.Size(47, 37);
+            this.buttonDrawRect.TabIndex = 2;
+            this.buttonDrawRect.Text = "rect";
+            this.buttonDrawRect.UseVisualStyleBackColor = true;
+            this.buttonDrawRect.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // buttonDrawLine
+            // 
+            this.buttonDrawLine.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonDrawLine.Location = new System.Drawing.Point(3, 42);
+            this.buttonDrawLine.Name = "buttonDrawLine";
+            this.buttonDrawLine.Size = new System.Drawing.Size(47, 37);
+            this.buttonDrawLine.TabIndex = 3;
+            this.buttonDrawLine.Text = "line";
+            this.buttonDrawLine.UseVisualStyleBackColor = true;
+            // 
+            // buttonDrawArrow
+            // 
+            this.buttonDrawArrow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonDrawArrow.Location = new System.Drawing.Point(3, 85);
+            this.buttonDrawArrow.Name = "buttonDrawArrow";
+            this.buttonDrawArrow.Size = new System.Drawing.Size(47, 39);
+            this.buttonDrawArrow.TabIndex = 4;
+            this.buttonDrawArrow.Text = "arrow";
+            this.buttonDrawArrow.UseVisualStyleBackColor = true;
+            // 
+            // buttonCancel
+            // 
+            this.buttonCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonCancel.Location = new System.Drawing.Point(3, 130);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(47, 42);
+            this.buttonCancel.TabIndex = 5;
+            this.buttonCancel.Text = "X";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            // 
             // FormOverlay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(686, 415);
+            this.Controls.Add(this.panelTools);
             this.Controls.Add(this.pictureBox1);
             this.Name = "FormOverlay";
             this.Text = "Overlay";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormOverlay_FormClosed);
             this.Load += new System.EventHandler(this.FormOverlay_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panelTools.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -60,6 +122,11 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Panel panelTools;
+        private System.Windows.Forms.Button buttonDrawRect;
+        private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.Button buttonDrawArrow;
+        private System.Windows.Forms.Button buttonDrawLine;
     }
 }
 
