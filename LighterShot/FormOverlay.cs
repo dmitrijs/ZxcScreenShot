@@ -480,7 +480,8 @@ namespace LighterShot
                                    {
                                        Type = _goingToDrawTool,
                                        From = ClickPoint,
-                                       To = ClickPoint
+                                       To = ClickPoint,
+                                       Color = buttonDrawColor.ForeColor
                                    });
                     _goingToDrawTool = DrawingTool.DrawingToolType.NotDrawingTool;
                 }
@@ -606,7 +607,7 @@ namespace LighterShot
                         if (bottomRight.X > CurrentBottomRight.X) bottomRight.X = CurrentBottomRight.X;
                         if (bottomRight.Y > CurrentBottomRight.Y) bottomRight.Y = CurrentBottomRight.Y;
 
-                        picG.DrawRectangle(new Pen(Color.Green, 3), new Rectangle { Location = topLeft, Width = bottomRight.X - topLeft.X, Height = bottomRight.Y - topLeft.Y });
+                        picG.DrawRectangle(new Pen(drawing.Color, 3), new Rectangle { Location = topLeft, Width = bottomRight.X - topLeft.X, Height = bottomRight.Y - topLeft.Y });
                         break;
 
                     case DrawingTool.DrawingToolType.Line:
@@ -615,7 +616,7 @@ namespace LighterShot
                         if (dest.X > CurrentBottomRight.X) dest.X = CurrentBottomRight.X;
                         if (dest.Y > CurrentBottomRight.Y) dest.Y = CurrentBottomRight.Y;
 
-                        picG.DrawLine(new Pen(Color.Red, 3), drawing.From, dest);
+                        picG.DrawLine(new Pen(drawing.Color, 3), drawing.From, dest);
                         break;
 
                     case DrawingTool.DrawingToolType.Arrow:
@@ -624,7 +625,13 @@ namespace LighterShot
                         if (dest.X > CurrentBottomRight.X) dest.X = CurrentBottomRight.X;
                         if (dest.Y > CurrentBottomRight.Y) dest.Y = CurrentBottomRight.Y;
 
-                        picG.DrawLine(new Pen(Color.Blue, 3), drawing.From, dest);
+                        using (var bigArrow = new AdjustableArrowCap(3, 4, false))
+                        {
+                            using (var pen = new Pen(drawing.Color, 3) {CustomEndCap = bigArrow})
+                            {
+                                picG.DrawLine(pen, drawing.From, dest);
+                            }
+                        }
                         break;
                 }
             }
@@ -656,6 +663,14 @@ namespace LighterShot
         private void timer1_Tick(object sender, EventArgs e)
         {
             label1.Text = _goingToDrawTool.ToString() + @"/" + CurrentAction.ToString();
+        }
+
+        private void buttonDrawColor_Click(object sender, EventArgs e)
+        {
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                buttonDrawColor.ForeColor = colorDialog1.Color;
+            }
         }
     }
 }

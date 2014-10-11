@@ -21,6 +21,7 @@ namespace LighterShot
 
         public Point From { get; set; }
         public Point To { get; set; }
+        public Color Color { get; set; }
 
     }
 }
