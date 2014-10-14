@@ -11,12 +11,12 @@ namespace LighterShot
         {
             using (var client = new HttpClient())
             {
-                var response = client.GetAsync("http://shots.local/?action=get_key").Result;
+                var response = client.GetAsync(Constants.ServiceUrl + "/?action=get_key").Result;
                 if (response.IsSuccessStatusCode)
                 {
                     using (var reader = new StreamReader(response.Content.ReadAsStreamAsync().Result, Encoding.UTF8))
                     {
-                        var strings = reader.ReadToEnd().Split(new char[1] { ' ' });
+                        var strings = reader.ReadToEnd().Split(new[] { ' ' });
                         if (strings.Length == 2)
                         {
                             return new Tuple<string, string>(strings[0], strings[1]);
@@ -27,7 +27,7 @@ namespace LighterShot
             return null;
         }
 
-        public static String Upload(string url, string shotDate, string shotKey, string filePath)
+        public static string Upload(string shotDate, string shotKey, string filePath)
         {
             var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
         
@@ -42,7 +42,7 @@ namespace LighterShot
 
                 formData.Add(fileStreamContent, "shot_file", "shot_file");
 
-                var response = client.PostAsync(url, formData).Result;
+                var response = client.PostAsync(Constants.ServiceUrl, formData).Result;
                 if (!response.IsSuccessStatusCode)
                 {
                     return null;
