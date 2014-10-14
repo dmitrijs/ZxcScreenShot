@@ -42,7 +42,7 @@ namespace LighterShot
             BottomRight
         }
 
-        private readonly Stack<DrawingTool> _drawings = new Stack<DrawingTool>();
+        private readonly ToolsPainter toolsPainter = new ToolsPainter();
 
         public Point ClickPoint = new Point();
         public ClickAction CurrentAction;
@@ -120,7 +120,7 @@ namespace LighterShot
 
             pictureBox1.Image = screenBitmap;
 
-            _drawings.Clear();
+            toolsPainter.Clear();
 
             timer1.Enabled = true;
         }
@@ -151,7 +151,7 @@ namespace LighterShot
         {
             if (e.Shift && CurrentAction == ClickAction.DrawingTool)
             {
-                _drawings.Peek().DrawStraight = true;
+                toolsPainter.DrawStraightLatest(true);
             }
         }
 
@@ -159,7 +159,7 @@ namespace LighterShot
         {
             if (!e.Shift && CurrentAction == ClickAction.DrawingTool)
             {
-                _drawings.Peek().DrawStraight = false;
+                toolsPainter.DrawStraightLatest(false);
             }
             if (e.KeyCode.ToString() == "C" && e.Control && RectangleDrawn)
             {
@@ -167,11 +167,10 @@ namespace LighterShot
             }
             if (e.KeyCode.ToString() == "Z" && e.Control && CurrentAction != ClickAction.DrawingTool)
             {
-                if (_drawings.Count > 0)
+                if (toolsPainter.Undo())
                 {
-                    _drawings.Pop();
                     pictureBox1.Invalidate();
-                }                                             
+                }
             }
         }
 
@@ -299,7 +298,7 @@ namespace LighterShot
 
         private void MoveDrawingTool()
         {
-            _drawings.Peek().To = new Point(Cursor.Position.X - CurrentTopLeft.X, Cursor.Position.Y - CurrentTopLeft.Y);
+            toolsPainter.MoveLatestTo(new Point(Cursor.Position.X - CurrentTopLeft.X, Cursor.Position.Y - CurrentTopLeft.Y));
 
             UpdateUi();
         }
@@ -416,14 +415,14 @@ namespace LighterShot
                 {
                     CurrentAction = ClickAction.DrawingTool;
                     Cursor = Cursors.Hand;
-                    _drawings.Push(new DrawingTool
-                                   {
-                                       Type = _goingToDrawTool,
-                                       From = new Point(ClickPoint.X - CurrentTopLeft.X, ClickPoint.Y - CurrentTopLeft.Y),
-                                       To = new Point(ClickPoint.X - CurrentTopLeft.X, ClickPoint.Y - CurrentTopLeft.Y),
-                                       Color = buttonDrawColor.BackColor,
-                                       DrawStraight = false
-                                   });
+                    toolsPainter.Push(new DrawingTool
+                    {
+                        Type = _goingToDrawTool,
+                        From = new Point(ClickPoint.X - CurrentTopLeft.X, ClickPoint.Y - CurrentTopLeft.Y),
+                        To = new Point(ClickPoint.X - CurrentTopLeft.X, ClickPoint.Y - CurrentTopLeft.Y),
+                        Color = buttonDrawColor.BackColor,
+                        DrawStraight = false
+                    });
                 }
 
                 if (RectangleDrawn)
@@ -542,7 +541,7 @@ namespace LighterShot
 
             DrawWorkarea(graphics, box);
             DrawFrame(graphics, box);
-            DrawAllTools(graphics, CurrentTopLeft);
+            toolsPainter.DrawAllTools(graphics, CurrentTopLeft, CurrentTopLeft, CurrentBottomRight);
 
             graphics.DrawString(string.Format(@"{0}x{1} @ {2},{3}", box.Width, box.Height, box.Left, box.Top), DefaultFont, Brushes.White, box.Left, box.Top - 20);
         }
@@ -587,94 +586,6 @@ namespace LighterShot
                 graphics.DrawLine(dashedPen, new Point(box.Left, box.Top + box.Height - 2),
                     new Point(box.Left, box.Top + 2));
             }
-        }
-
-        private void DrawAllTools(Graphics picG, Point origin)
-        {
-            foreach (var drawing in _drawings.Reverse())
-            {
-                var src = drawing.From;
-                var dest = drawing.To;
-                src.X += origin.X;
-                src.Y += origin.Y;
-                dest.X += origin.X;
-                dest.Y += origin.Y;
-
-                switch (drawing.Type)
-                {
-                    case DrawingTool.DrawingToolType.Rectangle:
-                        var topLeft = new Point {X = Math.Min(src.X, dest.X), Y = Math.Min(src.Y, dest.Y)};
-                        var bottomRight = new Point {X = Math.Max(src.X, dest.X), Y = Math.Max(src.Y, dest.Y)};
-
-                        if (topLeft.X < CurrentTopLeft.X) topLeft.X = CurrentTopLeft.X;
-                        if (topLeft.Y < CurrentTopLeft.Y) topLeft.Y = CurrentTopLeft.Y;
-                        if (bottomRight.X > CurrentBottomRight.X) bottomRight.X = CurrentBottomRight.X;
-                        if (bottomRight.Y > CurrentBottomRight.Y) bottomRight.Y = CurrentBottomRight.Y;
-
-                        using (var pen = new Pen(drawing.Color, 3))
-                        {
-                            picG.DrawRectangle(pen,
-                                new Rectangle
-                                {
-                                    Location = topLeft,
-                                    Width = bottomRight.X - topLeft.X,
-                                    Height = bottomRight.Y - topLeft.Y
-                                });
-                        }
-                        break;
-
-                    case DrawingTool.DrawingToolType.Line:
-                        if (dest.X < CurrentTopLeft.X) dest.X = CurrentTopLeft.X;
-                        if (dest.Y < CurrentTopLeft.Y) dest.Y = CurrentTopLeft.Y;
-                        if (dest.X > CurrentBottomRight.X) dest.X = CurrentBottomRight.X;
-                        if (dest.Y > CurrentBottomRight.Y) dest.Y = CurrentBottomRight.Y;
-
-                        if (drawing.DrawStraight)
-                        {
-                            makeLineStraight(src, ref dest);
-                        }
-
-                        using (var pen = new Pen(drawing.Color, 3))
-                        {
-                            picG.DrawLine(pen, src, dest);
-                        }
-                        break;
-
-                    case DrawingTool.DrawingToolType.Arrow:
-                        if (dest.X < CurrentTopLeft.X) dest.X = CurrentTopLeft.X;
-                        if (dest.Y < CurrentTopLeft.Y) dest.Y = CurrentTopLeft.Y;
-                        if (dest.X > CurrentBottomRight.X) dest.X = CurrentBottomRight.X;
-                        if (dest.Y > CurrentBottomRight.Y) dest.Y = CurrentBottomRight.Y;
-
-                        if (drawing.DrawStraight)
-                        {
-                            makeLineStraight(src, ref dest);
-                        }
-
-                        using (var bigArrow = new AdjustableArrowCap(3, 4, false))
-                        {
-                            using (var pen = new Pen(drawing.Color, 3) {CustomEndCap = bigArrow})
-                            {
-                                picG.DrawLine(pen, src, dest);
-                            }
-                        }
-                        break;
-                }
-            }
-        }
-
-        private void makeLineStraight(Point src, ref Point dest)
-        {
-            // force straight vertical or horizontal line
-            if (Math.Abs(dest.X - src.X) < 20) // vertical
-            {
-                dest.X = src.X;
-            }
-            else if (Math.Abs(dest.Y - src.Y) < 20) // horizontal
-            {
-                dest.Y = src.Y;
-            }
-            // diagonal?
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
