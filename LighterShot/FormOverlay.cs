@@ -92,6 +92,14 @@ namespace LighterShot
             pictureBox1.MouseDoubleClick += mouse_DClick;
             pictureBox1.MouseUp += mouse_Up;
             pictureBox1.MouseMove += mouse_Move;
+
+            panelTools.MouseMove += panel_mouse_move;
+            buttonDrawRect.MouseMove += panel_mouse_move;
+            buttonDrawLine.MouseMove += panel_mouse_move;
+            buttonDrawArrow.MouseMove += panel_mouse_move;
+            buttonDrawColor.MouseMove += panel_mouse_move;
+            buttonDone.MouseMove += panel_mouse_move;
+
             KeyDown += key_down;
             KeyUp += key_up;
             buttonCancel.KeyDown += key_down;
@@ -130,7 +138,7 @@ namespace LighterShot
 
             ScreenShot.CaptureImage(startPoint, Point.Empty, bounds, pictureBox1);
 
-            MessageBox.Show("Area saved to clipboard and file", "Lightershot", MessageBoxButtons.OK);
+            MessageBox.Show(@"Area saved to clipboard and file", @"Lightershot", MessageBoxButtons.OK);
 
             if (InstanceRef != null)
             {
@@ -169,7 +177,7 @@ namespace LighterShot
 
         private void SetClickAction()
         {
-            switch (UiUtils.UpdateCursorAndGetCursorPosition(this, CurrentTopLeft, CurrentBottomRight))
+            switch (UiUtils.UpdateCursorAndGetCursorPosition(this, CurrentTopLeft, CurrentBottomRight, _goingToDrawTool == DrawingTool.DrawingToolType.NotDrawingTool))
             {
                 case CursPos.BottomLine:
                     CurrentAction = ClickAction.BottomSizing;
@@ -445,6 +453,11 @@ namespace LighterShot
             panelTools.Visible = true;
         }
 
+        private void panel_mouse_move(object sender, MouseEventArgs e)
+        {
+            Cursor = Cursors.Arrow;
+        }
+
         private void mouse_Move(object sender, MouseEventArgs e)
         {
             if (LeftButtonDown && !RectangleDrawn)
@@ -454,7 +467,7 @@ namespace LighterShot
 
             if (RectangleDrawn)
             {
-                var pos = UiUtils.UpdateCursorAndGetCursorPosition(this, CurrentTopLeft, CurrentBottomRight);
+                var pos = UiUtils.UpdateCursorAndGetCursorPosition(this, CurrentTopLeft, CurrentBottomRight, _goingToDrawTool == DrawingTool.DrawingToolType.NotDrawingTool);
                 if (pos == CursPos.WithinSelectionArea)
                 {
                     if (_goingToDrawTool != DrawingTool.DrawingToolType.NotDrawingTool ||
@@ -527,29 +540,43 @@ namespace LighterShot
             var extendedBox = new Rectangle(CurrentTopLeft.X - 20, CurrentTopLeft.Y + 20, CurrentBottomRight.X - CurrentTopLeft.X + 40,
                 CurrentBottomRight.Y - CurrentTopLeft.Y + 40);
 
+            DrawWorkarea(graphics, box);
+            DrawFrame(graphics, box);
+            DrawAllTools(graphics, CurrentTopLeft);
+
+            graphics.DrawString(string.Format(@"{0}x{1} @ {2},{3}", box.Width, box.Height, box.Left, box.Top), DefaultFont, Brushes.White, box.Left, box.Top - 20);
+        }
+
+        private void DrawWorkarea(Graphics graphics, Rectangle box)
+        {
             graphics.SetClip(box, CombineMode.Exclude);
             using (var b = new SolidBrush(Color.FromArgb(128, 0, 0, 0)))
             {
-                graphics.FillRectangle(b, this.ClientRectangle);
+                graphics.FillRectangle(b, ClientRectangle);
             }
-
             graphics.ResetClip();
+        }
 
+        private void DrawFrame(Graphics graphics, Rectangle box)
+        {
             var tlCorner = new Rectangle(box.Left - 2, box.Top - 2, 5, 5);
             var trCorner = new Rectangle(box.Left + box.Width - 2, box.Top - 2, 5, 5);
             var blCorner = new Rectangle(box.Left - 2, box.Top + box.Height - 2, 5, 5);
             var brCorner = new Rectangle(box.Left + box.Width - 2, box.Top + box.Height - 2, 5, 5);
 
-            using (var borderPen = new Pen(Brushes.White, 1))
+            if (_goingToDrawTool == DrawingTool.DrawingToolType.NotDrawingTool)
             {
-                graphics.DrawRectangle(borderPen, tlCorner);
-                graphics.DrawRectangle(borderPen, trCorner);
-                graphics.DrawRectangle(borderPen, blCorner);
-                graphics.DrawRectangle(borderPen, brCorner);
+                using (var borderPen = new Pen(Brushes.White, 1))
+                {
+                    graphics.DrawRectangle(borderPen, tlCorner);
+                    graphics.DrawRectangle(borderPen, trCorner);
+                    graphics.DrawRectangle(borderPen, blCorner);
+                    graphics.DrawRectangle(borderPen, brCorner);
+                }
             }
 
-            float[] dashValues = {3, 3};
-            using (var dashedPen = new Pen(Color.White, 1) {DashPattern = dashValues})
+            float[] dashValues = { 3, 3 };
+            using (var dashedPen = new Pen(Color.White, 1) { DashPattern = dashValues })
             {
                 graphics.DrawLine(dashedPen, new Point(box.Left + 4, box.Top),
                     new Point(box.Left + box.Width - 2, box.Top));
@@ -560,12 +587,8 @@ namespace LighterShot
                 graphics.DrawLine(dashedPen, new Point(box.Left, box.Top + box.Height - 2),
                     new Point(box.Left, box.Top + 2));
             }
-
-            DrawAllTools(graphics, CurrentTopLeft);
-
-            graphics.DrawString(string.Format(@"{0}x{1} @ {2},{3}", box.Width, box.Height, box.Left, box.Top), DefaultFont, Brushes.White, box.Left, box.Top - 20);
         }
-        
+
         private void DrawAllTools(Graphics picG, Point origin)
         {
             foreach (var drawing in _drawings.Reverse())
