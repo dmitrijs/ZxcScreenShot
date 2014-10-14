@@ -44,29 +44,23 @@ namespace LighterShot
 
         private readonly Stack<DrawingTool> _drawings = new Stack<DrawingTool>();
 
-        private readonly Pen EraserPen = new Pen(Color.FromArgb(255, 255, 192), 1);
-        private readonly Pen MyPen = new Pen(Color.Black, 1);
-        private readonly Graphics g;
-
         public Point ClickPoint = new Point();
         public ClickAction CurrentAction;
         public Point CurrentBottomRight = new Point();
         public Point CurrentTopLeft = new Point();
         public Point DragClickRelative = new Point();
         public bool LeftButtonDown = false;
-        public bool ReadyToDrag = false;
         public bool RectangleDrawn = false;
 
         public int RectangleHeight = new int();
         public int RectangleWidth = new int();
 
-        private SolidBrush TransparentBrush = new SolidBrush(Color.White);
-        private SolidBrush eraserBrush = new SolidBrush(Color.FromArgb(255, 255, 192));
-
         public Form InstanceRef { get; set; }
 
         // tells that user has clicked any of Tool buttons
         private DrawingTool.DrawingToolType _goingToDrawTool = DrawingTool.DrawingToolType.NotDrawingTool;
+
+        private Bitmap screenBitmap;
 
         protected override void OnMouseClick(MouseEventArgs e)
         {
@@ -112,12 +106,11 @@ namespace LighterShot
             buttonDrawColor.KeyUp += key_up;
             panelTools.KeyDown += key_down;
             panelTools.KeyUp += key_up;
-            g = CreateGraphics(); // pictureBox1.CreateGraphics();
 
-            var bitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Size.Width, Screen.PrimaryScreen.Bounds.Size.Height);
-            ScreenShot.GetScreenCapture(bitmap);
+            screenBitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Size.Width, Screen.PrimaryScreen.Bounds.Size.Height);
+            ScreenShot.GetScreenCapture(screenBitmap);
 
-            pictureBox1.Image = bitmap;
+            pictureBox1.Image = screenBitmap;
 
             _drawings.Clear();
 
