@@ -114,8 +114,6 @@ namespace LighterShot
 
             _drawings.Clear();
 
-            labelSize.Visible = labelInfo.Visible = false;
-
             timer1.Enabled = true;
         }
 
@@ -400,10 +398,10 @@ namespace LighterShot
             {
                 LeftButtonDown = true;
                 ClickPoint = new Point(MousePosition.X, MousePosition.Y);
-                labelSize.Visible = labelInfo.Visible = panelTools.Visible = false;
 
                 if (_goingToDrawTool == DrawingTool.DrawingToolType.NotDrawingTool)
                 {
+                    panelTools.Visible = false;
                     SetClickAction();
                 }
                 else
@@ -415,7 +413,7 @@ namespace LighterShot
                                        Type = _goingToDrawTool,
                                        From = ClickPoint,
                                        To = ClickPoint,
-                                       Color = buttonDrawColor.ForeColor,
+                                       Color = buttonDrawColor.BackColor,
                                        DrawStraight = false
                                    });
                 }
@@ -444,7 +442,7 @@ namespace LighterShot
             LeftButtonDown = false;
             CurrentAction = ClickAction.NoClick;
             UpdatePanelPosition(force: true);
-            labelSize.Visible = labelInfo.Visible = panelTools.Visible = true;
+            panelTools.Visible = true;
         }
 
         private void mouse_Move(object sender, MouseEventArgs e)
@@ -514,13 +512,6 @@ namespace LighterShot
                     panelTools.Left = CurrentTopLeft.X - panelTools.Width - 10;
                 }
                 panelTools.Top = Math.Max(10, CurrentBottomRight.Y - panelTools.Height);
-
-                // move labels
-                labelInfo.Left = CurrentTopLeft.X;
-                labelInfo.Top = CurrentBottomRight.Y + 10;
-
-                labelSize.Left = CurrentTopLeft.X;
-                labelSize.Top = CurrentTopLeft.Y - labelSize.Height - 10;
             }
         }
 
@@ -571,6 +562,8 @@ namespace LighterShot
             }
 
             DrawAllTools(graphics);
+
+            graphics.DrawString(string.Format(@"{0}x{1} @ {2},{3}", box.Width, box.Height, box.Left, box.Top), DefaultFont, Brushes.White, box.Left, box.Top - 20);
         }
         
         private void DrawAllTools(Graphics picG)
@@ -695,7 +688,7 @@ namespace LighterShot
         {
             if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
-                buttonDrawColor.ForeColor = colorDialog1.Color;
+                buttonDrawColor.BackColor = colorDialog1.Color;
             }
         }
 
@@ -705,6 +698,14 @@ namespace LighterShot
 
         private void buttonDrawArrow_KeyUp(object sender, KeyEventArgs e)
         {
+        }
+
+        private void buttonDone_Click(object sender, EventArgs e)
+        {
+            _goingToDrawTool = DrawingTool.DrawingToolType.NotDrawingTool;
+            buttonDrawRect.Enabled = true;
+            buttonDrawLine.Enabled = true;
+            buttonDrawArrow.Enabled = true;
         }
     }
 }
