@@ -291,7 +291,7 @@ namespace LighterShot
 
         private void MoveDrawingTool()
         {
-            _drawings.Peek().To = Cursor.Position;
+            _drawings.Peek().To = new Point(Cursor.Position.X - CurrentTopLeft.X, Cursor.Position.Y - CurrentTopLeft.Y);
 
             UpdateUi();
         }
@@ -411,8 +411,8 @@ namespace LighterShot
                     _drawings.Push(new DrawingTool
                                    {
                                        Type = _goingToDrawTool,
-                                       From = ClickPoint,
-                                       To = ClickPoint,
+                                       From = new Point(ClickPoint.X - CurrentTopLeft.X, ClickPoint.Y - CurrentTopLeft.Y),
+                                       To = new Point(ClickPoint.X - CurrentTopLeft.X, ClickPoint.Y - CurrentTopLeft.Y),
                                        Color = buttonDrawColor.BackColor,
                                        DrawStraight = false
                                    });
@@ -561,17 +561,21 @@ namespace LighterShot
                     new Point(box.Left, box.Top + 2));
             }
 
-            DrawAllTools(graphics);
+            DrawAllTools(graphics, CurrentTopLeft);
 
             graphics.DrawString(string.Format(@"{0}x{1} @ {2},{3}", box.Width, box.Height, box.Left, box.Top), DefaultFont, Brushes.White, box.Left, box.Top - 20);
         }
         
-        private void DrawAllTools(Graphics picG)
+        private void DrawAllTools(Graphics picG, Point origin)
         {
             foreach (var drawing in _drawings.Reverse())
             {
                 var src = drawing.From;
                 var dest = drawing.To;
+                src.X += origin.X;
+                src.Y += origin.Y;
+                dest.X += origin.X;
+                dest.Y += origin.Y;
 
                 switch (drawing.Type)
                 {
