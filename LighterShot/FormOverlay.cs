@@ -138,7 +138,7 @@ namespace LighterShot
 
             ScreenShot.CaptureImage(startPoint, Point.Empty, bounds, pictureBox1, toolsPainter);
 
-            MessageBox.Show(@"Area saved to clipboard and file", @"Lightershot", MessageBoxButtons.OK);
+//            MessageBox.Show(@"Area saved to clipboard and file", @"Lightershot", MessageBoxButtons.OK);
 
             if (InstanceRef != null)
             {

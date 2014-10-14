@@ -41,7 +41,23 @@ namespace LighterShot
                 {
                     Directory.CreateDirectory(ScreenshotsDir);
                 }
-                bitmap.Save(ScreenshotsDir + "Screen shot " + DateTime.Now.ToString("yyyy-dd-M HH.mm.ss") + ".png", ImageFormat.Png);
+
+                var imagePath = ScreenshotsDir + "Screen shot " + DateTime.Now.ToString("yyyy-dd-M HH.mm.ss") + ".png";
+                bitmap.Save(imagePath, ImageFormat.Png);
+
+                var key = Uploader.GetKey();
+                
+                if (key == null) return;
+
+                var msg = Uploader.Upload(key.Item1, key.Item2, imagePath);
+                if (msg == "ok")
+                {
+                    MessageBox.Show(string.Format("{0}/{1}/{2}", Constants.ServiceUrl, key.Item1, key.Item2));
+                }
+                else
+                {
+                    MessageBox.Show(string.Format("Upload error occured: {0}", msg));
+                }
             }
         }
     }
