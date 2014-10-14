@@ -105,7 +105,7 @@ namespace LighterShot
                             makeLineStraight(src, ref dest);
                         }
 
-                        using (var bigArrow = new AdjustableArrowCap(3, 4, false))
+                        using (var bigArrow = new AdjustableArrowCap(2.3f, 3.6f, false))
                         {
                             using (var pen = new Pen(drawing.Color, 3) { CustomEndCap = bigArrow })
                             {
