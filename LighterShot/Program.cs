@@ -13,7 +13,7 @@ namespace LighterShot
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormOverlay());
+            Application.Run(new FormMain());
         }
     }
 }
