@@ -443,6 +443,7 @@ namespace LighterShot
             RectangleDrawn = true;
             LeftButtonDown = false;
             CurrentAction = ClickAction.NoClick;
+            UpdatePanelPosition(force: true);
             labelSize.Visible = labelInfo.Visible = panelTools.Visible = true;
         }
 
@@ -491,7 +492,15 @@ namespace LighterShot
 
         private void UpdateUi()
         {
-            if (panelTools.Visible)
+            UpdatePanelPosition();
+
+            // redraw rectangle
+            pictureBox1.Invalidate();
+        }
+
+        private void UpdatePanelPosition(Boolean force = false)
+        {
+            if (force || panelTools.Visible)
             {
                 // move panel
                 if (CurrentBottomRight.X + 10 + panelTools.Width + 10 < Screen.PrimaryScreen.WorkingArea.Width)
@@ -513,9 +522,6 @@ namespace LighterShot
                 labelSize.Left = CurrentTopLeft.X;
                 labelSize.Top = CurrentTopLeft.Y - labelSize.Height - 10;
             }
-
-            // redraw rectangle
-            pictureBox1.Invalidate();
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
