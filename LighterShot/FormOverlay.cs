@@ -179,79 +179,9 @@ namespace LighterShot
             }
         }
 
-        private CursPos CursorPosition()
-        {
-            if (((Cursor.Position.X > CurrentTopLeft.X - 10 && Cursor.Position.X < CurrentTopLeft.X + 10)) &&
-                ((Cursor.Position.Y > CurrentTopLeft.Y + 10) && (Cursor.Position.Y < CurrentBottomRight.Y - 10)))
-            {
-                Cursor = Cursors.SizeWE;
-                return CursPos.LeftLine;
-            }
-            if (((Cursor.Position.X >= CurrentTopLeft.X - 10 && Cursor.Position.X <= CurrentTopLeft.X + 10)) &&
-                ((Cursor.Position.Y >= CurrentTopLeft.Y - 10) && (Cursor.Position.Y <= CurrentTopLeft.Y + 10)))
-            {
-                Cursor = Cursors.SizeNWSE;
-                return CursPos.TopLeft;
-            }
-            if (((Cursor.Position.X >= CurrentTopLeft.X - 10 && Cursor.Position.X <= CurrentTopLeft.X + 10)) &&
-                ((Cursor.Position.Y >= CurrentBottomRight.Y - 10) && (Cursor.Position.Y <= CurrentBottomRight.Y + 10)))
-            {
-                Cursor = Cursors.SizeNESW;
-                return CursPos.BottomLeft;
-            }
-            if (((Cursor.Position.X > CurrentBottomRight.X - 10 && Cursor.Position.X < CurrentBottomRight.X + 10)) &&
-                ((Cursor.Position.Y > CurrentTopLeft.Y + 10) && (Cursor.Position.Y < CurrentBottomRight.Y - 10)))
-            {
-                Cursor = Cursors.SizeWE;
-                return CursPos.RightLine;
-            }
-            if (((Cursor.Position.X >= CurrentBottomRight.X - 10 && Cursor.Position.X <= CurrentBottomRight.X + 10)) &&
-                ((Cursor.Position.Y >= CurrentTopLeft.Y - 10) && (Cursor.Position.Y <= CurrentTopLeft.Y + 10)))
-            {
-                Cursor = Cursors.SizeNESW;
-                return CursPos.TopRight;
-            }
-            if (((Cursor.Position.X >= CurrentBottomRight.X - 10 && Cursor.Position.X <= CurrentBottomRight.X + 10)) &&
-                ((Cursor.Position.Y >= CurrentBottomRight.Y - 10) && (Cursor.Position.Y <= CurrentBottomRight.Y + 10)))
-            {
-                Cursor = Cursors.SizeNWSE;
-                return CursPos.BottomRight;
-            }
-            if (((Cursor.Position.Y > CurrentTopLeft.Y - 10) && (Cursor.Position.Y < CurrentTopLeft.Y + 10)) &&
-                ((Cursor.Position.X > CurrentTopLeft.X + 10 && Cursor.Position.X < CurrentBottomRight.X - 10)))
-            {
-                Cursor = Cursors.SizeNS;
-                return CursPos.TopLine;
-            }
-            if (((Cursor.Position.Y > CurrentBottomRight.Y - 10) && (Cursor.Position.Y < CurrentBottomRight.Y + 10)) &&
-                ((Cursor.Position.X > CurrentTopLeft.X + 10 && Cursor.Position.X < CurrentBottomRight.X - 10)))
-            {
-                Cursor = Cursors.SizeNS;
-                return CursPos.BottomLine;
-            }
-            if (
-                (Cursor.Position.X >= CurrentTopLeft.X + 10 && Cursor.Position.X <= CurrentBottomRight.X - 10) &&
-                (Cursor.Position.Y >= CurrentTopLeft.Y + 10 && Cursor.Position.Y <= CurrentBottomRight.Y - 10))
-            {
-                if (_goingToDrawTool != DrawingTool.DrawingToolType.NotDrawingTool ||
-                    CurrentAction == ClickAction.DrawingTool)
-                {
-                    Cursor = Cursors.Hand;
-                }
-                else
-                {
-                    Cursor = Cursors.SizeAll;
-                }
-                return CursPos.WithinSelectionArea;
-            }
-
-            Cursor = Cursors.No;
-            return CursPos.OutsideSelectionArea;
-        }
-
         private void SetClickAction()
         {
-            switch (CursorPosition())
+            switch (UiUtils.UpdateCursorAndGetCursorPosition(this, CurrentTopLeft, CurrentBottomRight))
             {
                 case CursPos.BottomLine:
                     CurrentAction = ClickAction.BottomSizing;
@@ -565,7 +495,19 @@ namespace LighterShot
 
             if (RectangleDrawn)
             {
-                CursorPosition();
+                var pos = UiUtils.UpdateCursorAndGetCursorPosition(this, CurrentTopLeft, CurrentBottomRight);
+                if (pos == CursPos.WithinSelectionArea)
+                {
+                    if (_goingToDrawTool != DrawingTool.DrawingToolType.NotDrawingTool ||
+                        CurrentAction == ClickAction.DrawingTool)
+                    {
+                        Cursor = Cursors.Hand;
+                    }
+                    else
+                    {
+                        Cursor = Cursors.SizeAll;
+                    }
+                }
 
                 if (CurrentAction == ClickAction.Dragging)
                 {
