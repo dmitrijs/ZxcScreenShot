@@ -136,7 +136,7 @@ namespace LighterShot
             var bounds = new Rectangle(CurrentTopLeft.X, CurrentTopLeft.Y, CurrentBottomRight.X - CurrentTopLeft.X,
                 CurrentBottomRight.Y - CurrentTopLeft.Y);
 
-            ScreenShot.CaptureImage(startPoint, Point.Empty, bounds, pictureBox1);
+            ScreenShot.CaptureImage(startPoint, Point.Empty, bounds, pictureBox1, toolsPainter);
 
             MessageBox.Show(@"Area saved to clipboard and file", @"Lightershot", MessageBoxButtons.OK);
 
