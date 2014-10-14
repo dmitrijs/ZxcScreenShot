@@ -42,7 +42,7 @@ namespace LighterShot
             BottomRight
         }
 
-        private Stack<DrawingTool> _drawings = new Stack<DrawingTool>();
+        private readonly Stack<DrawingTool> _drawings = new Stack<DrawingTool>();
 
         private readonly Pen EraserPen = new Pen(Color.FromArgb(255, 255, 192), 1);
         private readonly Pen MyPen = new Pen(Color.Black, 1);
@@ -121,6 +121,8 @@ namespace LighterShot
             pictureBox1.Image = bitmap;
 
             _drawings.Clear();
+
+            labelSize.Visible = labelInfo.Visible = false;
 
             timer1.Enabled = true;
 
@@ -508,6 +510,7 @@ namespace LighterShot
             {
                 LeftButtonDown = true;
                 ClickPoint = new Point(MousePosition.X, MousePosition.Y);
+                labelSize.Visible = labelInfo.Visible = panelTools.Visible = false;
 
                 if (_goingToDrawTool == DrawingTool.DrawingToolType.NotDrawingTool)
                 {
@@ -550,7 +553,7 @@ namespace LighterShot
             RectangleDrawn = true;
             LeftButtonDown = false;
             CurrentAction = ClickAction.NoClick;
-            panelTools.Visible = true;
+            labelSize.Visible = labelInfo.Visible = panelTools.Visible = true;
         }
 
         private void mouse_Move(object sender, MouseEventArgs e)
@@ -587,8 +590,24 @@ namespace LighterShot
         private void UpdateUi()
         {
             // move panel
-            panelTools.Left = CurrentBottomRight.X + 10;
-            panelTools.Top = CurrentBottomRight.Y - panelTools.Height;
+            if (CurrentBottomRight.X + 10 + panelTools.Width + 10 < Screen.PrimaryScreen.WorkingArea.Width)
+            {
+                // panel fits on the right
+                panelTools.Left = CurrentBottomRight.X + 10;
+            }
+            else
+            {
+                // place panel on the left
+                panelTools.Left = CurrentTopLeft.X - panelTools.Width - 10;
+            }
+            panelTools.Top = Math.Max(10, CurrentBottomRight.Y - panelTools.Height);
+
+            // move labels
+            labelInfo.Left = CurrentTopLeft.X;
+            labelInfo.Top = CurrentBottomRight.Y + 10;
+
+            labelSize.Left = CurrentTopLeft.X;
+            labelSize.Top = CurrentTopLeft.Y - labelSize.Height - 10;
 
             // redraw rectangle
             pictureBox1.Invalidate();
@@ -751,7 +770,7 @@ namespace LighterShot
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            label1.Text = _goingToDrawTool.ToString() + @"/" + CurrentAction.ToString();
+            // labelInfo.Text = _goingToDrawTool.ToString() + @"/" + CurrentAction.ToString();
         }
 
         private void buttonDrawColor_Click(object sender, EventArgs e)
