@@ -527,16 +527,23 @@ namespace LighterShot
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
+            do_paint(e.Graphics);
+        }
+
+        private void do_paint(Graphics graphics) {
             var box = new Rectangle(CurrentTopLeft.X, CurrentTopLeft.Y, CurrentBottomRight.X - CurrentTopLeft.X,
                 CurrentBottomRight.Y - CurrentTopLeft.Y); // new Rectangle(100, 50, 120, 70);
 
-            e.Graphics.SetClip(box, CombineMode.Exclude);
+            var extendedBox = new Rectangle(CurrentTopLeft.X - 20, CurrentTopLeft.Y + 20, CurrentBottomRight.X - CurrentTopLeft.X + 40,
+                CurrentBottomRight.Y - CurrentTopLeft.Y + 40);
+
+            graphics.SetClip(box, CombineMode.Exclude);
             using (var b = new SolidBrush(Color.FromArgb(128, 0, 0, 0)))
             {
-                e.Graphics.FillRectangle(b, this.ClientRectangle);
+                graphics.FillRectangle(b, this.ClientRectangle);
             }
 
-            e.Graphics.ResetClip();
+            graphics.ResetClip();
 
             var tlCorner = new Rectangle(box.Left - 2, box.Top - 2, 5, 5);
             var trCorner = new Rectangle(box.Left + box.Width - 2, box.Top - 2, 5, 5);
@@ -545,26 +552,26 @@ namespace LighterShot
 
             using (var borderPen = new Pen(Brushes.White, 1))
             {
-                e.Graphics.DrawRectangle(borderPen, tlCorner);
-                e.Graphics.DrawRectangle(borderPen, trCorner);
-                e.Graphics.DrawRectangle(borderPen, blCorner);
-                e.Graphics.DrawRectangle(borderPen, brCorner);
+                graphics.DrawRectangle(borderPen, tlCorner);
+                graphics.DrawRectangle(borderPen, trCorner);
+                graphics.DrawRectangle(borderPen, blCorner);
+                graphics.DrawRectangle(borderPen, brCorner);
             }
 
             float[] dashValues = {3, 3};
             using (var dashedPen = new Pen(Color.White, 1) {DashPattern = dashValues})
             {
-                e.Graphics.DrawLine(dashedPen, new Point(box.Left + 4, box.Top),
+                graphics.DrawLine(dashedPen, new Point(box.Left + 4, box.Top),
                     new Point(box.Left + box.Width - 2, box.Top));
-                e.Graphics.DrawLine(dashedPen, new Point(box.Left + box.Width, box.Top + 4),
+                graphics.DrawLine(dashedPen, new Point(box.Left + box.Width, box.Top + 4),
                     new Point(box.Left + box.Width, box.Top + box.Height - 2));
-                e.Graphics.DrawLine(dashedPen, new Point(box.Left + box.Width - 2, box.Top + box.Height),
+                graphics.DrawLine(dashedPen, new Point(box.Left + box.Width - 2, box.Top + box.Height),
                     new Point(box.Left + 2, box.Top + box.Height));
-                e.Graphics.DrawLine(dashedPen, new Point(box.Left, box.Top + box.Height - 2),
+                graphics.DrawLine(dashedPen, new Point(box.Left, box.Top + box.Height - 2),
                     new Point(box.Left, box.Top + 2));
             }
 
-            DrawAllTools(e.Graphics);
+            DrawAllTools(graphics);
         }
         
         private void DrawAllTools(Graphics picG)
