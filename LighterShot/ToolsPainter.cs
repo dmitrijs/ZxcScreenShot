@@ -43,6 +43,8 @@ namespace LighterShot
         
         public void DrawAllTools(Graphics picG, Point origin, Point boundsTopLeft, Point boundsBottomRight)
         {
+            picG.SmoothingMode = SmoothingMode.AntiAlias;
+            
             foreach (var drawing in _drawings.Reverse())
             {
                 var src = drawing.From;
