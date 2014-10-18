@@ -49,7 +49,7 @@ namespace LighterShot
                 
                 if (key == null) return;
 
-                var msg = Uploader.Upload(key.Item1, key.Item2, imagePath);
+                var msg = Uploader.Upload(key, imagePath);
                 if (msg == "ok")
                 {
                     MessageBox.Show(string.Format("{0}/{1}/{2}", Constants.ServiceUrl, key.Item1, key.Item2));

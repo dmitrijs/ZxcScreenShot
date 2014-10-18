@@ -27,7 +27,7 @@ namespace LighterShot
             return null;
         }
 
-        public static string Upload(string shotDate, string shotKey, string filePath)
+        public static string Upload(Tuple<String, String> key, string filePath)
         {
             var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
         
@@ -37,8 +37,8 @@ namespace LighterShot
             using (var formData = new MultipartFormDataContent())
             {
                 formData.Add(new StringContent("upload"), "action");
-                formData.Add(new StringContent(shotDate), "shot_date");
-                formData.Add(new StringContent(shotKey), "shot_key");
+                formData.Add(new StringContent(key.Item1), "shot_date");
+                formData.Add(new StringContent(key.Item2), "shot_key");
 
                 formData.Add(fileStreamContent, "shot_file", "shot_file");
 
