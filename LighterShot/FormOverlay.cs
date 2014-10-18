@@ -409,6 +409,7 @@ namespace LighterShot
                 if (_goingToDrawTool == DrawingTool.DrawingToolType.NotDrawingTool)
                 {
                     panelTools.Visible = false;
+                    panelOutput.Visible = false;
                     SetClickAction();
                 }
                 else
@@ -449,7 +450,7 @@ namespace LighterShot
             LeftButtonDown = false;
             CurrentAction = ClickAction.NoClick;
             UpdatePanelPosition(force: true);
-            panelTools.Visible = true;
+            panelOutput.Visible = panelTools.Visible = true;
         }
 
         private void panel_mouse_move(object sender, MouseEventArgs e)
@@ -513,7 +514,7 @@ namespace LighterShot
             if (force || panelTools.Visible)
             {
                 // move panel
-                if (CurrentBottomRight.X + 10 + panelTools.Width + 10 < Screen.PrimaryScreen.WorkingArea.Width)
+                if (CurrentBottomRight.X + 10 + panelTools.Width + 10 < Screen.PrimaryScreen.Bounds.Width)
                 {
                     // panel fits on the right
                     panelTools.Left = CurrentBottomRight.X + 10;
@@ -524,6 +525,19 @@ namespace LighterShot
                     panelTools.Left = CurrentTopLeft.X - panelTools.Width - 10;
                 }
                 panelTools.Top = Math.Max(10, CurrentBottomRight.Y - panelTools.Height);
+
+                // move panel
+                if (CurrentBottomRight.Y + 10 + panelOutput.Height + 10 < Screen.PrimaryScreen.Bounds.Height)
+                {
+                    // panel fits in the bottom
+                    panelOutput.Top = CurrentBottomRight.Y + 10;
+                }
+                else
+                {
+                    // place panel on top
+                    panelOutput.Top = CurrentTopLeft.Y - panelOutput.Height - 10;
+                }
+                panelOutput.Left = Math.Max(10, CurrentBottomRight.X - panelOutput.Width - 10);
             }
         }
 
