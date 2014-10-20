@@ -14,10 +14,9 @@ namespace LighterShot
         private void button1_Click(object sender, EventArgs e)
         {
             Hide();
-            var formOverlay = new FormOverlay {InstanceRef = this};
-            formOverlay.Show();
+            new FormOverlay().Show();
         }
-        
+
         private void FormMain_Load(object sender, EventArgs e)
         {
             UpdateUi();
@@ -34,9 +33,9 @@ namespace LighterShot
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (folderBrowserDialog1.ShowDialog() != DialogResult.OK) return;
+            if (folderBrowserDialog.ShowDialog() != DialogResult.OK) return;
 
-            Settings.Default.SaveFileFolder = folderBrowserDialog1.SelectedPath;
+            Settings.Default.SaveFileFolder = folderBrowserDialog.SelectedPath;
             UpdateUi();
         }
 
@@ -47,7 +46,7 @@ namespace LighterShot
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            new FormMain().Show();
+            Show();
         }
 
         private void cbDoSaveFile_CheckedChanged(object sender, EventArgs e)
@@ -60,6 +59,27 @@ namespace LighterShot
         private void tbSaveFileFolder_TextChanged(object sender, EventArgs e)
         {
             Settings.Default.Save();
+        }
+
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                Hide();
+            }
+        }
+
+        private void notifyIcon_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                new FormOverlay().Show();
+            }
         }
     }
 }

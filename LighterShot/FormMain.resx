@@ -117,10 +117,38 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="folderBrowserDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="folderBrowserDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="notifyMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>186, 17</value>
   </metadata>
+  <metadata name="notifyIcon.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>341, 17</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="notifyIcon.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAEBAAAAAAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAA
+        AAD//////////+bm5v+9vb3/r6+v/6ioqP+pqan/ra2t/+jo6P/9/f3/7+/v/7e3t/+Wlpb/k5OT/5aW
+        lv/Hx8f///////////+4uLj/WVlZ/0VFRf9FRUX/SUlJ/1FRUf/Gxsb/+/v7/6ampv84ODj/Kioq/zMz
+        M/84ODj/WFhY////////////8vLy/9jY2P/T09P/19fX/9nZ2f/R0dH/vr6+/+jo6P9mZmb/CwsL/wQE
+        BP8EBAT/MjIy/zc3N/////////////T09P/T09P/9/f3//7+/v//////3t7e/2RkZP+5ubn/UlJS/wUF
+        Bf8HBwf/BQUF/xISEv8rKyv////////////FxcX/R0dH/5KSkv/y8vL//////9XV1f9ISEj/ra2t/0xM
+        TP8NDQ3/EBAQ/xEREf8ODg7/TU1N////////////7u7u/319ff89PT3/srKy//39/f/S0tL/TU1N/7e3
+        t/+np6f/QkJC/yAgIP8hISH/ODg4/6CgoP////////////7+/v/r6+v/Y2Nj/zw8PP+6urr/6Ojo/62t
+        rf/j4+P/4ODg/52dnf95eXn/e3t7/5qamv/i4uL//////////////////v7+/87Ozv9dXV3/TExM/7Cw
+        sP/z8/P//Pz8/8XFxf9mZmb/T09P/09PT/9sbGz/zc3N///////+/v7/zMzM/5+fn//v7+//5ubm/2lp
+        af89PT3/kJCQ/9/f3//09PT/4+Pj/97e3v/e3t7/5OTk//j4+P/+/v7/8PDw/2FhYf9PT0//6enp//7+
+        /v/e3t7/i4uL/zo6Ov9eXl7/uLi4/+rq6v/+/v7/////////////////8/Pz/4yMjP87Ozv/qqqq//39
+        /f///////v7+//T09P/BwcH/d3d3/0JCQv9PT0//o6Oj/+rq6v///////////9jY2P9OTk7/goKC/+7u
+        7v///////////+Dg4P+goKD/6+vr/+zs7P+zs7P/ZWVl/0lJSf+2trb////////////W1tb/SkpK/1ZW
+        Vv/BwcH/+vr6/+bm5v9NTU3/Li4u/9TU1P///////v7+//b29v/W1tb/8fHx////////////9/f3/7i4
+        uP9ERET/SEhI/6mpqf+Pj4//MTEx/5CQkP/39/f/////////////////////////////////////////
+        ///+/v7/1NTU/2tra/88PDz/VlZW/56env/19fX/////////////////////////////////////////
+        //////////////39/f/k5OT/sLCw/9DQ0P/29vb//v7+////////////////////////////////////
+        ////////AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA
+        //8AAP//AAD//w==
+</value>
+  </data>
 </root>

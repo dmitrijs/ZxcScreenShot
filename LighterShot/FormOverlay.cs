@@ -55,8 +55,6 @@ namespace LighterShot
         public int RectangleHeight = new int();
         public int RectangleWidth = new int();
 
-        public Form InstanceRef { get; set; }
-
         // tells that user has clicked any of Tool buttons
         private DrawingTool.DrawingToolType _goingToDrawTool = DrawingTool.DrawingToolType.NotDrawingTool;
 
@@ -77,8 +75,6 @@ namespace LighterShot
 
         public FormOverlay()
         {
-            InstanceRef = null;
-
             InitializeComponent();
 
             Cursor = Cursors.Arrow;
@@ -138,12 +134,6 @@ namespace LighterShot
 
             ScreenShot.CaptureImage(startPoint, Point.Empty, bounds, pictureBox1, toolsPainter);
 
-//            MessageBox.Show(@"Area saved to clipboard and file", @"Lightershot", MessageBoxButtons.OK);
-
-            if (InstanceRef != null)
-            {
-                InstanceRef.Show();
-            }
             Close();
         }
 
@@ -161,16 +151,20 @@ namespace LighterShot
             {
                 toolsPainter.DrawStraightLatest(false);
             }
-            if (e.KeyCode.ToString() == "C" && e.Control && RectangleDrawn)
+            if (e.Control && e.KeyCode == Keys.C)
             {
-                SaveSelection();
+                if (RectangleDrawn) SaveSelection();
             }
-            if (e.KeyCode.ToString() == "Z" && e.Control && CurrentAction != ClickAction.DrawingTool)
+            if (e.Control && e.KeyCode == Keys.Z)
             {
-                if (toolsPainter.Undo())
+                if (CurrentAction != ClickAction.DrawingTool && toolsPainter.Undo())
                 {
                     pictureBox1.Invalidate();
                 }
+            }
+            if (e.KeyCode == Keys.Escape)
+            {
+                Close();
             }
         }
 
@@ -387,14 +381,6 @@ namespace LighterShot
 
         private void FormOverlay_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (InstanceRef != null)
-            {
-                InstanceRef.Show();
-            }
-            else
-            {
-                Application.Exit();
-            }
         }
 
         #region:::::::::::::::::::::::::::::::::::::::::::Mouse Buttons:::::::::::::::::::::::::::::::::::::::::::
@@ -604,7 +590,7 @@ namespace LighterShot
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            this.Close();
         }
 
         private void buttonDrawRect_Click(object sender, EventArgs e)
