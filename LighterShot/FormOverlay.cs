@@ -73,32 +73,32 @@ namespace LighterShot
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
 
-            pictureBox1.MouseDown += mouse_Click;
-            pictureBox1.MouseDoubleClick += mouse_DClick;
-            pictureBox1.MouseUp += mouse_Up;
-            pictureBox1.MouseMove += mouse_Move;
+            pictureBox1.MouseDown += Mouse_Click;
+            pictureBox1.MouseDoubleClick += Mouse_DClick;
+            pictureBox1.MouseUp += Mouse_Up;
+            pictureBox1.MouseMove += Mouse_Move;
 
-            panelTools.MouseMove += panel_mouse_move;
-            buttonDrawRect.MouseMove += panel_mouse_move;
-            buttonDrawLine.MouseMove += panel_mouse_move;
-            buttonDrawArrow.MouseMove += panel_mouse_move;
-            buttonDrawColor.MouseMove += panel_mouse_move;
-            buttonDone.MouseMove += panel_mouse_move;
+            panelTools.MouseMove += Panel_Mouse_Move;
+            buttonDrawRect.MouseMove += Panel_Mouse_Move;
+            buttonDrawLine.MouseMove += Panel_Mouse_Move;
+            buttonDrawArrow.MouseMove += Panel_Mouse_Move;
+            buttonDrawColor.MouseMove += Panel_Mouse_Move;
+            buttonDone.MouseMove += Panel_Mouse_Move;
 
-            KeyDown += key_down;
-            KeyUp += key_up;
-            buttonCancel.KeyDown += key_down;
-            buttonCancel.KeyUp += key_up;
-            buttonDrawRect.KeyDown += key_down;
-            buttonDrawRect.KeyUp += key_up;
-            buttonDrawLine.KeyDown += key_down;
-            buttonDrawLine.KeyUp += key_up;
-            buttonDrawArrow.KeyDown += key_down;
-            buttonDrawArrow.KeyUp += key_up;
-            buttonDrawColor.KeyDown += key_down;
-            buttonDrawColor.KeyUp += key_up;
-            panelTools.KeyDown += key_down;
-            panelTools.KeyUp += key_up;
+            KeyDown += Key_Down;
+            KeyUp += Key_Up;
+            buttonCancel.KeyDown += Key_Down;
+            buttonCancel.KeyUp += Key_Up;
+            buttonDrawRect.KeyDown += Key_Down;
+            buttonDrawRect.KeyUp += Key_Up;
+            buttonDrawLine.KeyDown += Key_Down;
+            buttonDrawLine.KeyUp += Key_Up;
+            buttonDrawArrow.KeyDown += Key_Down;
+            buttonDrawArrow.KeyUp += Key_Up;
+            buttonDrawColor.KeyDown += Key_Down;
+            buttonDrawColor.KeyUp += Key_Up;
+            panelTools.KeyDown += Key_Down;
+            panelTools.KeyUp += Key_Up;
 
             Bitmap screenBitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Size.Width, Screen.PrimaryScreen.Bounds.Size.Height);
             ScreenShot.GetScreenCapture(screenBitmap);
@@ -126,7 +126,7 @@ namespace LighterShot
             Close();
         }
 
-        public void key_down(object sender, KeyEventArgs e)
+        private void Key_Down(object sender, KeyEventArgs e)
         {
             if (e.Shift && _currentAction == ClickAction.DrawingTool)
             {
@@ -134,7 +134,7 @@ namespace LighterShot
             }
         }
 
-        public void key_up(object sender, KeyEventArgs e)
+        private void Key_Up(object sender, KeyEventArgs e)
         {
             if (!e.Shift && _currentAction == ClickAction.DrawingTool)
             {
@@ -374,7 +374,7 @@ namespace LighterShot
 
         #region:::::::::::::::::::::::::::::::::::::::::::Mouse Buttons:::::::::::::::::::::::::::::::::::::::::::
 
-        private void mouse_Click(object sender, MouseEventArgs e)
+        private void Mouse_Click(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -411,7 +411,7 @@ namespace LighterShot
             }
         }
 
-        private void mouse_DClick(object sender, MouseEventArgs e)
+        private void Mouse_DClick(object sender, MouseEventArgs e)
         {
             if (_rectangleDrawn)
             {
@@ -419,7 +419,7 @@ namespace LighterShot
             }
         }
 
-        private void mouse_Up(object sender, MouseEventArgs e)
+        private void Mouse_Up(object sender, MouseEventArgs e)
         {
             _rectangleDrawn = true;
             _leftButtonDown = false;
@@ -428,12 +428,12 @@ namespace LighterShot
             panelOutput.Visible = panelTools.Visible = true;
         }
 
-        private void panel_mouse_move(object sender, MouseEventArgs e)
+        private void Panel_Mouse_Move(object sender, MouseEventArgs e)
         {
             Cursor = Cursors.Arrow;
         }
 
-        private void mouse_Move(object sender, MouseEventArgs e)
+        private void Mouse_Move(object sender, MouseEventArgs e)
         {
             if (_leftButtonDown && !_rectangleDrawn)
             {
@@ -518,10 +518,10 @@ namespace LighterShot
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            do_paint(e.Graphics);
+            Do_Paint(e.Graphics);
         }
 
-        private void do_paint(Graphics graphics) {
+        private void Do_Paint(Graphics graphics) {
             var box = new Rectangle(_currentTopLeft.X, _currentTopLeft.Y, _currentBottomRight.X - _currentTopLeft.X,
                 _currentBottomRight.Y - _currentTopLeft.Y); // new Rectangle(100, 50, 120, 70);
 
