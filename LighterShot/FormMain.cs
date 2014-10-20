@@ -92,6 +92,7 @@ namespace LighterShot
         private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
         {
             Settings.Default.ShotsServiceBaseUrl = ((ComboBoxItem)comboBox1.SelectedItem).Value;
+            Settings.Default.Save();
         }
     }
 
