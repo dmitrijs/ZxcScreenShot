@@ -11,12 +11,6 @@ namespace LighterShot
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Hide();
-            new FormOverlay().Show();
-        }
-
         private void FormMain_Load(object sender, EventArgs e)
         {
             UpdateUi();

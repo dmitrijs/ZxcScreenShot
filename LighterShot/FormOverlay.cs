@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -12,7 +10,7 @@ namespace LighterShot
     {
         #region:::::::::::::::::::::::::::::::::::::::::::Form level declarations:::::::::::::::::::::::::::::::::::::::::::
 
-        public enum ClickAction
+        private enum ClickAction
         {
             NoClick = 0,
             Dragging,
@@ -42,23 +40,16 @@ namespace LighterShot
             BottomRight
         }
 
-        private readonly ToolsPainter toolsPainter = new ToolsPainter();
+        private readonly ToolsPainter _toolsPainter = new ToolsPainter();
 
-        public Point ClickPoint = new Point();
-        public ClickAction CurrentAction;
-        public Point CurrentBottomRight = new Point();
-        public Point CurrentTopLeft = new Point();
-        public Point DragClickRelative = new Point();
-        public bool LeftButtonDown = false;
-        public bool RectangleDrawn = false;
-
-        public int RectangleHeight = new int();
-        public int RectangleWidth = new int();
+        private ClickAction _currentAction;
+        private Point _clickPoint;
+        private Point _currentBottomRight, _currentTopLeft, _dragClickRelative;
+        private bool _leftButtonDown, _rectangleDrawn;
+        private int _rectangleHeight, _rectangleWidth;
 
         // tells that user has clicked any of Tool buttons
         private DrawingTool.DrawingToolType _goingToDrawTool = DrawingTool.DrawingToolType.NotDrawingTool;
-
-        private Bitmap screenBitmap;
 
         protected override void OnMouseClick(MouseEventArgs e)
         {
@@ -81,8 +72,6 @@ namespace LighterShot
             this.ControlBox = false;
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
-            //            this.Opacity = 0.1D;
-            //            this.TransparencyKey = System.Drawing.Color.White;
 
             pictureBox1.MouseDown += mouse_Click;
             pictureBox1.MouseDoubleClick += mouse_DClick;
@@ -111,12 +100,12 @@ namespace LighterShot
             panelTools.KeyDown += key_down;
             panelTools.KeyUp += key_up;
 
-            screenBitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Size.Width, Screen.PrimaryScreen.Bounds.Size.Height);
+            Bitmap screenBitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Size.Width, Screen.PrimaryScreen.Bounds.Size.Height);
             ScreenShot.GetScreenCapture(screenBitmap);
 
             pictureBox1.Image = screenBitmap;
 
-            toolsPainter.Clear();
+            _toolsPainter.Clear();
 
             timer1.Enabled = true;
         }
@@ -128,36 +117,36 @@ namespace LighterShot
             //Allow 250 milliseconds for the screen to repaint itself (we don't want to include this form in the capture)
             Thread.Sleep(250);
 
-            var startPoint = new Point(CurrentTopLeft.X, CurrentTopLeft.Y);
-            var bounds = new Rectangle(CurrentTopLeft.X, CurrentTopLeft.Y, CurrentBottomRight.X - CurrentTopLeft.X,
-                CurrentBottomRight.Y - CurrentTopLeft.Y);
+            var startPoint = new Point(_currentTopLeft.X, _currentTopLeft.Y);
+            var bounds = new Rectangle(_currentTopLeft.X, _currentTopLeft.Y, _currentBottomRight.X - _currentTopLeft.X,
+                _currentBottomRight.Y - _currentTopLeft.Y);
 
-            ScreenShot.CaptureImage(startPoint, Point.Empty, bounds, pictureBox1, toolsPainter);
+            ScreenShot.CaptureImage(startPoint, Point.Empty, bounds, pictureBox1, _toolsPainter);
 
             Close();
         }
 
         public void key_down(object sender, KeyEventArgs e)
         {
-            if (e.Shift && CurrentAction == ClickAction.DrawingTool)
+            if (e.Shift && _currentAction == ClickAction.DrawingTool)
             {
-                toolsPainter.DrawStraightLatest(true);
+                _toolsPainter.DrawStraightLatest(true);
             }
         }
 
         public void key_up(object sender, KeyEventArgs e)
         {
-            if (!e.Shift && CurrentAction == ClickAction.DrawingTool)
+            if (!e.Shift && _currentAction == ClickAction.DrawingTool)
             {
-                toolsPainter.DrawStraightLatest(false);
+                _toolsPainter.DrawStraightLatest(false);
             }
             if (e.Control && e.KeyCode == Keys.C)
             {
-                if (RectangleDrawn) SaveSelection();
+                if (_rectangleDrawn) SaveSelection();
             }
             if (e.Control && e.KeyCode == Keys.Z)
             {
-                if (CurrentAction != ClickAction.DrawingTool && toolsPainter.Undo())
+                if (_currentAction != ClickAction.DrawingTool && _toolsPainter.Undo())
                 {
                     pictureBox1.Invalidate();
                 }
@@ -170,121 +159,121 @@ namespace LighterShot
 
         private void SetClickAction()
         {
-            switch (UiUtils.UpdateCursorAndGetCursorPosition(this, CurrentTopLeft, CurrentBottomRight, _goingToDrawTool == DrawingTool.DrawingToolType.NotDrawingTool))
+            switch (UiUtils.UpdateCursorAndGetCursorPosition(this, _currentTopLeft, _currentBottomRight, _goingToDrawTool == DrawingTool.DrawingToolType.NotDrawingTool))
             {
                 case CursPos.BottomLine:
-                    CurrentAction = ClickAction.BottomSizing;
+                    _currentAction = ClickAction.BottomSizing;
                     break;
                 case CursPos.TopLine:
-                    CurrentAction = ClickAction.TopSizing;
+                    _currentAction = ClickAction.TopSizing;
                     break;
                 case CursPos.LeftLine:
-                    CurrentAction = ClickAction.LeftSizing;
+                    _currentAction = ClickAction.LeftSizing;
                     break;
                 case CursPos.TopLeft:
-                    CurrentAction = ClickAction.TopLeftSizing;
+                    _currentAction = ClickAction.TopLeftSizing;
                     break;
                 case CursPos.BottomLeft:
-                    CurrentAction = ClickAction.BottomLeftSizing;
+                    _currentAction = ClickAction.BottomLeftSizing;
                     break;
                 case CursPos.RightLine:
-                    CurrentAction = ClickAction.RightSizing;
+                    _currentAction = ClickAction.RightSizing;
                     break;
                 case CursPos.TopRight:
-                    CurrentAction = ClickAction.TopRightSizing;
+                    _currentAction = ClickAction.TopRightSizing;
                     break;
                 case CursPos.BottomRight:
-                    CurrentAction = ClickAction.BottomRightSizing;
+                    _currentAction = ClickAction.BottomRightSizing;
                     break;
                 case CursPos.WithinSelectionArea:
-                    CurrentAction = ClickAction.Dragging;
+                    _currentAction = ClickAction.Dragging;
                     break;
                 case CursPos.OutsideSelectionArea:
-                    CurrentAction = ClickAction.Outside;
+                    _currentAction = ClickAction.Outside;
                     break;
             }
         }
 
         private void ResizeSelection()
         {
-            if (CurrentAction == ClickAction.LeftSizing)
+            if (_currentAction == ClickAction.LeftSizing)
             {
-                if (Cursor.Position.X < CurrentBottomRight.X - 10)
+                if (Cursor.Position.X < _currentBottomRight.X - 10)
                 {
                     //Erase the previous rectangle
-                    CurrentTopLeft.X = Cursor.Position.X;
-                    RectangleWidth = CurrentBottomRight.X - CurrentTopLeft.X;
+                    _currentTopLeft.X = Cursor.Position.X;
+                    _rectangleWidth = _currentBottomRight.X - _currentTopLeft.X;
                 }
             }
-            if (CurrentAction == ClickAction.TopLeftSizing)
+            if (_currentAction == ClickAction.TopLeftSizing)
             {
-                if (Cursor.Position.X < CurrentBottomRight.X - 10 && Cursor.Position.Y < CurrentBottomRight.Y - 10)
+                if (Cursor.Position.X < _currentBottomRight.X - 10 && Cursor.Position.Y < _currentBottomRight.Y - 10)
                 {
                     //Erase the previous rectangle
-                    CurrentTopLeft.X = Cursor.Position.X;
-                    CurrentTopLeft.Y = Cursor.Position.Y;
-                    RectangleWidth = CurrentBottomRight.X - CurrentTopLeft.X;
-                    RectangleHeight = CurrentBottomRight.Y - CurrentTopLeft.Y;
+                    _currentTopLeft.X = Cursor.Position.X;
+                    _currentTopLeft.Y = Cursor.Position.Y;
+                    _rectangleWidth = _currentBottomRight.X - _currentTopLeft.X;
+                    _rectangleHeight = _currentBottomRight.Y - _currentTopLeft.Y;
                 }
             }
-            if (CurrentAction == ClickAction.BottomLeftSizing)
+            if (_currentAction == ClickAction.BottomLeftSizing)
             {
-                if (Cursor.Position.X < CurrentBottomRight.X - 10 && Cursor.Position.Y > CurrentTopLeft.Y + 10)
+                if (Cursor.Position.X < _currentBottomRight.X - 10 && Cursor.Position.Y > _currentTopLeft.Y + 10)
                 {
                     //Erase the previous rectangle
-                    CurrentTopLeft.X = Cursor.Position.X;
-                    CurrentBottomRight.Y = Cursor.Position.Y;
-                    RectangleWidth = CurrentBottomRight.X - CurrentTopLeft.X;
-                    RectangleHeight = CurrentBottomRight.Y - CurrentTopLeft.Y;
+                    _currentTopLeft.X = Cursor.Position.X;
+                    _currentBottomRight.Y = Cursor.Position.Y;
+                    _rectangleWidth = _currentBottomRight.X - _currentTopLeft.X;
+                    _rectangleHeight = _currentBottomRight.Y - _currentTopLeft.Y;
                 }
             }
-            if (CurrentAction == ClickAction.RightSizing)
+            if (_currentAction == ClickAction.RightSizing)
             {
-                if (Cursor.Position.X > CurrentTopLeft.X + 10)
+                if (Cursor.Position.X > _currentTopLeft.X + 10)
                 {
                     //Erase the previous rectangle
-                    CurrentBottomRight.X = Cursor.Position.X;
-                    RectangleWidth = CurrentBottomRight.X - CurrentTopLeft.X;
+                    _currentBottomRight.X = Cursor.Position.X;
+                    _rectangleWidth = _currentBottomRight.X - _currentTopLeft.X;
                 }
             }
-            if (CurrentAction == ClickAction.TopRightSizing)
+            if (_currentAction == ClickAction.TopRightSizing)
             {
-                if (Cursor.Position.X > CurrentTopLeft.X + 10 && Cursor.Position.Y < CurrentBottomRight.Y - 10)
+                if (Cursor.Position.X > _currentTopLeft.X + 10 && Cursor.Position.Y < _currentBottomRight.Y - 10)
                 {
                     //Erase the previous rectangle
-                    CurrentBottomRight.X = Cursor.Position.X;
-                    CurrentTopLeft.Y = Cursor.Position.Y;
-                    RectangleWidth = CurrentBottomRight.X - CurrentTopLeft.X;
-                    RectangleHeight = CurrentBottomRight.Y - CurrentTopLeft.Y;
+                    _currentBottomRight.X = Cursor.Position.X;
+                    _currentTopLeft.Y = Cursor.Position.Y;
+                    _rectangleWidth = _currentBottomRight.X - _currentTopLeft.X;
+                    _rectangleHeight = _currentBottomRight.Y - _currentTopLeft.Y;
                 }
             }
-            if (CurrentAction == ClickAction.BottomRightSizing)
+            if (_currentAction == ClickAction.BottomRightSizing)
             {
-                if (Cursor.Position.X > CurrentTopLeft.X + 10 && Cursor.Position.Y > CurrentTopLeft.Y + 10)
+                if (Cursor.Position.X > _currentTopLeft.X + 10 && Cursor.Position.Y > _currentTopLeft.Y + 10)
                 {
                     //Erase the previous rectangle
-                    CurrentBottomRight.X = Cursor.Position.X;
-                    CurrentBottomRight.Y = Cursor.Position.Y;
-                    RectangleWidth = CurrentBottomRight.X - CurrentTopLeft.X;
-                    RectangleHeight = CurrentBottomRight.Y - CurrentTopLeft.Y;
+                    _currentBottomRight.X = Cursor.Position.X;
+                    _currentBottomRight.Y = Cursor.Position.Y;
+                    _rectangleWidth = _currentBottomRight.X - _currentTopLeft.X;
+                    _rectangleHeight = _currentBottomRight.Y - _currentTopLeft.Y;
                 }
             }
-            if (CurrentAction == ClickAction.TopSizing)
+            if (_currentAction == ClickAction.TopSizing)
             {
-                if (Cursor.Position.Y < CurrentBottomRight.Y - 10)
+                if (Cursor.Position.Y < _currentBottomRight.Y - 10)
                 {
                     //Erase the previous rectangle
-                    CurrentTopLeft.Y = Cursor.Position.Y;
-                    RectangleHeight = CurrentBottomRight.Y - CurrentTopLeft.Y;
+                    _currentTopLeft.Y = Cursor.Position.Y;
+                    _rectangleHeight = _currentBottomRight.Y - _currentTopLeft.Y;
                 }
             }
-            if (CurrentAction == ClickAction.BottomSizing)
+            if (_currentAction == ClickAction.BottomSizing)
             {
-                if (Cursor.Position.Y > CurrentTopLeft.Y + 10)
+                if (Cursor.Position.Y > _currentTopLeft.Y + 10)
                 {
                     //Erase the previous rectangle
-                    CurrentBottomRight.Y = Cursor.Position.Y;
-                    RectangleHeight = CurrentBottomRight.Y - CurrentTopLeft.Y;
+                    _currentBottomRight.Y = Cursor.Position.Y;
+                    _rectangleHeight = _currentBottomRight.Y - _currentTopLeft.Y;
                 }
             }
             UpdateUi();
@@ -292,7 +281,7 @@ namespace LighterShot
 
         private void MoveDrawingTool()
         {
-            toolsPainter.MoveLatestTo(new Point(Cursor.Position.X - CurrentTopLeft.X, Cursor.Position.Y - CurrentTopLeft.Y));
+            _toolsPainter.MoveLatestTo(new Point(Cursor.Position.X - _currentTopLeft.X, Cursor.Position.Y - _currentTopLeft.Y));
 
             UpdateUi();
         }
@@ -301,44 +290,44 @@ namespace LighterShot
         {
             //Ensure that the rectangle stays within the bounds of the screen
 
-            if (Cursor.Position.X - DragClickRelative.X > 0 &&
-                Cursor.Position.X - DragClickRelative.X + RectangleWidth < Screen.PrimaryScreen.Bounds.Width)
+            if (Cursor.Position.X - _dragClickRelative.X > 0 &&
+                Cursor.Position.X - _dragClickRelative.X + _rectangleWidth < Screen.PrimaryScreen.Bounds.Width)
             {
-                CurrentTopLeft.X = Cursor.Position.X - DragClickRelative.X;
-                CurrentBottomRight.X = CurrentTopLeft.X + RectangleWidth;
+                _currentTopLeft.X = Cursor.Position.X - _dragClickRelative.X;
+                _currentBottomRight.X = _currentTopLeft.X + _rectangleWidth;
             }
             else
                 //Selection area has reached the right side of the screen
-                if (Cursor.Position.X - DragClickRelative.X > 0)
+                if (Cursor.Position.X - _dragClickRelative.X > 0)
                 {
-                    CurrentTopLeft.X = Screen.PrimaryScreen.Bounds.Width - RectangleWidth;
-                    CurrentBottomRight.X = CurrentTopLeft.X + RectangleWidth;
+                    _currentTopLeft.X = Screen.PrimaryScreen.Bounds.Width - _rectangleWidth;
+                    _currentBottomRight.X = _currentTopLeft.X + _rectangleWidth;
                 }
                     //Selection area has reached the left side of the screen
                 else
                 {
-                    CurrentTopLeft.X = 0;
-                    CurrentBottomRight.X = CurrentTopLeft.X + RectangleWidth;
+                    _currentTopLeft.X = 0;
+                    _currentBottomRight.X = _currentTopLeft.X + _rectangleWidth;
                 }
 
-            if (Cursor.Position.Y - DragClickRelative.Y > 0 &&
-                Cursor.Position.Y - DragClickRelative.Y + RectangleHeight < Screen.PrimaryScreen.Bounds.Height)
+            if (Cursor.Position.Y - _dragClickRelative.Y > 0 &&
+                Cursor.Position.Y - _dragClickRelative.Y + _rectangleHeight < Screen.PrimaryScreen.Bounds.Height)
             {
-                CurrentTopLeft.Y = Cursor.Position.Y - DragClickRelative.Y;
-                CurrentBottomRight.Y = CurrentTopLeft.Y + RectangleHeight;
+                _currentTopLeft.Y = Cursor.Position.Y - _dragClickRelative.Y;
+                _currentBottomRight.Y = _currentTopLeft.Y + _rectangleHeight;
             }
             else
                 //Selection area has reached the bottom of the screen
-                if (Cursor.Position.Y - DragClickRelative.Y > 0)
+                if (Cursor.Position.Y - _dragClickRelative.Y > 0)
                 {
-                    CurrentTopLeft.Y = Screen.PrimaryScreen.Bounds.Height - RectangleHeight;
-                    CurrentBottomRight.Y = CurrentTopLeft.Y + RectangleHeight;
+                    _currentTopLeft.Y = Screen.PrimaryScreen.Bounds.Height - _rectangleHeight;
+                    _currentBottomRight.Y = _currentTopLeft.Y + _rectangleHeight;
                 }
                     //Selection area has reached the top of the screen
                 else
                 {
-                    CurrentTopLeft.Y = 0;
-                    CurrentBottomRight.Y = CurrentTopLeft.Y + RectangleHeight;
+                    _currentTopLeft.Y = 0;
+                    _currentBottomRight.Y = _currentTopLeft.Y + _rectangleHeight;
                 }
 
             UpdateUi();
@@ -349,27 +338,27 @@ namespace LighterShot
             Cursor = Cursors.Arrow;
 
             //Calculate X Coordinates
-            if (Cursor.Position.X < ClickPoint.X)
+            if (Cursor.Position.X < _clickPoint.X)
             {
-                CurrentTopLeft.X = Cursor.Position.X;
-                CurrentBottomRight.X = ClickPoint.X;
+                _currentTopLeft.X = Cursor.Position.X;
+                _currentBottomRight.X = _clickPoint.X;
             }
             else
             {
-                CurrentTopLeft.X = ClickPoint.X;
-                CurrentBottomRight.X = Cursor.Position.X;
+                _currentTopLeft.X = _clickPoint.X;
+                _currentBottomRight.X = Cursor.Position.X;
             }
 
             //Calculate Y Coordinates
-            if (Cursor.Position.Y < ClickPoint.Y)
+            if (Cursor.Position.Y < _clickPoint.Y)
             {
-                CurrentTopLeft.Y = Cursor.Position.Y;
-                CurrentBottomRight.Y = ClickPoint.Y;
+                _currentTopLeft.Y = Cursor.Position.Y;
+                _currentBottomRight.Y = _clickPoint.Y;
             }
             else
             {
-                CurrentTopLeft.Y = ClickPoint.Y;
-                CurrentBottomRight.Y = Cursor.Position.Y;
+                _currentTopLeft.Y = _clickPoint.Y;
+                _currentBottomRight.Y = Cursor.Position.Y;
             }
 
             UpdateUi();
@@ -389,8 +378,8 @@ namespace LighterShot
         {
             if (e.Button == MouseButtons.Left)
             {
-                LeftButtonDown = true;
-                ClickPoint = new Point(MousePosition.X, MousePosition.Y);
+                _leftButtonDown = true;
+                _clickPoint = new Point(MousePosition.X, MousePosition.Y);
 
                 if (_goingToDrawTool == DrawingTool.DrawingToolType.NotDrawingTool)
                 {
@@ -400,31 +389,31 @@ namespace LighterShot
                 }
                 else
                 {
-                    CurrentAction = ClickAction.DrawingTool;
+                    _currentAction = ClickAction.DrawingTool;
                     Cursor = Cursors.Hand;
-                    toolsPainter.Push(new DrawingTool
+                    _toolsPainter.Push(new DrawingTool
                     {
                         Type = _goingToDrawTool,
-                        From = new Point(ClickPoint.X - CurrentTopLeft.X, ClickPoint.Y - CurrentTopLeft.Y),
-                        To = new Point(ClickPoint.X - CurrentTopLeft.X, ClickPoint.Y - CurrentTopLeft.Y),
+                        From = new Point(_clickPoint.X - _currentTopLeft.X, _clickPoint.Y - _currentTopLeft.Y),
+                        To = new Point(_clickPoint.X - _currentTopLeft.X, _clickPoint.Y - _currentTopLeft.Y),
                         Color = buttonDrawColor.BackColor,
                         DrawStraight = false
                     });
                 }
 
-                if (RectangleDrawn)
+                if (_rectangleDrawn)
                 {
-                    RectangleHeight = CurrentBottomRight.Y - CurrentTopLeft.Y;
-                    RectangleWidth = CurrentBottomRight.X - CurrentTopLeft.X;
-                    DragClickRelative.X = Cursor.Position.X - CurrentTopLeft.X;
-                    DragClickRelative.Y = Cursor.Position.Y - CurrentTopLeft.Y;
+                    _rectangleHeight = _currentBottomRight.Y - _currentTopLeft.Y;
+                    _rectangleWidth = _currentBottomRight.X - _currentTopLeft.X;
+                    _dragClickRelative.X = Cursor.Position.X - _currentTopLeft.X;
+                    _dragClickRelative.Y = Cursor.Position.Y - _currentTopLeft.Y;
                 }
             }
         }
 
         private void mouse_DClick(object sender, MouseEventArgs e)
         {
-            if (RectangleDrawn)
+            if (_rectangleDrawn)
             {
                 SaveSelection();
             }
@@ -432,9 +421,9 @@ namespace LighterShot
 
         private void mouse_Up(object sender, MouseEventArgs e)
         {
-            RectangleDrawn = true;
-            LeftButtonDown = false;
-            CurrentAction = ClickAction.NoClick;
+            _rectangleDrawn = true;
+            _leftButtonDown = false;
+            _currentAction = ClickAction.NoClick;
             UpdatePanelPosition(force: true);
             panelOutput.Visible = panelTools.Visible = true;
         }
@@ -446,18 +435,18 @@ namespace LighterShot
 
         private void mouse_Move(object sender, MouseEventArgs e)
         {
-            if (LeftButtonDown && !RectangleDrawn)
+            if (_leftButtonDown && !_rectangleDrawn)
             {
                 DrawSelection();
             }
 
-            if (RectangleDrawn)
+            if (_rectangleDrawn)
             {
-                var pos = UiUtils.UpdateCursorAndGetCursorPosition(this, CurrentTopLeft, CurrentBottomRight, _goingToDrawTool == DrawingTool.DrawingToolType.NotDrawingTool);
+                var pos = UiUtils.UpdateCursorAndGetCursorPosition(this, _currentTopLeft, _currentBottomRight, _goingToDrawTool == DrawingTool.DrawingToolType.NotDrawingTool);
                 if (pos == CursPos.WithinSelectionArea)
                 {
                     if (_goingToDrawTool != DrawingTool.DrawingToolType.NotDrawingTool ||
-                        CurrentAction == ClickAction.DrawingTool)
+                        _currentAction == ClickAction.DrawingTool)
                     {
                         Cursor = Cursors.Hand;
                     }
@@ -467,18 +456,18 @@ namespace LighterShot
                     }
                 }
 
-                if (CurrentAction == ClickAction.Dragging)
+                if (_currentAction == ClickAction.Dragging)
                 {
                     DragSelection();
                 }
 
-                if (CurrentAction == ClickAction.DrawingTool)
+                if (_currentAction == ClickAction.DrawingTool)
                 {
                     MoveDrawingTool();
                 }
 
-                if (CurrentAction != ClickAction.Dragging && CurrentAction != ClickAction.Outside &&
-                    CurrentAction != ClickAction.DrawingTool)
+                if (_currentAction != ClickAction.Dragging && _currentAction != ClickAction.Outside &&
+                    _currentAction != ClickAction.DrawingTool)
                 {
                     ResizeSelection();
                 }
@@ -500,30 +489,30 @@ namespace LighterShot
             if (force || panelTools.Visible)
             {
                 // move panel
-                if (CurrentBottomRight.X + 10 + panelTools.Width + 10 < Screen.PrimaryScreen.Bounds.Width)
+                if (_currentBottomRight.X + 10 + panelTools.Width + 10 < Screen.PrimaryScreen.Bounds.Width)
                 {
                     // panel fits on the right
-                    panelTools.Left = CurrentBottomRight.X + 10;
+                    panelTools.Left = _currentBottomRight.X + 10;
                 }
                 else
                 {
                     // place panel on the left
-                    panelTools.Left = CurrentTopLeft.X - panelTools.Width - 10;
+                    panelTools.Left = _currentTopLeft.X - panelTools.Width - 10;
                 }
-                panelTools.Top = Math.Max(10, CurrentBottomRight.Y - panelTools.Height);
+                panelTools.Top = Math.Max(10, _currentBottomRight.Y - panelTools.Height);
 
                 // move panel
-                if (CurrentBottomRight.Y + 10 + panelOutput.Height + 10 < Screen.PrimaryScreen.Bounds.Height)
+                if (_currentBottomRight.Y + 10 + panelOutput.Height + 10 < Screen.PrimaryScreen.Bounds.Height)
                 {
                     // panel fits in the bottom
-                    panelOutput.Top = CurrentBottomRight.Y + 10;
+                    panelOutput.Top = _currentBottomRight.Y + 10;
                 }
                 else
                 {
                     // place panel on top
-                    panelOutput.Top = CurrentTopLeft.Y - panelOutput.Height - 10;
+                    panelOutput.Top = _currentTopLeft.Y - panelOutput.Height - 10;
                 }
-                panelOutput.Left = Math.Max(10, CurrentBottomRight.X - panelOutput.Width - 10);
+                panelOutput.Left = Math.Max(10, _currentBottomRight.X - panelOutput.Width - 10);
             }
         }
 
@@ -533,15 +522,15 @@ namespace LighterShot
         }
 
         private void do_paint(Graphics graphics) {
-            var box = new Rectangle(CurrentTopLeft.X, CurrentTopLeft.Y, CurrentBottomRight.X - CurrentTopLeft.X,
-                CurrentBottomRight.Y - CurrentTopLeft.Y); // new Rectangle(100, 50, 120, 70);
+            var box = new Rectangle(_currentTopLeft.X, _currentTopLeft.Y, _currentBottomRight.X - _currentTopLeft.X,
+                _currentBottomRight.Y - _currentTopLeft.Y); // new Rectangle(100, 50, 120, 70);
 
-            var extendedBox = new Rectangle(CurrentTopLeft.X - 20, CurrentTopLeft.Y + 20, CurrentBottomRight.X - CurrentTopLeft.X + 40,
-                CurrentBottomRight.Y - CurrentTopLeft.Y + 40);
+            var extendedBox = new Rectangle(_currentTopLeft.X - 20, _currentTopLeft.Y + 20, _currentBottomRight.X - _currentTopLeft.X + 40,
+                _currentBottomRight.Y - _currentTopLeft.Y + 40);
 
             DrawWorkarea(graphics, box);
             DrawFrame(graphics, box);
-            toolsPainter.DrawAllTools(graphics, CurrentTopLeft, CurrentTopLeft, CurrentBottomRight);
+            _toolsPainter.DrawAllTools(graphics, _currentTopLeft, _currentTopLeft, _currentBottomRight);
 
             graphics.DrawString(string.Format(@"{0}x{1} @ {2},{3}", box.Width, box.Height, box.Left, box.Top), DefaultFont, Brushes.White, box.Left, box.Top - 20);
         }

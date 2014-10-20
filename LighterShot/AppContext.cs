@@ -1,14 +1,22 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace LighterShot
 {
     class AppContext : ApplicationContext
     {
-        public static FormMain FormMain;
+        private FormMain _main;
 
         public AppContext()
         {
-            FormMain = new FormMain();
+            Application.ApplicationExit += OnApplicationExit;
+
+            _main = new FormMain(); // creates notifyIcon
+        }
+
+        private void OnApplicationExit(object sender, EventArgs e)
+        {
+            _main = null;
         }
     }
 }
