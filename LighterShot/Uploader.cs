@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Http;
 using System.Text;
+using LighterShot.Properties;
 
 namespace LighterShot
 {
@@ -11,7 +12,7 @@ namespace LighterShot
         {
             using (var client = new HttpClient())
             {
-                var response = client.GetAsync(Constants.ServiceUrl + "/?action=get_key").Result;
+                var response = client.GetAsync(Settings.Default.ShotsServiceBaseUrl + "?action=get_key").Result;
                 if (response.IsSuccessStatusCode)
                 {
                     using (var reader = new StreamReader(response.Content.ReadAsStreamAsync().Result, Encoding.UTF8))
@@ -42,7 +43,7 @@ namespace LighterShot
 
                 formData.Add(fileStreamContent, "shot_file", "shot_file");
 
-                var response = client.PostAsync(Constants.ServiceUrl, formData).Result;
+                var response = client.PostAsync(Settings.Default.ShotsServiceBaseUrl, formData).Result;
                 if (!response.IsSuccessStatusCode)
                 {
                     return null;

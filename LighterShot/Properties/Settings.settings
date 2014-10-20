@@ -1,8 +1,15 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="LighterShot.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ShotsServiceBaseUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://shots.local/</Value>
+    </Setting>
+    <Setting Name="DoSaveFile" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SaveFileFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Screen shots\</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

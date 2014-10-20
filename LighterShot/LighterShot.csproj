@@ -60,7 +60,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.cs" />
     <Compile Include="DrawingTool.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>

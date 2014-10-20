@@ -3,13 +3,12 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
+using LighterShot.Properties;
 
 namespace LighterShot
 {
     internal static class ScreenShot
     {
-        const string ScreenshotsDir = @"Screen shots\";
-
         public static Bitmap GetScreenCapture(Bitmap bitmap)
         {
             using (var g = Graphics.FromImage(bitmap))
@@ -37,12 +36,12 @@ namespace LighterShot
                 Clipboard.SetImage(bitmap);
 
                 // save to file
-                if (!Directory.Exists(ScreenshotsDir))
+                if (!Directory.Exists(Settings.Default.SaveFileFolder))
                 {
-                    Directory.CreateDirectory(ScreenshotsDir);
+                    Directory.CreateDirectory(Settings.Default.SaveFileFolder);
                 }
 
-                var imagePath = ScreenshotsDir + "Screen shot " + DateTime.Now.ToString("yyyy-dd-M HH.mm.ss") + ".png";
+                var imagePath = Settings.Default.SaveFileFolder + "Screen shot " + DateTime.Now.ToString("yyyy-dd-M HH.mm.ss") + ".png";
                 bitmap.Save(imagePath, ImageFormat.Png);
 
                 var key = Uploader.GetKey();
@@ -52,7 +51,7 @@ namespace LighterShot
                 var msg = Uploader.Upload(key, imagePath);
                 if (msg == "ok")
                 {
-                    MessageBox.Show(string.Format("{0}/{1}/{2}", Constants.ServiceUrl, key.Item1, key.Item2));
+                    MessageBox.Show(string.Format("{0}/{1}/{2}", Settings.Default.ShotsServiceBaseUrl, key.Item1, key.Item2));
                 }
                 else
                 {
