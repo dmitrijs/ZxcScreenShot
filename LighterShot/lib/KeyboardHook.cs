@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace LighterShot
+namespace LighterShot.lib
 {
     public sealed class KeyboardHook : IDisposable
     {

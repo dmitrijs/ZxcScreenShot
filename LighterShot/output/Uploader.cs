@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text;
 using LighterShot.Properties;
 
-namespace LighterShot
+namespace LighterShot.output
 {
     static class Uploader
     {

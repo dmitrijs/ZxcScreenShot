@@ -4,8 +4,9 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 using LighterShot.Properties;
+using LighterShot.ui;
 
-namespace LighterShot
+namespace LighterShot.output
 {
     internal static class ScreenShot
     {

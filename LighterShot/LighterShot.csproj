@@ -61,7 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppContext.cs" />
-    <Compile Include="DrawingTool.cs" />
+    <Compile Include="ui\DrawingTool.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,13 +74,13 @@
     <Compile Include="FormOverlay.Designer.cs">
       <DependentUpon>FormOverlay.cs</DependentUpon>
     </Compile>
-    <Compile Include="KeyboardHook.cs" />
+    <Compile Include="lib\KeyboardHook.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Screenshot.cs" />
-    <Compile Include="ToolsPainter.cs" />
-    <Compile Include="UiUtils.cs" />
-    <Compile Include="Uploader.cs" />
+    <Compile Include="output\Screenshot.cs" />
+    <Compile Include="ui\ToolsPainter.cs" />
+    <Compile Include="ui\UiUtils.cs" />
+    <Compile Include="output\Uploader.cs" />
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>

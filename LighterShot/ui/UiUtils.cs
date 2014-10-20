@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace LighterShot
+namespace LighterShot.ui
 {
     static class UiUtils
     {
