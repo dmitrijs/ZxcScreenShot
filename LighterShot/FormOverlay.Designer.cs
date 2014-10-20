@@ -39,11 +39,11 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.panelOutput = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.buttonUrl = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonPath = new System.Windows.Forms.Button();
             this.buttonFolder = new System.Windows.Forms.Button();
-            this.buttonUrl = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelTools.SuspendLayout();
             this.panelOutput.SuspendLayout();
@@ -150,6 +150,28 @@
             this.panelOutput.TabIndex = 3;
             this.panelOutput.Visible = false;
             // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 7);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(34, 26);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "save\r\nand...";
+            // 
+            // buttonUrl
+            // 
+            this.buttonUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonUrl.Location = new System.Drawing.Point(134, 2);
+            this.buttonUrl.Name = "buttonUrl";
+            this.buttonUrl.Size = new System.Drawing.Size(46, 35);
+            this.buttonUrl.TabIndex = 7;
+            this.buttonUrl.Text = "copy url";
+            this.buttonUrl.UseVisualStyleBackColor = true;
+            // 
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -185,28 +207,6 @@
             this.buttonFolder.Text = "open folder";
             this.buttonFolder.UseVisualStyleBackColor = true;
             // 
-            // buttonUrl
-            // 
-            this.buttonUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonUrl.Location = new System.Drawing.Point(134, 2);
-            this.buttonUrl.Name = "buttonUrl";
-            this.buttonUrl.Size = new System.Drawing.Size(46, 35);
-            this.buttonUrl.TabIndex = 7;
-            this.buttonUrl.Text = "copy url";
-            this.buttonUrl.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 7);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(34, 26);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "save\r\nand...";
-            // 
             // FormOverlay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -217,6 +217,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Name = "FormOverlay";
             this.Text = "Overlay";
+            this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormOverlay_FormClosed);
             this.Load += new System.EventHandler(this.FormOverlay_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

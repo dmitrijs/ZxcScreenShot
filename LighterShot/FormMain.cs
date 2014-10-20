@@ -75,6 +75,10 @@ namespace LighterShot
                 e.Cancel = true;
                 Hide();
             }
+            else
+            {
+                notifyIcon.Visible = false;
+            }
         }
 
         private void notifyIcon_Click(object sender, EventArgs e)
