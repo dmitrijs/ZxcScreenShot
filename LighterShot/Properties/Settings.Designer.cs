@@ -23,12 +23,15 @@ namespace LighterShot.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("http://shots.local/")]
         public string ShotsServiceBaseUrl {
             get {
                 return ((string)(this["ShotsServiceBaseUrl"]));
+            }
+            set {
+                this["ShotsServiceBaseUrl"] = value;
             }
         }
         

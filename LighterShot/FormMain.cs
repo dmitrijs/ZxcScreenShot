@@ -9,6 +9,10 @@ namespace LighterShot
         public FormMain()
         {
             InitializeComponent();
+
+            comboBox1.Items.Add(new ComboBoxItem { Text = "", Value = null });
+            comboBox1.Items.Add(new ComboBoxItem {Text = "Local Environment", Value = "http://shots.local/"});
+            comboBox1.Items.Add(new ComboBoxItem {Text = "shots.zxc.lv", Value = "http://shots.zxc.lv/"});
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -23,6 +27,15 @@ namespace LighterShot
 
             tbSaveFileFolder.Enabled = Settings.Default.DoSaveFile;
             button2.Enabled = Settings.Default.DoSaveFile;
+
+            comboBox1.SelectedIndex = 0;
+            foreach (var item in comboBox1.Items)
+            {
+                if (((ComboBoxItem) item).Value == Settings.Default.ShotsServiceBaseUrl)
+                {
+                    comboBox1.SelectedItem = item;
+                }
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -74,6 +87,22 @@ namespace LighterShot
             {
                 new FormOverlay().Show();
             }
+        }
+
+        private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            Settings.Default.ShotsServiceBaseUrl = ((ComboBoxItem)comboBox1.SelectedItem).Value;
+        }
+    }
+
+    class ComboBoxItem
+    {
+        public string Text { get; set; }
+        public string Value { get; set; }
+
+        public override string ToString()
+        {
+            return Text;
         }
     }
 }
