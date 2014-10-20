@@ -4,6 +4,9 @@ using System.Windows.Forms;
 
 namespace LighterShot.lib
 {
+    /// <summary>
+    /// Taken from http://www.liensberger.it/web/blog/?p=207
+    /// </summary>
     public sealed class KeyboardHook : IDisposable
     {
         // Registers a hot key with Windows.
