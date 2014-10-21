@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using LighterShot.output;
+using LighterShot.Properties;
 using LighterShot.ui;
 
 namespace LighterShot
@@ -42,6 +45,16 @@ namespace LighterShot
             BottomRight
         }
 
+        [Flags]
+        private enum OutputActions
+        {
+            PutImageToClipboard = 1,
+            PutImagePathToClipboard = 2,
+            PutImageUrlToClipboard = 4,
+            ShowInFolder = 8,
+            EditInPaint = 16
+        }
+
         private readonly ToolsPainter _toolsPainter = new ToolsPainter();
 
         private ClickAction _currentAction;
@@ -76,7 +89,6 @@ namespace LighterShot
             this.WindowState = FormWindowState.Maximized;
 
             pictureBox1.MouseDown += Mouse_Click;
-            pictureBox1.MouseDoubleClick += Mouse_DClick;
             pictureBox1.MouseUp += Mouse_Up;
             pictureBox1.MouseMove += Mouse_Move;
 
@@ -113,21 +125,7 @@ namespace LighterShot
         }
 
         #endregion
-
-        public void SaveSelection()
-        {
-            //Allow 250 milliseconds for the screen to repaint itself (we don't want to include this form in the capture)
-            Thread.Sleep(250);
-
-            var startPoint = new Point(_currentTopLeft.X, _currentTopLeft.Y);
-            var bounds = new Rectangle(_currentTopLeft.X, _currentTopLeft.Y, _currentBottomRight.X - _currentTopLeft.X,
-                _currentBottomRight.Y - _currentTopLeft.Y);
-
-            ScreenShot.CaptureImage(startPoint, Point.Empty, bounds, pictureBox1, _toolsPainter);
-
-            Close();
-        }
-
+        
         private void Key_Down(object sender, KeyEventArgs e)
         {
             if (e.Shift && _currentAction == ClickAction.DrawingTool)
@@ -144,7 +142,7 @@ namespace LighterShot
             }
             if (e.Control && e.KeyCode == Keys.C)
             {
-                if (_rectangleDrawn) SaveSelection();
+                Do_Output(OutputActions.PutImageToClipboard);
             }
             if (e.Control && e.KeyCode == Keys.Z)
             {
@@ -412,15 +410,7 @@ namespace LighterShot
                 }
             }
         }
-
-        private void Mouse_DClick(object sender, MouseEventArgs e)
-        {
-            if (_rectangleDrawn)
-            {
-                SaveSelection();
-            }
-        }
-
+        
         private void Mouse_Up(object sender, MouseEventArgs e)
         {
             _rectangleDrawn = true;
@@ -635,6 +625,67 @@ namespace LighterShot
             buttonDrawRect.Enabled = true;
             buttonDrawLine.Enabled = true;
             buttonDrawArrow.Enabled = true;
+        }
+
+        private void buttonFolder_Click(object sender, EventArgs e)
+        {
+            Do_Output(OutputActions.ShowInFolder);
+        }
+
+        private void Do_Output(OutputActions outputActions)
+        {
+            var doSaveImageToClipboard = (outputActions.HasFlag(OutputActions.PutImageToClipboard));
+
+            if (!_rectangleDrawn)
+            {
+                return;
+            }
+
+            var startPoint = new Point(_currentTopLeft.X, _currentTopLeft.Y);
+            var bounds = new Rectangle(_currentTopLeft.X, _currentTopLeft.Y, _currentBottomRight.X - _currentTopLeft.X,
+                _currentBottomRight.Y - _currentTopLeft.Y);
+
+            var imageFullPath = ScreenShot.CaptureImage(startPoint, Point.Empty, bounds, pictureBox1, _toolsPainter, doSaveImageToClipboard);
+            
+            if (outputActions.HasFlag(OutputActions.PutImagePathToClipboard))
+            {
+                Clipboard.SetText(imageFullPath);
+            }
+
+            if (outputActions.HasFlag(OutputActions.ShowInFolder))
+            {
+                Process.Start("explorer.exe", string.Format("/select, \"{0}\"", imageFullPath));
+            }
+
+            var key = Uploader.GetKey();
+            if (key != null)
+            {
+                var msg = Uploader.Upload(key, imageFullPath);
+                if (msg == "ok")
+                {
+                    var url = string.Format("{0}{1}/{2}", Settings.Default.ShotsServiceBaseUrl, key.Item1, key.Item2);
+                    if (outputActions.HasFlag(OutputActions.PutImageUrlToClipboard))
+                    {
+                        Clipboard.SetText(url);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(string.Format("Upload error occured: {0}", msg));
+                }
+            }
+
+            Close();
+        }
+
+        private void buttonPath_Click(object sender, EventArgs e)
+        {
+            Do_Output(OutputActions.PutImagePathToClipboard);
+        }
+
+        private void buttonUrl_Click(object sender, EventArgs e)
+        {
+            Do_Output(OutputActions.PutImageUrlToClipboard);
         }
     }
 }

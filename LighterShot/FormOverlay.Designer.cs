@@ -171,6 +171,7 @@
             this.buttonUrl.TabIndex = 7;
             this.buttonUrl.Text = "copy url";
             this.buttonUrl.UseVisualStyleBackColor = true;
+            this.buttonUrl.Click += new System.EventHandler(this.buttonUrl_Click);
             // 
             // buttonCancel
             // 
@@ -195,6 +196,7 @@
             this.buttonPath.TabIndex = 1;
             this.buttonPath.Text = "copy path";
             this.buttonPath.UseVisualStyleBackColor = true;
+            this.buttonPath.Click += new System.EventHandler(this.buttonPath_Click);
             // 
             // buttonFolder
             // 
@@ -206,6 +208,7 @@
             this.buttonFolder.TabIndex = 0;
             this.buttonFolder.Text = "open folder";
             this.buttonFolder.UseVisualStyleBackColor = true;
+            this.buttonFolder.Click += new System.EventHandler(this.buttonFolder_Click);
             // 
             // FormOverlay
             // 

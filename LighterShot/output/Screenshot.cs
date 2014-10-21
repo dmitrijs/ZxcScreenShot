@@ -20,7 +20,7 @@ namespace LighterShot.output
             }
         }
 
-        public static void CaptureImage(Point sourcePoint, Point destinationPoint, Rectangle selectionRectangle, PictureBox pictureBox1, ToolsPainter toolsPainter)
+        public static string CaptureImage(Point sourcePoint, Point destinationPoint, Rectangle selectionRectangle, PictureBox pictureBox1, ToolsPainter toolsPainter, bool updateClipboard)
         {
             using (var bitmap = new Bitmap(selectionRectangle.Width, selectionRectangle.Height))
             {
@@ -33,31 +33,21 @@ namespace LighterShot.output
                     toolsPainter.DrawAllTools(g, Point.Empty, Point.Empty, new Point(selectionRectangle.Width, selectionRectangle.Height));
                 }
 
-                // update clipboard
-                Clipboard.SetImage(bitmap);
-
                 // save to file
                 if (!Directory.Exists(Settings.Default.SaveFileFolder))
                 {
                     Directory.CreateDirectory(Settings.Default.SaveFileFolder);
                 }
-
                 var imagePath = Settings.Default.SaveFileFolder + "Screen shot " + DateTime.Now.ToString("yyyy-dd-M HH.mm.ss") + ".png";
                 bitmap.Save(imagePath, ImageFormat.Png);
 
-                var key = Uploader.GetKey();
-                
-                if (key == null) return;
+                // update clipboard
+                if (updateClipboard)
+                {
+                    Clipboard.SetImage(bitmap);
+                }
 
-                var msg = Uploader.Upload(key, imagePath);
-                if (msg == "ok")
-                {
-                    MessageBox.Show(string.Format("{0}/{1}/{2}", Settings.Default.ShotsServiceBaseUrl, key.Item1, key.Item2));
-                }
-                else
-                {
-                    MessageBox.Show(string.Format("Upload error occured: {0}", msg));
-                }
+                return Path.GetFullPath(imagePath);
             }
         }
     }
