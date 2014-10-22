@@ -48,6 +48,7 @@
             this.buttonPath = new System.Windows.Forms.Button();
             this.buttonFolder = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.buttonCopy = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelTools.SuspendLayout();
             this.panelOutput.SuspendLayout();
@@ -100,12 +101,13 @@
             this.imageList1.Images.SetKeyName(1, "anchor.png");
             this.imageList1.Images.SetKeyName(2, "link.png");
             this.imageList1.Images.SetKeyName(3, "pen.png");
-            this.imageList1.Images.SetKeyName(4, "cross.png");
-            this.imageList1.Images.SetKeyName(5, "rectangle.png");
-            this.imageList1.Images.SetKeyName(6, "line.png");
-            this.imageList1.Images.SetKeyName(7, "left.png");
-            this.imageList1.Images.SetKeyName(8, "backward.png");
-            this.imageList1.Images.SetKeyName(9, "target.png");
+            this.imageList1.Images.SetKeyName(4, "copy-2.png");
+            this.imageList1.Images.SetKeyName(5, "cross.png");
+            this.imageList1.Images.SetKeyName(6, "rectangle.png");
+            this.imageList1.Images.SetKeyName(7, "line.png");
+            this.imageList1.Images.SetKeyName(8, "left.png");
+            this.imageList1.Images.SetKeyName(9, "backward.png");
+            this.imageList1.Images.SetKeyName(10, "target.png");
             // 
             // buttonDrawResize
             // 
@@ -147,8 +149,6 @@
             this.toolTip1.SetToolTip(this.buttonDrawArrow, "Draw an arrow");
             this.buttonDrawArrow.UseVisualStyleBackColor = true;
             this.buttonDrawArrow.Click += new System.EventHandler(this.buttonDrawArrow_Click);
-            this.buttonDrawArrow.KeyDown += new System.Windows.Forms.KeyEventHandler(this.buttonDrawArrow_KeyDown);
-            this.buttonDrawArrow.KeyUp += new System.Windows.Forms.KeyEventHandler(this.buttonDrawArrow_KeyUp);
             // 
             // buttonDrawLine
             // 
@@ -183,14 +183,15 @@
             // 
             // panelOutput
             // 
+            this.panelOutput.Controls.Add(this.buttonCopy);
             this.panelOutput.Controls.Add(this.buttonEditInPaint);
             this.panelOutput.Controls.Add(this.buttonUrl);
             this.panelOutput.Controls.Add(this.buttonCancel);
             this.panelOutput.Controls.Add(this.buttonPath);
             this.panelOutput.Controls.Add(this.buttonFolder);
-            this.panelOutput.Location = new System.Drawing.Point(192, 304);
+            this.panelOutput.Location = new System.Drawing.Point(166, 304);
             this.panelOutput.Name = "panelOutput";
-            this.panelOutput.Size = new System.Drawing.Size(185, 36);
+            this.panelOutput.Size = new System.Drawing.Size(211, 36);
             this.panelOutput.TabIndex = 3;
             this.panelOutput.Visible = false;
             // 
@@ -199,7 +200,7 @@
             this.buttonEditInPaint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonEditInPaint.ImageKey = "pen.png";
             this.buttonEditInPaint.ImageList = this.imageList1;
-            this.buttonEditInPaint.Location = new System.Drawing.Point(106, 2);
+            this.buttonEditInPaint.Location = new System.Drawing.Point(105, 2);
             this.buttonEditInPaint.Name = "buttonEditInPaint";
             this.buttonEditInPaint.Size = new System.Drawing.Size(32, 32);
             this.buttonEditInPaint.TabIndex = 9;
@@ -212,7 +213,7 @@
             this.buttonUrl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonUrl.ImageKey = "link.png";
             this.buttonUrl.ImageList = this.imageList1;
-            this.buttonUrl.Location = new System.Drawing.Point(72, 2);
+            this.buttonUrl.Location = new System.Drawing.Point(71, 2);
             this.buttonUrl.Name = "buttonUrl";
             this.buttonUrl.Size = new System.Drawing.Size(32, 32);
             this.buttonUrl.TabIndex = 7;
@@ -226,7 +227,7 @@
             this.buttonCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonCancel.ImageKey = "cross.png";
             this.buttonCancel.ImageList = this.imageList1;
-            this.buttonCancel.Location = new System.Drawing.Point(148, 2);
+            this.buttonCancel.Location = new System.Drawing.Point(177, 2);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(32, 32);
             this.buttonCancel.TabIndex = 6;
@@ -239,7 +240,7 @@
             this.buttonPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonPath.ImageKey = "anchor.png";
             this.buttonPath.ImageList = this.imageList1;
-            this.buttonPath.Location = new System.Drawing.Point(38, 2);
+            this.buttonPath.Location = new System.Drawing.Point(37, 2);
             this.buttonPath.Name = "buttonPath";
             this.buttonPath.Size = new System.Drawing.Size(32, 32);
             this.buttonPath.TabIndex = 1;
@@ -252,13 +253,26 @@
             this.buttonFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonFolder.ImageKey = "folder.png";
             this.buttonFolder.ImageList = this.imageList1;
-            this.buttonFolder.Location = new System.Drawing.Point(4, 2);
+            this.buttonFolder.Location = new System.Drawing.Point(3, 2);
             this.buttonFolder.Name = "buttonFolder";
             this.buttonFolder.Size = new System.Drawing.Size(32, 32);
             this.buttonFolder.TabIndex = 0;
             this.toolTip1.SetToolTip(this.buttonFolder, "Show in Explorer");
             this.buttonFolder.UseVisualStyleBackColor = true;
             this.buttonFolder.Click += new System.EventHandler(this.buttonFolder_Click);
+            // 
+            // buttonCopy
+            // 
+            this.buttonCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonCopy.ImageKey = "copy-2.png";
+            this.buttonCopy.ImageList = this.imageList1;
+            this.buttonCopy.Location = new System.Drawing.Point(139, 2);
+            this.buttonCopy.Name = "buttonCopy";
+            this.buttonCopy.Size = new System.Drawing.Size(32, 32);
+            this.buttonCopy.TabIndex = 10;
+            this.toolTip1.SetToolTip(this.buttonCopy, "Edit (Paint)");
+            this.buttonCopy.UseVisualStyleBackColor = true;
+            this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
             // 
             // FormOverlay
             // 
@@ -268,11 +282,10 @@
             this.Controls.Add(this.panelOutput);
             this.Controls.Add(this.panelTools);
             this.Controls.Add(this.pictureBox1);
+            this.KeyPreview = true;
             this.Name = "FormOverlay";
             this.Text = "Overlay";
             this.TopMost = true;
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormOverlay_FormClosed);
-            this.Load += new System.EventHandler(this.FormOverlay_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panelTools.ResumeLayout(false);
             this.panelOutput.ResumeLayout(false);
@@ -300,6 +313,7 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button buttonDrawUndo;
+        private System.Windows.Forms.Button buttonCopy;
     }
 }
 

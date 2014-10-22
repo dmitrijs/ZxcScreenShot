@@ -101,20 +101,20 @@ namespace LighterShot
 
             KeyDown += Key_Down;
             KeyUp += Key_Up;
-            buttonCancel.KeyDown += Key_Down;
-            buttonCancel.KeyUp += Key_Up;
-            buttonDrawRect.KeyDown += Key_Down;
-            buttonDrawRect.KeyUp += Key_Up;
-            buttonDrawLine.KeyDown += Key_Down;
-            buttonDrawLine.KeyUp += Key_Up;
-            buttonDrawArrow.KeyDown += Key_Down;
-            buttonDrawArrow.KeyUp += Key_Up;
-            buttonDrawColor.KeyDown += Key_Down;
-            buttonDrawColor.KeyUp += Key_Up;
-            buttonDrawUndo.KeyDown += Key_Down;
-            buttonDrawUndo.KeyUp += Key_Up;
-            panelTools.KeyDown += Key_Down;
-            panelTools.KeyUp += Key_Up;
+//            buttonCancel.KeyDown += Key_Down;
+//            buttonCancel.KeyUp += Key_Up;
+//            buttonDrawRect.KeyDown += Key_Down;
+//            buttonDrawRect.KeyUp += Key_Up;
+//            buttonDrawLine.KeyDown += Key_Down;
+//            buttonDrawLine.KeyUp += Key_Up;
+//            buttonDrawArrow.KeyDown += Key_Down;
+//            buttonDrawArrow.KeyUp += Key_Up;
+//            buttonDrawColor.KeyDown += Key_Down;
+//            buttonDrawColor.KeyUp += Key_Up;
+//            buttonDrawUndo.KeyDown += Key_Down;
+//            buttonDrawUndo.KeyUp += Key_Up;
+//            panelTools.KeyDown += Key_Down;
+//            panelTools.KeyUp += Key_Up;
 
             Bitmap screenBitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Size.Width, Screen.PrimaryScreen.Bounds.Size.Height);
             ScreenShot.GetScreenCapture(screenBitmap);
@@ -363,15 +363,7 @@ namespace LighterShot
 
             UpdateUi();
         }
-
-        private void FormOverlay_Load(object sender, EventArgs e)
-        {
-        }
-
-        private void FormOverlay_FormClosed(object sender, FormClosedEventArgs e)
-        {
-        }
-
+        
         private void Mouse_Click(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -606,15 +598,7 @@ namespace LighterShot
                 buttonDrawColor.BackColor = colorDialog1.Color;
             }
         }
-
-        private void buttonDrawArrow_KeyDown(object sender, KeyEventArgs e)
-        {
-        }
-
-        private void buttonDrawArrow_KeyUp(object sender, KeyEventArgs e)
-        {
-        }
-
+        
         private void buttonDone_Click(object sender, EventArgs e)
         {
             _goingToDrawTool = DrawingTool.DrawingToolType.NotDrawingTool;
@@ -706,6 +690,11 @@ namespace LighterShot
         private void buttonDrawUndo_Click(object sender, EventArgs e)
         {
             Do_Undo();
+        }
+
+        private void buttonCopy_Click(object sender, EventArgs e)
+        {
+            Do_Output(OutputActions.PutImageToClipboard);
         }
     }
 }
