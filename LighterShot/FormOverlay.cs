@@ -90,7 +90,14 @@ namespace LighterShot
             buttonDrawArrow.MouseMove += Panel_Mouse_Move;
             buttonDrawColor.MouseMove += Panel_Mouse_Move;
             buttonDrawUndo.MouseMove += Panel_Mouse_Move;
-            buttonDone.MouseMove += Panel_Mouse_Move;
+            buttonDrawResize.MouseMove += Panel_Mouse_Move;
+
+            panelOutput.MouseMove += Panel_Mouse_Move;
+            buttonFolder.MouseMove += Panel_Mouse_Move;
+            buttonPath.MouseMove += Panel_Mouse_Move;
+            buttonUrl.MouseMove += Panel_Mouse_Move;
+            buttonEditInPaint.MouseMove += Panel_Mouse_Move;
+            buttonCancel.MouseMove += Panel_Mouse_Move;
 
             KeyDown += Key_Down;
             KeyUp += Key_Up;

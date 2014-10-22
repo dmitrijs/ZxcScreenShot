@@ -32,7 +32,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormOverlay));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelTools = new System.Windows.Forms.Panel();
-            this.buttonDone = new System.Windows.Forms.Button();
+            this.buttonDrawUndo = new System.Windows.Forms.Button();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.buttonDrawResize = new System.Windows.Forms.Button();
             this.buttonDrawColor = new System.Windows.Forms.Button();
             this.buttonDrawArrow = new System.Windows.Forms.Button();
             this.buttonDrawLine = new System.Windows.Forms.Button();
@@ -40,14 +42,12 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.panelOutput = new System.Windows.Forms.Panel();
+            this.buttonEditInPaint = new System.Windows.Forms.Button();
             this.buttonUrl = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonPath = new System.Windows.Forms.Button();
             this.buttonFolder = new System.Windows.Forms.Button();
-            this.buttonEditInPaint = new System.Windows.Forms.Button();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.buttonDrawUndo = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelTools.SuspendLayout();
             this.panelOutput.SuspendLayout();
@@ -67,7 +67,7 @@
             // 
             this.panelTools.BackColor = System.Drawing.Color.Transparent;
             this.panelTools.Controls.Add(this.buttonDrawUndo);
-            this.panelTools.Controls.Add(this.buttonDone);
+            this.panelTools.Controls.Add(this.buttonDrawResize);
             this.panelTools.Controls.Add(this.buttonDrawColor);
             this.panelTools.Controls.Add(this.buttonDrawArrow);
             this.panelTools.Controls.Add(this.buttonDrawLine);
@@ -78,17 +78,46 @@
             this.panelTools.TabIndex = 2;
             this.panelTools.Visible = false;
             // 
-            // buttonDone
+            // buttonDrawUndo
             // 
-            this.buttonDone.ImageKey = "target.png";
-            this.buttonDone.ImageList = this.imageList1;
-            this.buttonDone.Location = new System.Drawing.Point(2, 163);
-            this.buttonDone.Name = "buttonDone";
-            this.buttonDone.Size = new System.Drawing.Size(32, 32);
-            this.buttonDone.TabIndex = 8;
-            this.toolTip1.SetToolTip(this.buttonDone, "Resize/move window");
-            this.buttonDone.UseVisualStyleBackColor = true;
-            this.buttonDone.Click += new System.EventHandler(this.buttonDone_Click);
+            this.buttonDrawUndo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonDrawUndo.ImageKey = "backward.png";
+            this.buttonDrawUndo.ImageList = this.imageList1;
+            this.buttonDrawUndo.Location = new System.Drawing.Point(2, 163);
+            this.buttonDrawUndo.Name = "buttonDrawUndo";
+            this.buttonDrawUndo.Size = new System.Drawing.Size(32, 32);
+            this.buttonDrawUndo.TabIndex = 9;
+            this.buttonDrawUndo.TabStop = false;
+            this.toolTip1.SetToolTip(this.buttonDrawUndo, "Undo (Ctrl+Z)");
+            this.buttonDrawUndo.UseVisualStyleBackColor = true;
+            this.buttonDrawUndo.Click += new System.EventHandler(this.buttonDrawUndo_Click);
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "folder.png");
+            this.imageList1.Images.SetKeyName(1, "anchor.png");
+            this.imageList1.Images.SetKeyName(2, "link.png");
+            this.imageList1.Images.SetKeyName(3, "pen.png");
+            this.imageList1.Images.SetKeyName(4, "cross.png");
+            this.imageList1.Images.SetKeyName(5, "rectangle.png");
+            this.imageList1.Images.SetKeyName(6, "line.png");
+            this.imageList1.Images.SetKeyName(7, "left.png");
+            this.imageList1.Images.SetKeyName(8, "backward.png");
+            this.imageList1.Images.SetKeyName(9, "target.png");
+            // 
+            // buttonDrawResize
+            // 
+            this.buttonDrawResize.ImageKey = "target.png";
+            this.buttonDrawResize.ImageList = this.imageList1;
+            this.buttonDrawResize.Location = new System.Drawing.Point(2, 131);
+            this.buttonDrawResize.Name = "buttonDrawResize";
+            this.buttonDrawResize.Size = new System.Drawing.Size(32, 32);
+            this.buttonDrawResize.TabIndex = 8;
+            this.toolTip1.SetToolTip(this.buttonDrawResize, "Resize/move window");
+            this.buttonDrawResize.UseVisualStyleBackColor = true;
+            this.buttonDrawResize.Click += new System.EventHandler(this.buttonDone_Click);
             // 
             // buttonDrawColor
             // 
@@ -165,6 +194,19 @@
             this.panelOutput.TabIndex = 3;
             this.panelOutput.Visible = false;
             // 
+            // buttonEditInPaint
+            // 
+            this.buttonEditInPaint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonEditInPaint.ImageKey = "pen.png";
+            this.buttonEditInPaint.ImageList = this.imageList1;
+            this.buttonEditInPaint.Location = new System.Drawing.Point(106, 2);
+            this.buttonEditInPaint.Name = "buttonEditInPaint";
+            this.buttonEditInPaint.Size = new System.Drawing.Size(32, 32);
+            this.buttonEditInPaint.TabIndex = 9;
+            this.toolTip1.SetToolTip(this.buttonEditInPaint, "Edit (Paint)");
+            this.buttonEditInPaint.UseVisualStyleBackColor = true;
+            this.buttonEditInPaint.Click += new System.EventHandler(this.buttonEditInPaint_Click);
+            // 
             // buttonUrl
             // 
             this.buttonUrl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -218,48 +260,6 @@
             this.buttonFolder.UseVisualStyleBackColor = true;
             this.buttonFolder.Click += new System.EventHandler(this.buttonFolder_Click);
             // 
-            // buttonEditInPaint
-            // 
-            this.buttonEditInPaint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonEditInPaint.ImageKey = "pen.png";
-            this.buttonEditInPaint.ImageList = this.imageList1;
-            this.buttonEditInPaint.Location = new System.Drawing.Point(106, 2);
-            this.buttonEditInPaint.Name = "buttonEditInPaint";
-            this.buttonEditInPaint.Size = new System.Drawing.Size(32, 32);
-            this.buttonEditInPaint.TabIndex = 9;
-            this.toolTip1.SetToolTip(this.buttonEditInPaint, "Edit (Paint)");
-            this.buttonEditInPaint.UseVisualStyleBackColor = true;
-            this.buttonEditInPaint.Click += new System.EventHandler(this.buttonEditInPaint_Click);
-            // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "folder.png");
-            this.imageList1.Images.SetKeyName(1, "anchor.png");
-            this.imageList1.Images.SetKeyName(2, "link.png");
-            this.imageList1.Images.SetKeyName(3, "pen.png");
-            this.imageList1.Images.SetKeyName(4, "cross.png");
-            this.imageList1.Images.SetKeyName(5, "rectangle.png");
-            this.imageList1.Images.SetKeyName(6, "line.png");
-            this.imageList1.Images.SetKeyName(7, "left.png");
-            this.imageList1.Images.SetKeyName(8, "backward.png");
-            this.imageList1.Images.SetKeyName(9, "target.png");
-            // 
-            // buttonDrawUndo
-            // 
-            this.buttonDrawUndo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonDrawUndo.ImageKey = "backward.png";
-            this.buttonDrawUndo.ImageList = this.imageList1;
-            this.buttonDrawUndo.Location = new System.Drawing.Point(2, 132);
-            this.buttonDrawUndo.Name = "buttonDrawUndo";
-            this.buttonDrawUndo.Size = new System.Drawing.Size(32, 32);
-            this.buttonDrawUndo.TabIndex = 9;
-            this.buttonDrawUndo.TabStop = false;
-            this.toolTip1.SetToolTip(this.buttonDrawUndo, "Undo (Ctrl+Z)");
-            this.buttonDrawUndo.UseVisualStyleBackColor = true;
-            this.buttonDrawUndo.Click += new System.EventHandler(this.buttonDrawUndo_Click);
-            // 
             // FormOverlay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -290,7 +290,7 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button buttonDrawColor;
         private System.Windows.Forms.ColorDialog colorDialog1;
-        private System.Windows.Forms.Button buttonDone;
+        private System.Windows.Forms.Button buttonDrawResize;
         private System.Windows.Forms.Panel panelOutput;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonPath;
