@@ -89,6 +89,7 @@ namespace LighterShot
             buttonDrawLine.MouseMove += Panel_Mouse_Move;
             buttonDrawArrow.MouseMove += Panel_Mouse_Move;
             buttonDrawColor.MouseMove += Panel_Mouse_Move;
+            buttonDrawUndo.MouseMove += Panel_Mouse_Move;
             buttonDone.MouseMove += Panel_Mouse_Move;
 
             KeyDown += Key_Down;
@@ -103,6 +104,8 @@ namespace LighterShot
             buttonDrawArrow.KeyUp += Key_Up;
             buttonDrawColor.KeyDown += Key_Down;
             buttonDrawColor.KeyUp += Key_Up;
+            buttonDrawUndo.KeyDown += Key_Down;
+            buttonDrawUndo.KeyUp += Key_Up;
             panelTools.KeyDown += Key_Down;
             panelTools.KeyUp += Key_Up;
 
@@ -136,9 +139,9 @@ namespace LighterShot
             }
             if (e.Control && e.KeyCode == Keys.Z)
             {
-                if (_currentAction != ClickAction.DrawingTool && _toolsPainter.Undo())
+                if (_currentAction != ClickAction.DrawingTool)
                 {
-                    pictureBox1.Invalidate();
+                    Do_Undo();
                 }
             }
             if (e.KeyCode == Keys.Escape)
@@ -643,6 +646,12 @@ namespace LighterShot
                 Process.Start("explorer.exe", string.Format("/select, \"{0}\"", imageFullPath));
             }
 
+            if (outputActions.HasFlag(OutputActions.EditInPaint))
+            {
+                var startInfo = new ProcessStartInfo(imageFullPath) { Verb = "edit" };
+                Process.Start(startInfo);
+            }
+
             var key = Uploader.GetKey();
             if (key != null)
             {
@@ -664,6 +673,14 @@ namespace LighterShot
             Hide();
         }
 
+        private void Do_Undo()
+        {
+            if (_toolsPainter.Undo())
+            {
+                pictureBox1.Invalidate();
+            }
+        }
+
         private void buttonPath_Click(object sender, EventArgs e)
         {
             Do_Output(OutputActions.PutImagePathToClipboard);
@@ -672,6 +689,16 @@ namespace LighterShot
         private void buttonUrl_Click(object sender, EventArgs e)
         {
             Do_Output(OutputActions.PutImageUrlToClipboard);
+        }
+
+        private void buttonEditInPaint_Click(object sender, EventArgs e)
+        {
+            Do_Output(OutputActions.EditInPaint);
+        }
+
+        private void buttonDrawUndo_Click(object sender, EventArgs e)
+        {
+            Do_Undo();
         }
     }
 }
