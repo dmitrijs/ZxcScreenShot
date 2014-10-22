@@ -6,10 +6,12 @@ namespace LighterShot
 {
     class AppContext : ApplicationContext
     {
+        private static AppContext _instance = null;
         private FormMain _main;
+        private FormOverlay _overlay;
         private KeyboardHook _hook;
 
-        public AppContext()
+        private AppContext()
         {
             Application.ApplicationExit += OnApplicationExit;
 
@@ -32,9 +34,23 @@ namespace LighterShot
             _main = null;
         }
 
-        static void Hook_KeyPressed(object sender, KeyPressedEventArgs e)
+        private static void Hook_KeyPressed(object sender, KeyPressedEventArgs e)
         {
-            new FormOverlay().Show();
+            instance().GetOverlay(createNew: true).Show();
+        }
+
+        public static AppContext instance()
+        {
+            return _instance ?? (_instance = new AppContext());
+        }
+
+        public FormOverlay GetOverlay(bool createNew)
+        {
+            if (createNew)
+            {
+                _overlay = new FormOverlay();
+            }
+            return _overlay;
         }
     }
 }

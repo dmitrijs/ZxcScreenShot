@@ -94,7 +94,7 @@ namespace LighterShot
         {
             if (e.Button == MouseButtons.Left)
             {
-                new FormOverlay().Show();
+                AppContext.instance().GetOverlay(createNew: true).Show();
             }
         }
 
@@ -122,6 +122,19 @@ namespace LighterShot
 
             Settings.Default.Save();
             UpdateUi();
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            var overlay = AppContext.instance().GetOverlay(createNew: false);
+            if (overlay == null)
+            {
+                MessageBox.Show("This feature allows you to edit and retake the last made screen shot.\n" +
+                                "Please first make a screen shot to be able to use the feature.",
+                                "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            overlay.Show();
         }
     }
 

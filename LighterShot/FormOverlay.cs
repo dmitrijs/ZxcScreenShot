@@ -153,7 +153,7 @@ namespace LighterShot
             }
             if (e.KeyCode == Keys.Escape)
             {
-                Close();
+                Hide();
             }
         }
 
@@ -571,7 +571,7 @@ namespace LighterShot
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Hide();
         }
 
         private void buttonDrawRect_Click(object sender, EventArgs e)
@@ -675,7 +675,7 @@ namespace LighterShot
                 }
             }
 
-            Close();
+            Hide();
         }
 
         private void buttonPath_Click(object sender, EventArgs e)

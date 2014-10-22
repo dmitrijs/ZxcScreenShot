@@ -13,7 +13,7 @@ namespace LighterShot
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new AppContext());
+            Application.Run(AppContext.instance());
         }
     }
 }
