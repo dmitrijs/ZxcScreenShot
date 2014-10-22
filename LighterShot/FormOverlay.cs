@@ -74,11 +74,7 @@ namespace LighterShot
         public FormOverlay()
         {
             InitializeComponent();
-
-            Cursor = Cursors.Arrow;
-            this.ControlBox = false;
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.WindowState = FormWindowState.Maximized;
+            FormBorderStyle = FormBorderStyle.None;
 
             pictureBox1.MouseDown += Mouse_Click;
             pictureBox1.MouseUp += Mouse_Up;
@@ -101,20 +97,6 @@ namespace LighterShot
 
             KeyDown += Key_Down;
             KeyUp += Key_Up;
-//            buttonCancel.KeyDown += Key_Down;
-//            buttonCancel.KeyUp += Key_Up;
-//            buttonDrawRect.KeyDown += Key_Down;
-//            buttonDrawRect.KeyUp += Key_Up;
-//            buttonDrawLine.KeyDown += Key_Down;
-//            buttonDrawLine.KeyUp += Key_Up;
-//            buttonDrawArrow.KeyDown += Key_Down;
-//            buttonDrawArrow.KeyUp += Key_Up;
-//            buttonDrawColor.KeyDown += Key_Down;
-//            buttonDrawColor.KeyUp += Key_Up;
-//            buttonDrawUndo.KeyDown += Key_Down;
-//            buttonDrawUndo.KeyUp += Key_Up;
-//            panelTools.KeyDown += Key_Down;
-//            panelTools.KeyUp += Key_Up;
 
             Bitmap screenBitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Size.Width, Screen.PrimaryScreen.Bounds.Size.Height);
             ScreenShot.GetScreenCapture(screenBitmap);
@@ -122,8 +104,6 @@ namespace LighterShot
             pictureBox1.Image = screenBitmap;
 
             _toolsPainter.Clear();
-
-            timer1.Enabled = true;
         }
         
         private void Key_Down(object sender, KeyEventArgs e)
@@ -585,12 +565,7 @@ namespace LighterShot
             buttonDrawLine.Enabled = true;
             buttonDrawArrow.Enabled = false;
         }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            // labelInfo.Text = _goingToDrawTool.ToString() + @"/" + CurrentAction.ToString();
-        }
-
+        
         private void buttonDrawColor_Click(object sender, EventArgs e)
         {
             if (colorDialog1.ShowDialog() == DialogResult.OK)

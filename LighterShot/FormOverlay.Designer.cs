@@ -39,16 +39,15 @@
             this.buttonDrawArrow = new System.Windows.Forms.Button();
             this.buttonDrawLine = new System.Windows.Forms.Button();
             this.buttonDrawRect = new System.Windows.Forms.Button();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.panelOutput = new System.Windows.Forms.Panel();
+            this.buttonCopy = new System.Windows.Forms.Button();
             this.buttonEditInPaint = new System.Windows.Forms.Button();
             this.buttonUrl = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonPath = new System.Windows.Forms.Button();
             this.buttonFolder = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.buttonCopy = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelTools.SuspendLayout();
             this.panelOutput.SuspendLayout();
@@ -177,10 +176,6 @@
             this.buttonDrawRect.UseVisualStyleBackColor = true;
             this.buttonDrawRect.Click += new System.EventHandler(this.buttonDrawRect_Click);
             // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // panelOutput
             // 
             this.panelOutput.Controls.Add(this.buttonCopy);
@@ -194,6 +189,19 @@
             this.panelOutput.Size = new System.Drawing.Size(211, 36);
             this.panelOutput.TabIndex = 3;
             this.panelOutput.Visible = false;
+            // 
+            // buttonCopy
+            // 
+            this.buttonCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonCopy.ImageKey = "copy-2.png";
+            this.buttonCopy.ImageList = this.imageList1;
+            this.buttonCopy.Location = new System.Drawing.Point(139, 2);
+            this.buttonCopy.Name = "buttonCopy";
+            this.buttonCopy.Size = new System.Drawing.Size(32, 32);
+            this.buttonCopy.TabIndex = 10;
+            this.toolTip1.SetToolTip(this.buttonCopy, "Edit (Paint)");
+            this.buttonCopy.UseVisualStyleBackColor = true;
+            this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
             // 
             // buttonEditInPaint
             // 
@@ -261,24 +269,12 @@
             this.buttonFolder.UseVisualStyleBackColor = true;
             this.buttonFolder.Click += new System.EventHandler(this.buttonFolder_Click);
             // 
-            // buttonCopy
-            // 
-            this.buttonCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCopy.ImageKey = "copy-2.png";
-            this.buttonCopy.ImageList = this.imageList1;
-            this.buttonCopy.Location = new System.Drawing.Point(139, 2);
-            this.buttonCopy.Name = "buttonCopy";
-            this.buttonCopy.Size = new System.Drawing.Size(32, 32);
-            this.buttonCopy.TabIndex = 10;
-            this.toolTip1.SetToolTip(this.buttonCopy, "Edit (Paint)");
-            this.buttonCopy.UseVisualStyleBackColor = true;
-            this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
-            // 
             // FormOverlay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(686, 415);
+            this.ControlBox = false;
             this.Controls.Add(this.panelOutput);
             this.Controls.Add(this.panelTools);
             this.Controls.Add(this.pictureBox1);
@@ -286,6 +282,7 @@
             this.Name = "FormOverlay";
             this.Text = "Overlay";
             this.TopMost = true;
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panelTools.ResumeLayout(false);
             this.panelOutput.ResumeLayout(false);
@@ -300,7 +297,6 @@
         private System.Windows.Forms.Button buttonDrawRect;
         private System.Windows.Forms.Button buttonDrawArrow;
         private System.Windows.Forms.Button buttonDrawLine;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button buttonDrawColor;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.Button buttonDrawResize;
