@@ -11,5 +11,8 @@
     <Setting Name="SaveFileFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)">Screen shots\</Value>
     </Setting>
+    <Setting Name="AutoStart" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

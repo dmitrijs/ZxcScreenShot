@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 using LighterShot.Properties;
+using Microsoft.Win32;
 
 namespace LighterShot
 {
     public partial class FormMain : Form
     {
+        private const string APP_REG_KEY = "LighterShot";
+
         public FormMain()
         {
             InitializeComponent();
@@ -24,6 +28,7 @@ namespace LighterShot
         {
             cbDoSaveFile.Checked = Settings.Default.DoSaveFile;
             tbSaveFileFolder.Text = Settings.Default.SaveFileFolder;
+            cbAutoStart.Checked = Settings.Default.AutoStart;
 
             tbSaveFileFolder.Enabled = Settings.Default.DoSaveFile;
             button2.Enabled = Settings.Default.DoSaveFile;
@@ -97,6 +102,26 @@ namespace LighterShot
         {
             Settings.Default.ShotsServiceBaseUrl = ((ComboBoxItem)comboBox1.SelectedItem).Value;
             Settings.Default.Save();
+        }
+
+        private void cbAutoStart_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.AutoStart = cbAutoStart.Checked;
+            
+            // register start up entry
+            var registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            Debug.Assert(registryKey != null);
+            if (Settings.Default.AutoStart)
+            {
+                registryKey.SetValue(APP_REG_KEY, "\"" + Application.ExecutablePath + "\"");
+            }
+            else
+            {
+                registryKey.DeleteValue(APP_REG_KEY);
+            }
+
+            Settings.Default.Save();
+            UpdateUi();
         }
     }
 
