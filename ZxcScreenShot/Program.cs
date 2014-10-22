@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace LighterShot
+namespace ZxcScreenShot
 {
     internal static class Program
     {

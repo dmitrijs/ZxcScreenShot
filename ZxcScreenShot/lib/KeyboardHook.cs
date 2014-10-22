@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace LighterShot.lib
+namespace ZxcScreenShot.lib
 {
     /// <summary>
     /// Taken from http://www.liensberger.it/web/blog/?p=207

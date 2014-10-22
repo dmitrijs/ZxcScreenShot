@@ -1,4 +1,4 @@
-﻿namespace LighterShot
+﻿namespace ZxcScreenShot
 {
     partial class FormOverlay
     {

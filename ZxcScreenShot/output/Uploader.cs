@@ -2,9 +2,9 @@
 using System.IO;
 using System.Net.Http;
 using System.Text;
-using LighterShot.Properties;
+using ZxcScreenShot.Properties;
 
-namespace LighterShot.output
+namespace ZxcScreenShot.output
 {
     static class Uploader
     {

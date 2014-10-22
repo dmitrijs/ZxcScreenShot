@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace LighterShot.ui
+namespace ZxcScreenShot.ui
 {
     class DrawingTool
     {

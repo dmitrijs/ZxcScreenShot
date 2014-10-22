@@ -3,11 +3,11 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using LighterShot.output;
-using LighterShot.Properties;
-using LighterShot.ui;
+using ZxcScreenShot.output;
+using ZxcScreenShot.Properties;
+using ZxcScreenShot.ui;
 
-namespace LighterShot
+namespace ZxcScreenShot
 {
     public partial class FormOverlay : Form
     {

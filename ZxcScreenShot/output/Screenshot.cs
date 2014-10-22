@@ -3,10 +3,10 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
-using LighterShot.Properties;
-using LighterShot.ui;
+using ZxcScreenShot.Properties;
+using ZxcScreenShot.ui;
 
-namespace LighterShot.output
+namespace ZxcScreenShot.output
 {
     internal static class ScreenShot
     {

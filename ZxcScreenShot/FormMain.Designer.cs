@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace LighterShot
+namespace ZxcScreenShot
 {
     partial class FormMain
     {
@@ -114,7 +114,7 @@ namespace LighterShot
             // 
             this.notifyIcon.ContextMenuStrip = this.notifyMenuStrip;
             this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
-            this.notifyIcon.Text = "LighterShot v1.0";
+            this.notifyIcon.Text = "ZxcScreenShot v1.0";
             this.notifyIcon.Visible = true;
             this.notifyIcon.Click += new System.EventHandler(this.notifyIcon_Click);
             this.notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseClick);
@@ -168,7 +168,7 @@ namespace LighterShot
             this.Controls.Add(this.tbSaveFileFolder);
             this.Name = "FormMain";
             this.ShowIcon = false;
-            this.Text = "LighterShot Options";
+            this.Text = "ZxcScreenShot Options";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.notifyMenuStrip.ResumeLayout(false);

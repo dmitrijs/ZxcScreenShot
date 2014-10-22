@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using LighterShot.lib;
+using ZxcScreenShot.lib;
 
-namespace LighterShot
+namespace ZxcScreenShot
 {
     class AppContext : ApplicationContext
     {

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Forms;
-using LighterShot.Properties;
 using Microsoft.Win32;
+using ZxcScreenShot.Properties;
 
-namespace LighterShot
+namespace ZxcScreenShot
 {
     public partial class FormMain : Form
     {
-        private const string APP_REG_KEY = "LighterShot";
+        private const string APP_REG_KEY = "ZxcScreenShot";
 
         public FormMain()
         {
