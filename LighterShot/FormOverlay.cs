@@ -2,8 +2,6 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.IO;
-using System.Threading;
 using System.Windows.Forms;
 using LighterShot.output;
 using LighterShot.Properties;
@@ -13,8 +11,6 @@ namespace LighterShot
 {
     public partial class FormOverlay : Form
     {
-        #region:::::::::::::::::::::::::::::::::::::::::::Form level declarations:::::::::::::::::::::::::::::::::::::::::::
-
         private enum ClickAction
         {
             NoClick = 0,
@@ -75,10 +71,6 @@ namespace LighterShot
             base.OnMouseClick(e);
         }
 
-        #endregion
-
-        #region:::::::::::::::::::::::::::::::::::::::::::Mouse Event Handlers & Drawing Initialization:::::::::::::::::::::::::::::::::::::::::::
-
         public FormOverlay()
         {
             InitializeComponent();
@@ -123,8 +115,6 @@ namespace LighterShot
 
             timer1.Enabled = true;
         }
-
-        #endregion
         
         private void Key_Down(object sender, KeyEventArgs e)
         {
@@ -372,8 +362,6 @@ namespace LighterShot
         {
         }
 
-        #region:::::::::::::::::::::::::::::::::::::::::::Mouse Buttons:::::::::::::::::::::::::::::::::::::::::::
-
         private void Mouse_Click(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -465,9 +453,7 @@ namespace LighterShot
                 }
             }
         }
-
-        #endregion
-
+        
         private void UpdateUi()
         {
             UpdatePanelPosition();
