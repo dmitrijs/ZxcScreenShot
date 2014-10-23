@@ -208,7 +208,7 @@
             this.buttonCopy.Name = "buttonCopy";
             this.buttonCopy.Size = new System.Drawing.Size(43, 39);
             this.buttonCopy.TabIndex = 10;
-            this.toolTip1.SetToolTip(this.buttonCopy, "Copy image / Drag image file");
+            this.toolTip1.SetToolTip(this.buttonCopy, "Copy image (Ctrl+C) / Drag image file");
             this.buttonCopy.UseVisualStyleBackColor = true;
             this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
             this.buttonCopy.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonCopy_MouseDown);
