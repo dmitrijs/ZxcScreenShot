@@ -54,7 +54,7 @@
     <ManifestCertificateThumbprint>31D54D68F04D8942B9EA6790F6B05F0547C4B7BA</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>LighterShot_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>ZxcScreenShot_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -123,6 +123,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="ZxcScreenShot_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

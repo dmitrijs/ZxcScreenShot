@@ -56,8 +56,9 @@
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(686, 415);
+            this.pictureBox1.Size = new System.Drawing.Size(915, 511);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
@@ -71,9 +72,10 @@
             this.panelTools.Controls.Add(this.buttonDrawArrow);
             this.panelTools.Controls.Add(this.buttonDrawLine);
             this.panelTools.Controls.Add(this.buttonDrawRect);
-            this.panelTools.Location = new System.Drawing.Point(388, 104);
+            this.panelTools.Location = new System.Drawing.Point(517, 128);
+            this.panelTools.Margin = new System.Windows.Forms.Padding(4);
             this.panelTools.Name = "panelTools";
-            this.panelTools.Size = new System.Drawing.Size(36, 197);
+            this.panelTools.Size = new System.Drawing.Size(48, 242);
             this.panelTools.TabIndex = 2;
             this.panelTools.Visible = false;
             // 
@@ -82,9 +84,10 @@
             this.buttonDrawUndo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonDrawUndo.ImageKey = "backward.png";
             this.buttonDrawUndo.ImageList = this.imageList1;
-            this.buttonDrawUndo.Location = new System.Drawing.Point(2, 163);
+            this.buttonDrawUndo.Location = new System.Drawing.Point(3, 201);
+            this.buttonDrawUndo.Margin = new System.Windows.Forms.Padding(4);
             this.buttonDrawUndo.Name = "buttonDrawUndo";
-            this.buttonDrawUndo.Size = new System.Drawing.Size(32, 32);
+            this.buttonDrawUndo.Size = new System.Drawing.Size(43, 39);
             this.buttonDrawUndo.TabIndex = 9;
             this.buttonDrawUndo.TabStop = false;
             this.toolTip1.SetToolTip(this.buttonDrawUndo, "Undo (Ctrl+Z)");
@@ -112,9 +115,10 @@
             // 
             this.buttonDrawResize.ImageKey = "target.png";
             this.buttonDrawResize.ImageList = this.imageList1;
-            this.buttonDrawResize.Location = new System.Drawing.Point(2, 131);
+            this.buttonDrawResize.Location = new System.Drawing.Point(3, 161);
+            this.buttonDrawResize.Margin = new System.Windows.Forms.Padding(4);
             this.buttonDrawResize.Name = "buttonDrawResize";
-            this.buttonDrawResize.Size = new System.Drawing.Size(32, 32);
+            this.buttonDrawResize.Size = new System.Drawing.Size(43, 39);
             this.buttonDrawResize.TabIndex = 8;
             this.toolTip1.SetToolTip(this.buttonDrawResize, "Resize/move window");
             this.buttonDrawResize.UseVisualStyleBackColor = true;
@@ -127,9 +131,10 @@
             this.buttonDrawColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonDrawColor.ForeColor = System.Drawing.Color.Black;
             this.buttonDrawColor.ImageList = this.imageList1;
-            this.buttonDrawColor.Location = new System.Drawing.Point(3, 99);
+            this.buttonDrawColor.Location = new System.Drawing.Point(4, 122);
+            this.buttonDrawColor.Margin = new System.Windows.Forms.Padding(4);
             this.buttonDrawColor.Name = "buttonDrawColor";
-            this.buttonDrawColor.Size = new System.Drawing.Size(30, 30);
+            this.buttonDrawColor.Size = new System.Drawing.Size(40, 37);
             this.buttonDrawColor.TabIndex = 7;
             this.toolTip1.SetToolTip(this.buttonDrawColor, "Change color");
             this.buttonDrawColor.UseVisualStyleBackColor = false;
@@ -140,9 +145,10 @@
             this.buttonDrawArrow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonDrawArrow.ImageKey = "left.png";
             this.buttonDrawArrow.ImageList = this.imageList1;
-            this.buttonDrawArrow.Location = new System.Drawing.Point(2, 66);
+            this.buttonDrawArrow.Location = new System.Drawing.Point(3, 81);
+            this.buttonDrawArrow.Margin = new System.Windows.Forms.Padding(4);
             this.buttonDrawArrow.Name = "buttonDrawArrow";
-            this.buttonDrawArrow.Size = new System.Drawing.Size(32, 32);
+            this.buttonDrawArrow.Size = new System.Drawing.Size(43, 39);
             this.buttonDrawArrow.TabIndex = 4;
             this.buttonDrawArrow.TabStop = false;
             this.toolTip1.SetToolTip(this.buttonDrawArrow, "Draw an arrow");
@@ -154,9 +160,10 @@
             this.buttonDrawLine.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonDrawLine.ImageKey = "line.png";
             this.buttonDrawLine.ImageList = this.imageList1;
-            this.buttonDrawLine.Location = new System.Drawing.Point(2, 34);
+            this.buttonDrawLine.Location = new System.Drawing.Point(3, 42);
+            this.buttonDrawLine.Margin = new System.Windows.Forms.Padding(4);
             this.buttonDrawLine.Name = "buttonDrawLine";
-            this.buttonDrawLine.Size = new System.Drawing.Size(32, 32);
+            this.buttonDrawLine.Size = new System.Drawing.Size(43, 39);
             this.buttonDrawLine.TabIndex = 3;
             this.toolTip1.SetToolTip(this.buttonDrawLine, "Draw a line");
             this.buttonDrawLine.UseVisualStyleBackColor = true;
@@ -167,9 +174,10 @@
             this.buttonDrawRect.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonDrawRect.ImageKey = "rectangle.png";
             this.buttonDrawRect.ImageList = this.imageList1;
-            this.buttonDrawRect.Location = new System.Drawing.Point(2, 2);
+            this.buttonDrawRect.Location = new System.Drawing.Point(3, 2);
+            this.buttonDrawRect.Margin = new System.Windows.Forms.Padding(4);
             this.buttonDrawRect.Name = "buttonDrawRect";
-            this.buttonDrawRect.Size = new System.Drawing.Size(32, 32);
+            this.buttonDrawRect.Size = new System.Drawing.Size(43, 39);
             this.buttonDrawRect.TabIndex = 2;
             this.buttonDrawRect.TabStop = false;
             this.toolTip1.SetToolTip(this.buttonDrawRect, "Draw a rectangle");
@@ -183,9 +191,10 @@
             this.panelOutput.Controls.Add(this.buttonUrl);
             this.panelOutput.Controls.Add(this.buttonCancel);
             this.panelOutput.Controls.Add(this.buttonPath);
-            this.panelOutput.Location = new System.Drawing.Point(200, 304);
+            this.panelOutput.Location = new System.Drawing.Point(267, 374);
+            this.panelOutput.Margin = new System.Windows.Forms.Padding(4);
             this.panelOutput.Name = "panelOutput";
-            this.panelOutput.Size = new System.Drawing.Size(177, 36);
+            this.panelOutput.Size = new System.Drawing.Size(236, 44);
             this.panelOutput.TabIndex = 3;
             this.panelOutput.Visible = false;
             // 
@@ -194,22 +203,26 @@
             this.buttonCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCopy.ImageKey = "copy-2.png";
             this.buttonCopy.ImageList = this.imageList1;
-            this.buttonCopy.Location = new System.Drawing.Point(105, 2);
+            this.buttonCopy.Location = new System.Drawing.Point(140, 2);
+            this.buttonCopy.Margin = new System.Windows.Forms.Padding(4);
             this.buttonCopy.Name = "buttonCopy";
-            this.buttonCopy.Size = new System.Drawing.Size(32, 32);
+            this.buttonCopy.Size = new System.Drawing.Size(43, 39);
             this.buttonCopy.TabIndex = 10;
-            this.toolTip1.SetToolTip(this.buttonCopy, "Edit (Paint)");
+            this.toolTip1.SetToolTip(this.buttonCopy, "Copy image (Ctrl+C) / Drag image file");
             this.buttonCopy.UseVisualStyleBackColor = true;
             this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
+            this.buttonCopy.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonCopy_MouseDown);
+            this.buttonCopy.MouseMove += new System.Windows.Forms.MouseEventHandler(this.buttonCopy_MouseMove);
             // 
             // buttonEditInPaint
             // 
             this.buttonEditInPaint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonEditInPaint.ImageKey = "pen.png";
             this.buttonEditInPaint.ImageList = this.imageList1;
-            this.buttonEditInPaint.Location = new System.Drawing.Point(71, 2);
+            this.buttonEditInPaint.Location = new System.Drawing.Point(95, 2);
+            this.buttonEditInPaint.Margin = new System.Windows.Forms.Padding(4);
             this.buttonEditInPaint.Name = "buttonEditInPaint";
-            this.buttonEditInPaint.Size = new System.Drawing.Size(32, 32);
+            this.buttonEditInPaint.Size = new System.Drawing.Size(43, 39);
             this.buttonEditInPaint.TabIndex = 9;
             this.toolTip1.SetToolTip(this.buttonEditInPaint, "Edit (Paint)");
             this.buttonEditInPaint.UseVisualStyleBackColor = true;
@@ -220,9 +233,10 @@
             this.buttonUrl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonUrl.ImageKey = "link.png";
             this.buttonUrl.ImageList = this.imageList1;
-            this.buttonUrl.Location = new System.Drawing.Point(37, 2);
+            this.buttonUrl.Location = new System.Drawing.Point(49, 2);
+            this.buttonUrl.Margin = new System.Windows.Forms.Padding(4);
             this.buttonUrl.Name = "buttonUrl";
-            this.buttonUrl.Size = new System.Drawing.Size(32, 32);
+            this.buttonUrl.Size = new System.Drawing.Size(43, 39);
             this.buttonUrl.TabIndex = 7;
             this.toolTip1.SetToolTip(this.buttonUrl, "Copy URL");
             this.buttonUrl.UseVisualStyleBackColor = true;
@@ -234,9 +248,10 @@
             this.buttonCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonCancel.ImageKey = "cross.png";
             this.buttonCancel.ImageList = this.imageList1;
-            this.buttonCancel.Location = new System.Drawing.Point(143, 2);
+            this.buttonCancel.Location = new System.Drawing.Point(191, 2);
+            this.buttonCancel.Margin = new System.Windows.Forms.Padding(4);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(32, 32);
+            this.buttonCancel.Size = new System.Drawing.Size(43, 39);
             this.buttonCancel.TabIndex = 6;
             this.toolTip1.SetToolTip(this.buttonCancel, "Cancel");
             this.buttonCancel.UseVisualStyleBackColor = true;
@@ -247,9 +262,10 @@
             this.buttonPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonPath.ImageKey = "anchor.png";
             this.buttonPath.ImageList = this.imageList1;
-            this.buttonPath.Location = new System.Drawing.Point(3, 2);
+            this.buttonPath.Location = new System.Drawing.Point(4, 2);
+            this.buttonPath.Margin = new System.Windows.Forms.Padding(4);
             this.buttonPath.Name = "buttonPath";
-            this.buttonPath.Size = new System.Drawing.Size(32, 32);
+            this.buttonPath.Size = new System.Drawing.Size(43, 39);
             this.buttonPath.TabIndex = 1;
             this.toolTip1.SetToolTip(this.buttonPath, "Copy file path");
             this.buttonPath.UseVisualStyleBackColor = true;
@@ -257,14 +273,14 @@
             // 
             // FormOverlay
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(686, 415);
-            this.ControlBox = false;
+            this.ClientSize = new System.Drawing.Size(915, 511);
             this.Controls.Add(this.panelOutput);
             this.Controls.Add(this.panelTools);
             this.Controls.Add(this.pictureBox1);
             this.KeyPreview = true;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormOverlay";
             this.Text = "Overlay";
             this.TopMost = true;

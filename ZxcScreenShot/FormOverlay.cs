@@ -63,15 +63,10 @@ namespace ZxcScreenShot
 
         // tells that user has clicked any of Tool buttons
         private DrawingTool.DrawingToolType _goingToDrawTool = DrawingTool.DrawingToolType.NotDrawingTool;
+        private bool _dragReady;
+        private bool _dragStarted;
 
-        protected override void OnMouseClick(MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                e = null;
-            }
-            base.OnMouseClick(e);
-        }
+        private const int MinimumPixelsDrag = 3;
 
         public FormOverlay()
         {
@@ -112,9 +107,9 @@ namespace ZxcScreenShot
             if (e.Shift)
             {
                 _isHoldingShift = true;
-                buttonPath.ImageKey = "folder.png";
+                buttonPath.ImageKey = @"folder.png";
                 toolTip1.SetToolTip(buttonPath, "Show in Explorer");
-                buttonUrl.ImageKey = "browser.png";
+                buttonUrl.ImageKey = @"browser.png";
                 toolTip1.SetToolTip(buttonUrl, "Show in Browser");
 
                 if (_currentAction == ClickAction.DrawingTool)
@@ -129,9 +124,9 @@ namespace ZxcScreenShot
             if (!e.Shift)
             {
                 _isHoldingShift = false;
-                buttonPath.ImageKey = "anchor.png";
+                buttonPath.ImageKey = @"anchor.png";
                 toolTip1.SetToolTip(buttonPath, "Copy file path");
-                buttonUrl.ImageKey = "link.png";
+                buttonUrl.ImageKey = @"link.png";
                 toolTip1.SetToolTip(buttonUrl, "Copy URL");
 
                 if (_currentAction == ClickAction.DrawingTool)
@@ -603,19 +598,14 @@ namespace ZxcScreenShot
 
         private void Do_Output(OutputActions outputActions)
         {
-            var doSaveImageToClipboard = (outputActions.HasFlag(OutputActions.PutImageToClipboard));
-
             if (!_rectangleDrawn)
             {
                 return;
             }
 
-            var startPoint = new Point(_currentTopLeft.X, _currentTopLeft.Y);
-            var bounds = new Rectangle(_currentTopLeft.X, _currentTopLeft.Y, _currentBottomRight.X - _currentTopLeft.X,
-                _currentBottomRight.Y - _currentTopLeft.Y);
+            var doSaveImageToClipboard = (outputActions.HasFlag(OutputActions.PutImageToClipboard));
+            var imageFullPath = CaptureImage(doSaveImageToClipboard); 
 
-            var imageFullPath = ScreenShot.CaptureImage(startPoint, Point.Empty, bounds, pictureBox1, _toolsPainter, doSaveImageToClipboard);
-            
             if (outputActions.HasFlag(OutputActions.PutImagePathToClipboard))
             {
                 Clipboard.SetText(imageFullPath);
@@ -632,13 +622,13 @@ namespace ZxcScreenShot
                 Process.Start(startInfo);
             }
 
-            var key = Uploader.GetKey();
-            if (key != null)
+            var token = Uploader.GetToken();
+            if (token != null)
             {
-                var msg = Uploader.Upload(key, imageFullPath);
+                var msg = Uploader.Upload(token, imageFullPath);
                 if (msg == "ok")
                 {
-                    var url = string.Format("{0}{1}/{2}", Settings.Default.ShotsServiceBaseUrl, key.Item1, key.Item2);
+                    var url = string.Format("{0}{1}", Settings.Default.ShotsServiceBaseUrl, token);
                     if (outputActions.HasFlag(OutputActions.PutImageUrlToClipboard))
                     {
                         Clipboard.SetText(url);
@@ -655,6 +645,15 @@ namespace ZxcScreenShot
             }
 
             Hide();
+        }
+
+        private string CaptureImage(bool doSaveImageToClipboard)
+        {
+            var startPoint = new Point(_currentTopLeft.X, _currentTopLeft.Y);
+            var bounds = new Rectangle(_currentTopLeft.X, _currentTopLeft.Y, _currentBottomRight.X - _currentTopLeft.X,
+                _currentBottomRight.Y - _currentTopLeft.Y);
+
+            return ScreenShot.CaptureImage(startPoint, Point.Empty, bounds, pictureBox1, _toolsPainter, doSaveImageToClipboard);
         }
 
         private void Do_Undo()
@@ -688,6 +687,40 @@ namespace ZxcScreenShot
         private void buttonCopy_Click(object sender, EventArgs e)
         {
             Do_Output(OutputActions.PutImageToClipboard);
+        }
+
+        private void buttonCopy_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                _clickPoint = e.Location;
+                _dragReady = true;
+                _dragStarted = false;
+            }
+        }
+
+        private void buttonCopy_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!_dragReady) return;
+            if (_dragStarted) return;
+            if (Math.Abs(e.Location.X - _clickPoint.X) <= MinimumPixelsDrag &&
+                Math.Abs(e.Location.Y - _clickPoint.Y) <= MinimumPixelsDrag)
+            {
+                return;
+            }
+            _dragStarted = true;
+
+            var imageFullPath = CaptureImage(doSaveImageToClipboard: false);
+            var filePath = new System.Collections.Specialized.StringCollection { imageFullPath };
+
+            var dataObject = new DataObject();
+            dataObject.SetFileDropList(filePath);
+
+            Hide();
+
+            buttonCopy.DoDragDrop(dataObject, DragDropEffects.Copy);
+
+            _dragStarted = _dragReady = false;
         }
     }
 }

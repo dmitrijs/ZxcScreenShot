@@ -8,27 +8,23 @@ namespace ZxcScreenShot.output
 {
     static class Uploader
     {
-        public static Tuple<String, String> GetKey()
+        public static string GetToken()
         {
             using (var client = new HttpClient())
             {
-                var response = client.GetAsync(Settings.Default.ShotsServiceBaseUrl + "?action=get_key").Result;
+                var response = client.GetAsync(Settings.Default.ShotsServiceBaseUrl + "?action=get_token").Result;
                 if (response.IsSuccessStatusCode)
                 {
                     using (var reader = new StreamReader(response.Content.ReadAsStreamAsync().Result, Encoding.UTF8))
                     {
-                        var strings = reader.ReadToEnd().Split(new[] { ' ' });
-                        if (strings.Length == 2)
-                        {
-                            return new Tuple<string, string>(strings[0], strings[1]);
-                        }
+                        return reader.ReadToEnd();
                     }
                 }
             }
             return null;
         }
 
-        public static string Upload(Tuple<String, String> key, string filePath)
+        public static string Upload(string token, string filePath)
         {
             var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
         
@@ -38,8 +34,7 @@ namespace ZxcScreenShot.output
             using (var formData = new MultipartFormDataContent())
             {
                 formData.Add(new StringContent("upload"), "action");
-                formData.Add(new StringContent(key.Item1), "shot_date");
-                formData.Add(new StringContent(key.Item2), "shot_key");
+                formData.Add(new StringContent(token), "shot_token");
 
                 formData.Add(fileStreamContent, "shot_file", "shot_file");
 
