@@ -46,7 +46,6 @@
             this.buttonUrl = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonPath = new System.Windows.Forms.Button();
-            this.buttonFolder = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelTools.SuspendLayout();
@@ -96,17 +95,18 @@
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "folder.png");
-            this.imageList1.Images.SetKeyName(1, "anchor.png");
+            this.imageList1.Images.SetKeyName(0, "anchor.png");
+            this.imageList1.Images.SetKeyName(1, "folder.png");
             this.imageList1.Images.SetKeyName(2, "link.png");
-            this.imageList1.Images.SetKeyName(3, "pen.png");
-            this.imageList1.Images.SetKeyName(4, "copy-2.png");
-            this.imageList1.Images.SetKeyName(5, "cross.png");
-            this.imageList1.Images.SetKeyName(6, "rectangle.png");
-            this.imageList1.Images.SetKeyName(7, "line.png");
-            this.imageList1.Images.SetKeyName(8, "left.png");
-            this.imageList1.Images.SetKeyName(9, "backward.png");
-            this.imageList1.Images.SetKeyName(10, "target.png");
+            this.imageList1.Images.SetKeyName(3, "browser.png");
+            this.imageList1.Images.SetKeyName(4, "pen.png");
+            this.imageList1.Images.SetKeyName(5, "copy-2.png");
+            this.imageList1.Images.SetKeyName(6, "cross.png");
+            this.imageList1.Images.SetKeyName(7, "rectangle.png");
+            this.imageList1.Images.SetKeyName(8, "line.png");
+            this.imageList1.Images.SetKeyName(9, "left.png");
+            this.imageList1.Images.SetKeyName(10, "backward.png");
+            this.imageList1.Images.SetKeyName(11, "target.png");
             // 
             // buttonDrawResize
             // 
@@ -183,10 +183,9 @@
             this.panelOutput.Controls.Add(this.buttonUrl);
             this.panelOutput.Controls.Add(this.buttonCancel);
             this.panelOutput.Controls.Add(this.buttonPath);
-            this.panelOutput.Controls.Add(this.buttonFolder);
-            this.panelOutput.Location = new System.Drawing.Point(166, 304);
+            this.panelOutput.Location = new System.Drawing.Point(200, 304);
             this.panelOutput.Name = "panelOutput";
-            this.panelOutput.Size = new System.Drawing.Size(211, 36);
+            this.panelOutput.Size = new System.Drawing.Size(177, 36);
             this.panelOutput.TabIndex = 3;
             this.panelOutput.Visible = false;
             // 
@@ -195,7 +194,7 @@
             this.buttonCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCopy.ImageKey = "copy-2.png";
             this.buttonCopy.ImageList = this.imageList1;
-            this.buttonCopy.Location = new System.Drawing.Point(139, 2);
+            this.buttonCopy.Location = new System.Drawing.Point(105, 2);
             this.buttonCopy.Name = "buttonCopy";
             this.buttonCopy.Size = new System.Drawing.Size(32, 32);
             this.buttonCopy.TabIndex = 10;
@@ -208,7 +207,7 @@
             this.buttonEditInPaint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonEditInPaint.ImageKey = "pen.png";
             this.buttonEditInPaint.ImageList = this.imageList1;
-            this.buttonEditInPaint.Location = new System.Drawing.Point(105, 2);
+            this.buttonEditInPaint.Location = new System.Drawing.Point(71, 2);
             this.buttonEditInPaint.Name = "buttonEditInPaint";
             this.buttonEditInPaint.Size = new System.Drawing.Size(32, 32);
             this.buttonEditInPaint.TabIndex = 9;
@@ -221,7 +220,7 @@
             this.buttonUrl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonUrl.ImageKey = "link.png";
             this.buttonUrl.ImageList = this.imageList1;
-            this.buttonUrl.Location = new System.Drawing.Point(71, 2);
+            this.buttonUrl.Location = new System.Drawing.Point(37, 2);
             this.buttonUrl.Name = "buttonUrl";
             this.buttonUrl.Size = new System.Drawing.Size(32, 32);
             this.buttonUrl.TabIndex = 7;
@@ -235,7 +234,7 @@
             this.buttonCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonCancel.ImageKey = "cross.png";
             this.buttonCancel.ImageList = this.imageList1;
-            this.buttonCancel.Location = new System.Drawing.Point(177, 2);
+            this.buttonCancel.Location = new System.Drawing.Point(143, 2);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(32, 32);
             this.buttonCancel.TabIndex = 6;
@@ -248,26 +247,13 @@
             this.buttonPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonPath.ImageKey = "anchor.png";
             this.buttonPath.ImageList = this.imageList1;
-            this.buttonPath.Location = new System.Drawing.Point(37, 2);
+            this.buttonPath.Location = new System.Drawing.Point(3, 2);
             this.buttonPath.Name = "buttonPath";
             this.buttonPath.Size = new System.Drawing.Size(32, 32);
             this.buttonPath.TabIndex = 1;
             this.toolTip1.SetToolTip(this.buttonPath, "Copy file path");
             this.buttonPath.UseVisualStyleBackColor = true;
             this.buttonPath.Click += new System.EventHandler(this.buttonPath_Click);
-            // 
-            // buttonFolder
-            // 
-            this.buttonFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonFolder.ImageKey = "folder.png";
-            this.buttonFolder.ImageList = this.imageList1;
-            this.buttonFolder.Location = new System.Drawing.Point(3, 2);
-            this.buttonFolder.Name = "buttonFolder";
-            this.buttonFolder.Size = new System.Drawing.Size(32, 32);
-            this.buttonFolder.TabIndex = 0;
-            this.toolTip1.SetToolTip(this.buttonFolder, "Show in Explorer");
-            this.buttonFolder.UseVisualStyleBackColor = true;
-            this.buttonFolder.Click += new System.EventHandler(this.buttonFolder_Click);
             // 
             // FormOverlay
             // 
@@ -303,7 +289,6 @@
         private System.Windows.Forms.Panel panelOutput;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonPath;
-        private System.Windows.Forms.Button buttonFolder;
         private System.Windows.Forms.Button buttonUrl;
         private System.Windows.Forms.Button buttonEditInPaint;
         private System.Windows.Forms.ImageList imageList1;

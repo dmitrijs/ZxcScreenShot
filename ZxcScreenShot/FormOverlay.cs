@@ -44,14 +44,16 @@ namespace ZxcScreenShot
         [Flags]
         private enum OutputActions
         {
-            PutImageToClipboard = 1,
-            PutImagePathToClipboard = 2,
-            PutImageUrlToClipboard = 4,
+            EditInPaint = 1,
+            PutImageToClipboard = 2,
+            PutImagePathToClipboard = 4,
             ShowInFolder = 8,
-            EditInPaint = 16
+            PutImageUrlToClipboard = 16,
+            ShowInBrowser = 32
         }
 
         private readonly ToolsPainter _toolsPainter = new ToolsPainter();
+        private bool _isHoldingShift;
 
         private ClickAction _currentAction;
         private Point _clickPoint;
@@ -89,7 +91,6 @@ namespace ZxcScreenShot
             buttonDrawResize.MouseMove += Panel_Mouse_Move;
 
             panelOutput.MouseMove += Panel_Mouse_Move;
-            buttonFolder.MouseMove += Panel_Mouse_Move;
             buttonPath.MouseMove += Panel_Mouse_Move;
             buttonUrl.MouseMove += Panel_Mouse_Move;
             buttonEditInPaint.MouseMove += Panel_Mouse_Move;
@@ -108,17 +109,35 @@ namespace ZxcScreenShot
         
         private void Key_Down(object sender, KeyEventArgs e)
         {
-            if (e.Shift && _currentAction == ClickAction.DrawingTool)
+            if (e.Shift)
             {
-                _toolsPainter.DrawStraightLatest(true);
+                _isHoldingShift = true;
+                buttonPath.ImageKey = "folder.png";
+                toolTip1.SetToolTip(buttonPath, "Show in Explorer");
+                buttonUrl.ImageKey = "browser.png";
+                toolTip1.SetToolTip(buttonUrl, "Show in Browser");
+
+                if (_currentAction == ClickAction.DrawingTool)
+                {
+                    _toolsPainter.DrawStraightLatest(true);
+                }
             }
         }
 
         private void Key_Up(object sender, KeyEventArgs e)
         {
-            if (!e.Shift && _currentAction == ClickAction.DrawingTool)
+            if (!e.Shift)
             {
-                _toolsPainter.DrawStraightLatest(false);
+                _isHoldingShift = false;
+                buttonPath.ImageKey = "anchor.png";
+                toolTip1.SetToolTip(buttonPath, "Copy file path");
+                buttonUrl.ImageKey = "link.png";
+                toolTip1.SetToolTip(buttonUrl, "Copy URL");
+
+                if (_currentAction == ClickAction.DrawingTool)
+                {
+                    _toolsPainter.DrawStraightLatest(false);
+                }
             }
             if (e.Control && e.KeyCode == Keys.C)
             {
@@ -582,11 +601,6 @@ namespace ZxcScreenShot
             buttonDrawArrow.Enabled = true;
         }
 
-        private void buttonFolder_Click(object sender, EventArgs e)
-        {
-            Do_Output(OutputActions.ShowInFolder);
-        }
-
         private void Do_Output(OutputActions outputActions)
         {
             var doSaveImageToClipboard = (outputActions.HasFlag(OutputActions.PutImageToClipboard));
@@ -629,6 +643,10 @@ namespace ZxcScreenShot
                     {
                         Clipboard.SetText(url);
                     }
+                    if (outputActions.HasFlag(OutputActions.ShowInBrowser))
+                    {
+                        Process.Start(url);
+                    }
                 }
                 else
                 {
@@ -649,12 +667,12 @@ namespace ZxcScreenShot
 
         private void buttonPath_Click(object sender, EventArgs e)
         {
-            Do_Output(OutputActions.PutImagePathToClipboard);
+            Do_Output(_isHoldingShift ? OutputActions.ShowInFolder : OutputActions.PutImagePathToClipboard);
         }
 
         private void buttonUrl_Click(object sender, EventArgs e)
         {
-            Do_Output(OutputActions.PutImageUrlToClipboard);
+            Do_Output(_isHoldingShift ? OutputActions.ShowInBrowser : OutputActions.PutImageUrlToClipboard);
         }
 
         private void buttonEditInPaint_Click(object sender, EventArgs e)
