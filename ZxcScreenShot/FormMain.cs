@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Globalization;
-using System.IO;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using ZxcScreenShot.Properties;
@@ -49,13 +47,8 @@ namespace ZxcScreenShot
         {
             if (folderBrowserDialog.ShowDialog() != DialogResult.OK) return;
 
-            var path = folderBrowserDialog.SelectedPath;
-            if (!path.EndsWith(Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture)))
-            {
-                path += Path.DirectorySeparatorChar;
-            }
-
-            Settings.Default.SaveFileFolder = path;
+            Settings.Default.SaveFileFolder = folderBrowserDialog.SelectedPath;
+            Settings.Default.Save();
             UpdateUi();
         }
 
@@ -75,12 +68,7 @@ namespace ZxcScreenShot
             Settings.Default.Save();
             UpdateUi();
         }
-
-        private void tbSaveFileFolder_TextChanged(object sender, EventArgs e)
-        {
-            Settings.Default.Save();
-        }
-
+        
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.UserClosing)

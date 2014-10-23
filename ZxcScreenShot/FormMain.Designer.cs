@@ -58,7 +58,6 @@ namespace ZxcScreenShot
             this.tbSaveFileFolder.ReadOnly = true;
             this.tbSaveFileFolder.Size = new System.Drawing.Size(452, 20);
             this.tbSaveFileFolder.TabIndex = 2;
-            this.tbSaveFileFolder.TextChanged += new System.EventHandler(this.tbSaveFileFolder_TextChanged);
             // 
             // cbDoSaveFile
             // 
