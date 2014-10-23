@@ -212,7 +212,6 @@
             this.buttonCopy.UseVisualStyleBackColor = true;
             this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
             this.buttonCopy.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonCopy_MouseDown);
-            this.buttonCopy.MouseLeave += new System.EventHandler(this.buttonCopy_MouseLeave);
             this.buttonCopy.MouseMove += new System.Windows.Forms.MouseEventHandler(this.buttonCopy_MouseMove);
             // 
             // buttonEditInPaint

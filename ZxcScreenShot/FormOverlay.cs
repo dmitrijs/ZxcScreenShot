@@ -699,10 +699,6 @@ namespace ZxcScreenShot
             }
         }
 
-        private void buttonCopy_MouseLeave(object sender, EventArgs e)
-        {
-        }
-
         private void buttonCopy_MouseMove(object sender, MouseEventArgs e)
         {
             if (!_dragReady) return;
