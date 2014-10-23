@@ -40,6 +40,7 @@ namespace ZxcScreenShot
             this.button2 = new System.Windows.Forms.Button();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.notifyMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,7 +48,6 @@ namespace ZxcScreenShot
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.cbAutoStart = new System.Windows.Forms.CheckBox();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,6 +55,7 @@ namespace ZxcScreenShot
             // 
             this.tbSaveFileFolder.Location = new System.Drawing.Point(12, 31);
             this.tbSaveFileFolder.Name = "tbSaveFileFolder";
+            this.tbSaveFileFolder.ReadOnly = true;
             this.tbSaveFileFolder.Size = new System.Drawing.Size(452, 20);
             this.tbSaveFileFolder.TabIndex = 2;
             this.tbSaveFileFolder.TextChanged += new System.EventHandler(this.tbSaveFileFolder_TextChanged);
@@ -89,7 +90,14 @@ namespace ZxcScreenShot
             this.toolStripSeparator1,
             this.toolStripMenuItem1});
             this.notifyMenuStrip.Name = "notifyMenuStrip";
-            this.notifyMenuStrip.Size = new System.Drawing.Size(186, 98);
+            this.notifyMenuStrip.Size = new System.Drawing.Size(186, 76);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(185, 22);
+            this.toolStripMenuItem3.Text = "Retry last screen shot";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
             // toolStripMenuItem2
             // 
@@ -149,13 +157,6 @@ namespace ZxcScreenShot
             this.cbAutoStart.Text = "Auto start";
             this.cbAutoStart.UseVisualStyleBackColor = true;
             this.cbAutoStart.CheckedChanged += new System.EventHandler(this.cbAutoStart_CheckedChanged);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(185, 22);
-            this.toolStripMenuItem3.Text = "Retry last screen shot";
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
             // FormMain
             // 
