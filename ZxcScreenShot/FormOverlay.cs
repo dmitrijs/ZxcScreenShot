@@ -622,13 +622,13 @@ namespace ZxcScreenShot
                 Process.Start(startInfo);
             }
 
-            var key = Uploader.GetKey();
-            if (key != null)
+            var token = Uploader.GetToken();
+            if (token != null)
             {
-                var msg = Uploader.Upload(key, imageFullPath);
+                var msg = Uploader.Upload(token, imageFullPath);
                 if (msg == "ok")
                 {
-                    var url = string.Format("{0}{1}/{2}", Settings.Default.ShotsServiceBaseUrl, key.Item1, key.Item2);
+                    var url = string.Format("{0}{1}", Settings.Default.ShotsServiceBaseUrl, token);
                     if (outputActions.HasFlag(OutputActions.PutImageUrlToClipboard))
                     {
                         Clipboard.SetText(url);
