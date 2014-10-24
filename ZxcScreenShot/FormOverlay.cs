@@ -65,6 +65,8 @@ namespace ZxcScreenShot
         private DrawingTool.DrawingToolType _goingToDrawTool = DrawingTool.DrawingToolType.NotDrawingTool;
         private bool _dragReady;
         private bool _dragStarted;
+        private Button _longPressSourceButton;
+        private ContextMenuStrip _longPressTargetMenu;
 
         private const int MinimumPixelsDrag = 3;
 
@@ -663,17 +665,7 @@ namespace ZxcScreenShot
                 pictureBox1.Invalidate();
             }
         }
-
-        private void buttonPath_Click(object sender, EventArgs e)
-        {
-            Do_Output(_isHoldingShift ? OutputActions.ShowInFolder : OutputActions.PutImagePathToClipboard);
-        }
-
-        private void buttonUrl_Click(object sender, EventArgs e)
-        {
-            Do_Output(_isHoldingShift ? OutputActions.ShowInBrowser : OutputActions.PutImageUrlToClipboard);
-        }
-
+        
         private void buttonEditInPaint_Click(object sender, EventArgs e)
         {
             Do_Output(OutputActions.EditInPaint);
@@ -721,6 +713,80 @@ namespace ZxcScreenShot
             buttonCopy.DoDragDrop(dataObject, DragDropEffects.Copy);
 
             _dragStarted = _dragReady = false;
+        }
+
+        private void buttonPath_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void buttonUrl_Click(object sender, EventArgs e)
+        {
+        }
+        
+        private void buttonPath_MouseDown(object sender, MouseEventArgs e)
+        {
+            _longPressTargetMenu = contextMenuStripPath;
+            _longPressSourceButton = buttonPath;
+            _clickPoint = e.Location;
+
+            longPressTimer.Start();
+        }
+
+        private void buttonPath_MouseUp(object sender, MouseEventArgs e)
+        {
+            longPressTimer.Stop();
+            if (!contextMenuStripPath.Visible)
+            {
+                Do_Output(_isHoldingShift ? OutputActions.ShowInFolder : OutputActions.PutImagePathToClipboard);
+            }
+        }
+
+        private void buttonUrl_MouseDown(object sender, MouseEventArgs e)
+        {
+            _longPressTargetMenu = contextMenuStripUrl;
+            _longPressSourceButton = buttonUrl;
+            _clickPoint = e.Location;
+
+            longPressTimer.Start();
+        }
+
+        private void copyFilePathToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Do_Output(OutputActions.PutImagePathToClipboard);
+        }
+
+        private void viewInExplorerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Do_Output(OutputActions.ShowInFolder);
+        }
+
+        private void buttonUrl_MouseUp(object sender, MouseEventArgs e)
+        {
+            longPressTimer.Stop();
+            if (!contextMenuStripUrl.Visible)
+            {
+                Do_Output(_isHoldingShift ? OutputActions.ShowInBrowser : OutputActions.PutImageUrlToClipboard);
+            }
+        }
+
+        private void copyURLToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Do_Output(OutputActions.PutImageUrlToClipboard);
+        }
+
+        private void viewInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Do_Output(OutputActions.ShowInBrowser);
+        }
+
+        private void longPressTimer_Tick(object sender, EventArgs e)
+        {
+            longPressTimer.Stop();
+            if (_longPressTargetMenu != null)
+            {
+                _longPressTargetMenu.Show(_longPressSourceButton, _clickPoint.X, _clickPoint.Y);
+                _longPressTargetMenu.Focus();
+            }
         }
     }
 }
