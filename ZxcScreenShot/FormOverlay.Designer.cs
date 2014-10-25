@@ -297,7 +297,6 @@
             // longPressTimer
             // 
             this.longPressTimer.Interval = 400;
-            this.longPressTimer.Tick += new System.EventHandler(this.longPressTimer_Tick);
             // 
             // contextMenuStripPath
             // 

@@ -94,6 +94,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="output\Screenshot.cs" />
+    <Compile Include="ui\LongPressAction.cs" />
     <Compile Include="ui\ToolsPainter.cs" />
     <Compile Include="ui\UiUtils.cs" />
     <Compile Include="output\Uploader.cs" />
@@ -148,16 +149,16 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ICONS\anchor.png" />
+    <None Include="icons\anchor.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ICONS\browser.png" />
+    <None Include="icons\browser.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ICONS\folder.png" />
+    <None Include="icons\folder.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ICONS\link.png" />
+    <None Include="icons\link.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
