@@ -47,9 +47,18 @@
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonPath = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.contextMenuStripUrl = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.copyURLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.longPressTimer = new System.Windows.Forms.Timer(this.components);
+            this.contextMenuStripPath = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.copyFilePathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewInExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelTools.SuspendLayout();
             this.panelOutput.SuspendLayout();
+            this.contextMenuStripUrl.SuspendLayout();
+            this.contextMenuStripPath.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -229,6 +238,8 @@
             this.toolTip1.SetToolTip(this.buttonUrl, "Copy URL");
             this.buttonUrl.UseVisualStyleBackColor = true;
             this.buttonUrl.Click += new System.EventHandler(this.buttonUrl_Click);
+            this.buttonUrl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonUrl_MouseDown);
+            this.buttonUrl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonUrl_MouseUp);
             // 
             // buttonCancel
             // 
@@ -256,6 +267,60 @@
             this.toolTip1.SetToolTip(this.buttonPath, "Copy file path");
             this.buttonPath.UseVisualStyleBackColor = true;
             this.buttonPath.Click += new System.EventHandler(this.buttonPath_Click);
+            this.buttonPath.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonPath_MouseDown);
+            this.buttonPath.MouseUp += new System.Windows.Forms.MouseEventHandler(this.buttonPath_MouseUp);
+            // 
+            // contextMenuStripUrl
+            // 
+            this.contextMenuStripUrl.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyURLToolStripMenuItem,
+            this.viewInBrowserToolStripMenuItem});
+            this.contextMenuStripUrl.Name = "contextMenuStripUrl";
+            this.contextMenuStripUrl.Size = new System.Drawing.Size(158, 70);
+            // 
+            // copyURLToolStripMenuItem
+            // 
+            this.copyURLToolStripMenuItem.Image = global::ZxcScreenShot.Properties.Resources.link;
+            this.copyURLToolStripMenuItem.Name = "copyURLToolStripMenuItem";
+            this.copyURLToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.copyURLToolStripMenuItem.Text = "Copy URL";
+            this.copyURLToolStripMenuItem.Click += new System.EventHandler(this.copyURLToolStripMenuItem_Click);
+            // 
+            // viewInBrowserToolStripMenuItem
+            // 
+            this.viewInBrowserToolStripMenuItem.Image = global::ZxcScreenShot.Properties.Resources.browser;
+            this.viewInBrowserToolStripMenuItem.Name = "viewInBrowserToolStripMenuItem";
+            this.viewInBrowserToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.viewInBrowserToolStripMenuItem.Text = "View in Browser";
+            this.viewInBrowserToolStripMenuItem.Click += new System.EventHandler(this.viewInBrowserToolStripMenuItem_Click);
+            // 
+            // longPressTimer
+            // 
+            this.longPressTimer.Interval = 400;
+            // 
+            // contextMenuStripPath
+            // 
+            this.contextMenuStripPath.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyFilePathToolStripMenuItem,
+            this.viewInExplorerToolStripMenuItem});
+            this.contextMenuStripPath.Name = "contextMenuStripPath";
+            this.contextMenuStripPath.Size = new System.Drawing.Size(158, 48);
+            // 
+            // copyFilePathToolStripMenuItem
+            // 
+            this.copyFilePathToolStripMenuItem.Image = global::ZxcScreenShot.Properties.Resources.anchor;
+            this.copyFilePathToolStripMenuItem.Name = "copyFilePathToolStripMenuItem";
+            this.copyFilePathToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.copyFilePathToolStripMenuItem.Text = "Copy file path";
+            this.copyFilePathToolStripMenuItem.Click += new System.EventHandler(this.copyFilePathToolStripMenuItem_Click);
+            // 
+            // viewInExplorerToolStripMenuItem
+            // 
+            this.viewInExplorerToolStripMenuItem.Image = global::ZxcScreenShot.Properties.Resources.folder;
+            this.viewInExplorerToolStripMenuItem.Name = "viewInExplorerToolStripMenuItem";
+            this.viewInExplorerToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.viewInExplorerToolStripMenuItem.Text = "View in Explorer";
+            this.viewInExplorerToolStripMenuItem.Click += new System.EventHandler(this.viewInExplorerToolStripMenuItem_Click);
             // 
             // FormOverlay
             // 
@@ -273,6 +338,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panelTools.ResumeLayout(false);
             this.panelOutput.ResumeLayout(false);
+            this.contextMenuStripUrl.ResumeLayout(false);
+            this.contextMenuStripPath.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -296,6 +363,13 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button buttonDrawUndo;
         private System.Windows.Forms.Button buttonCopy;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripUrl;
+        private System.Windows.Forms.ToolStripMenuItem copyURLToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewInBrowserToolStripMenuItem;
+        private System.Windows.Forms.Timer longPressTimer;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripPath;
+        private System.Windows.Forms.ToolStripMenuItem copyFilePathToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewInExplorerToolStripMenuItem;
     }
 }
 
