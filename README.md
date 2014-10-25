@@ -6,6 +6,7 @@ Just right tool to do screen shots and upload them to [shots.zxc.lv](http://shot
 Kudos
 ------
 
-- To Matt Gentile for [The Application Icon Set](http://tympanus.net/codrops/2012/10/02/freebie-application-icon-set-png-psd-csh/).
+- To Skillbrains for [LightShot app](https://app.prntscr.com/) which served as an inspiration.
+- To GuyThiebaut for the [TeboScreen: Basic C# Screen Capture Application](http://www.codeproject.com/Articles/21913/TeboScreen-Basic-C-Screen-Capture-Application) article, which helped to get started quickly.
 - To Christian Liensberger for easy to use [RegisterHotKey encapsulation class](http://www.liensberger.it/web/blog/?p=207).
-- To GuyThiebaut for the [TeboScreen: Basic C# Screen Capture Application](http://www.codeproject.com/Articles/21913/TeboScreen-Basic-C-Screen-Capture-Application) article, which served as an inspiration.
+- To Matt Gentile for [The Application Icon Set](http://tympanus.net/codrops/2012/10/02/freebie-application-icon-set-png-psd-csh/).
