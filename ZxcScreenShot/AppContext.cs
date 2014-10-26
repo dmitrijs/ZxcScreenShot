@@ -6,7 +6,7 @@ namespace ZxcScreenShot
 {
     class AppContext : ApplicationContext
     {
-        private static AppContext _instance = null;
+        private static AppContext _instance;
         private FormMain _main;
         private FormOverlay _overlay;
         private KeyboardHook _hook;
@@ -26,6 +26,7 @@ namespace ZxcScreenShot
                 MessageBox.Show(
                     "Could not register PrintScreen shortcut key.\n" +
                     "Please make sure no other screen capture application is running.");
+                _main.MarkNotifyIconBroken();
             }
         }
 
@@ -51,6 +52,11 @@ namespace ZxcScreenShot
                 _overlay = new FormOverlay();
             }
             return _overlay;
+        }
+
+        public void ShowNotifyMessage(string title, string msg)
+        {
+            _main.ShowNotifyMessage(title, msg);
         }
     }
 }

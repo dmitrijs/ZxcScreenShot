@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using ZxcScreenShot.Properties;
@@ -131,6 +132,21 @@ namespace ZxcScreenShot
                 return;
             }
             overlay.Show();
+        }
+
+        public void ShowNotifyMessage(string title, string msg)
+        {
+            notifyIcon.ShowBalloonTip(1000, title, msg, ToolTipIcon.Info);
+        }
+
+        public void MarkNotifyIconBroken()
+        {
+            notifyIcon.Icon = SystemIcons.Error;
+        }
+
+        private void notifyIcon_BalloonTipClicked(object sender, EventArgs e)
+        {
+
         }
     }
 
