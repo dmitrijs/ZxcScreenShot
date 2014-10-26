@@ -93,6 +93,15 @@ namespace ZxcScreenShot
             buttonEditInPaint.MouseMove += Panel_Mouse_Move;
             buttonCancel.MouseMove += Panel_Mouse_Move;
 
+            buttonColor1.Click += SwitchColor_Click;
+            buttonColor2.Click += SwitchColor_Click;
+            buttonColor3.Click += SwitchColor_Click;
+            buttonColor4.Click += SwitchColor_Click;
+            buttonColor5.Click += SwitchColor_Click;
+            buttonColor6.Click += SwitchColor_Click;
+            buttonColor7.Click += SwitchColor_Click;
+            buttonColor8.Click += SwitchColor_Click;
+
             KeyDown += Key_Down;
             KeyUp += Key_Up;
 
@@ -586,10 +595,6 @@ namespace ZxcScreenShot
         
         private void buttonDrawColor_Click(object sender, EventArgs e)
         {
-            if (colorDialog1.ShowDialog() == DialogResult.OK)
-            {
-                buttonDrawColor.BackColor = colorDialog1.Color;
-            }
         }
         
         private void buttonDone_Click(object sender, EventArgs e)
@@ -772,6 +777,26 @@ namespace ZxcScreenShot
         private void viewInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Do_Output(OutputActions.ShowInBrowser);
+        }
+
+        private void SwitchColor_Click(object sender, EventArgs e)
+        {
+            buttonDrawColor.BackColor = ((Button)sender).BackColor;
+        }
+
+        private void buttonDrawColor_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (colorDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    buttonDrawColor.BackColor = colorDialog1.Color;
+                }
+            }
+            else if (e.Button == MouseButtons.Left)
+            {
+                panelTools.Width = panelTools.Width != 60 ? 60 : 36;
+            }
         }
     }
 }
