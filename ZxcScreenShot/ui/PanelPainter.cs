@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
@@ -7,14 +8,19 @@ namespace ZxcScreenShot.ui
 {
     class PanelPainter
     {
+        public delegate void InvalidatePanel(Rectangle invalidateRectangle);
+
         private Rectangle BOUNDS = new Rectangle(new Point(100, 100), new Size(300, 50));
+        private readonly InvalidatePanel _panelInvalidates;
 
         private readonly List<Button> _buttons = new List<Button>();
+        private readonly Dictionary<Button, EventHandler> _actions = new Dictionary<Button, EventHandler>();
         private Point _mouseLocation = Point.Empty;
 
-        public PanelPainter(Rectangle bounds)
+        public PanelPainter(Rectangle bounds, InvalidatePanel panelInvalidates)
         {
             BOUNDS = bounds;
+            _panelInvalidates = panelInvalidates;
             BOUNDS.Y -= 40;
         }
 
@@ -23,15 +29,19 @@ namespace ZxcScreenShot.ui
             get { return BOUNDS; }
         }
 
-        public void AddButton(Button btn)
+        public void AddButton(Button btn, EventHandler clickHandler)
         {
             _buttons.Add(btn);
+            _actions.Add(btn, clickHandler);
         }
 
-        public bool ThePanelContains(Point p)
+        public void MouseMove(MouseEventArgs e)
         {
-            _mouseLocation = p;
-            return BOUNDS.Contains(p);
+            _mouseLocation = e.Location;
+            if (BOUNDS.Contains(_mouseLocation))
+            {
+                _panelInvalidates.Invoke(BOUNDS);
+            }
         }
 
         public void DrawThePanel(Graphics g)
@@ -56,6 +66,24 @@ namespace ZxcScreenShot.ui
                 var deltaToCenterImageX = (button.Width - buttonImage.Width)/2;
                 var deltaToCenterImageY = (button.Height - buttonImage.Height) / 2;
                 g.DrawImage(buttonImage, BOUNDS.X + button.Left + deltaToCenterImageX, BOUNDS.Y + button.Top + deltaToCenterImageY); // TODO: center
+            }
+        }
+
+        public void MouseUp(MouseEventArgs e)
+        {
+            var panelMouseLocation = _mouseLocation;
+            panelMouseLocation.X -= BOUNDS.Left;
+            panelMouseLocation.Y -= BOUNDS.Top;
+
+            foreach (var button in _buttons)
+            {
+                if (button.Bounds.Contains(panelMouseLocation))
+                {
+                    button.PerformClick();
+                    // _actions[button].Invoke(null, e);
+//                    button.PerformClick();
+//                    Console.WriteLine("button " + button.ImageKey + " pressed");
+                }
             }
         }
     }

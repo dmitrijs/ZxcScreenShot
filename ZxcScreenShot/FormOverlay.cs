@@ -110,7 +110,7 @@ namespace ZxcScreenShot
             KeyDown += Key_Down;
             KeyUp += Key_Up;
 
-            Bitmap screenBitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Size.Width, Screen.PrimaryScreen.Bounds.Size.Height);
+            var screenBitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Size.Width, Screen.PrimaryScreen.Bounds.Size.Height);
             ScreenShot.GetScreenCapture(screenBitmap);
 
             pictureBox1.Image = screenBitmap;
@@ -119,13 +119,20 @@ namespace ZxcScreenShot
 
             _longPressAction = new LongPressAction(longPressTimer);
 
-            _panelPainter = new PanelPainter(panelOutput.Bounds);
-            foreach (var control in panelOutput.Controls)
-            {
-                _panelPainter.AddButton((Button) control);
-            }
+            _panelPainter = new PanelPainter(panelOutput.Bounds, Panel_Invalidates);
+            _panelPainter.AddButton(buttonPath, buttonPath_Click);
+            _panelPainter.AddButton(buttonUrl, buttonUrl_Click);
+            _panelPainter.AddButton(buttonEditInPaint, buttonEditInPaint_Click);
+            _panelPainter.AddButton(buttonCopy, buttonCopy_Click);
+            _panelPainter.AddButton(buttonJustSave, buttonJustSave_Click);
+            _panelPainter.AddButton(buttonCancel, buttonCancel_Click);
         }
-        
+
+        private void Panel_Invalidates(Rectangle invalidateRectangle)
+        {
+            pictureBox1.Invalidate(invalidateRectangle);
+        }
+
         private void Key_Down(object sender, KeyEventArgs e)
         {
             if (e.Shift)
@@ -406,8 +413,8 @@ namespace ZxcScreenShot
 
                 if (_goingToDrawTool == DrawingTool.DrawingToolType.NotDrawingTool)
                 {
-                    panelTools.Visible = false;
-                    panelOutput.Visible = false;
+//                    panelTools.Visible = false;
+//                    panelOutput.Visible = false;
                     SetClickAction();
                 }
                 else
@@ -440,6 +447,7 @@ namespace ZxcScreenShot
         
         private void Mouse_Up(object sender, MouseEventArgs e)
         {
+            _panelPainter.MouseUp(e);
             _rectangleDrawn = true;
             _leftButtonDown = false;
             _currentAction = ClickAction.NoClick;
@@ -454,11 +462,7 @@ namespace ZxcScreenShot
 
         private void Mouse_Move(object sender, MouseEventArgs e)
         {
-            if (_panelPainter.ThePanelContains(e.Location))
-            {
-                pictureBox1.Invalidate(_panelPainter.Bounds);
-                return;
-            }
+            _panelPainter.MouseMove(e);
 
             if (_leftButtonDown && !_rectangleDrawn)
             {
