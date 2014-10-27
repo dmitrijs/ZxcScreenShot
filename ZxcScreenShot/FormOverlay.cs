@@ -54,6 +54,7 @@ namespace ZxcScreenShot
         }
 
         private readonly ToolsPainter _toolsPainter = new ToolsPainter();
+        private readonly PanelPainter _panelPainter;
         private bool _isHoldingShift;
 
         private ClickAction _currentAction;
@@ -76,6 +77,8 @@ namespace ZxcScreenShot
         {
             InitializeComponent();
             FormBorderStyle = FormBorderStyle.None;
+            TopMost = false;
+            WindowState = FormWindowState.Normal;
 
             pictureBox1.MouseDown += Mouse_Click;
             pictureBox1.MouseUp += Mouse_Up;
@@ -115,6 +118,12 @@ namespace ZxcScreenShot
             _toolsPainter.Clear();
 
             _longPressAction = new LongPressAction(longPressTimer);
+
+            _panelPainter = new PanelPainter(panelOutput.Bounds);
+            foreach (var control in panelOutput.Controls)
+            {
+                _panelPainter.AddButton((Button) control);
+            }
         }
         
         private void Key_Down(object sender, KeyEventArgs e)
@@ -205,83 +214,87 @@ namespace ZxcScreenShot
 
         private void ResizeSelection()
         {
+            var cursorPosition = Cursor.Position;
+            cursorPosition.X -= Left;
+            cursorPosition.Y -= Top;
+
             if (_currentAction == ClickAction.LeftSizing)
             {
-                if (Cursor.Position.X < _currentBottomRight.X - 10)
+                if (cursorPosition.X < _currentBottomRight.X - 10)
                 {
                     //Erase the previous rectangle
-                    _currentTopLeft.X = Cursor.Position.X;
+                    _currentTopLeft.X = cursorPosition.X;
                     _rectangleWidth = _currentBottomRight.X - _currentTopLeft.X;
                 }
             }
             if (_currentAction == ClickAction.TopLeftSizing)
             {
-                if (Cursor.Position.X < _currentBottomRight.X - 10 && Cursor.Position.Y < _currentBottomRight.Y - 10)
+                if (cursorPosition.X < _currentBottomRight.X - 10 && cursorPosition.Y < _currentBottomRight.Y - 10)
                 {
                     //Erase the previous rectangle
-                    _currentTopLeft.X = Cursor.Position.X;
-                    _currentTopLeft.Y = Cursor.Position.Y;
+                    _currentTopLeft.X = cursorPosition.X;
+                    _currentTopLeft.Y = cursorPosition.Y;
                     _rectangleWidth = _currentBottomRight.X - _currentTopLeft.X;
                     _rectangleHeight = _currentBottomRight.Y - _currentTopLeft.Y;
                 }
             }
             if (_currentAction == ClickAction.BottomLeftSizing)
             {
-                if (Cursor.Position.X < _currentBottomRight.X - 10 && Cursor.Position.Y > _currentTopLeft.Y + 10)
+                if (cursorPosition.X < _currentBottomRight.X - 10 && cursorPosition.Y > _currentTopLeft.Y + 10)
                 {
                     //Erase the previous rectangle
-                    _currentTopLeft.X = Cursor.Position.X;
-                    _currentBottomRight.Y = Cursor.Position.Y;
+                    _currentTopLeft.X = cursorPosition.X;
+                    _currentBottomRight.Y = cursorPosition.Y;
                     _rectangleWidth = _currentBottomRight.X - _currentTopLeft.X;
                     _rectangleHeight = _currentBottomRight.Y - _currentTopLeft.Y;
                 }
             }
             if (_currentAction == ClickAction.RightSizing)
             {
-                if (Cursor.Position.X > _currentTopLeft.X + 10)
+                if (cursorPosition.X > _currentTopLeft.X + 10)
                 {
                     //Erase the previous rectangle
-                    _currentBottomRight.X = Cursor.Position.X;
+                    _currentBottomRight.X = cursorPosition.X;
                     _rectangleWidth = _currentBottomRight.X - _currentTopLeft.X;
                 }
             }
             if (_currentAction == ClickAction.TopRightSizing)
             {
-                if (Cursor.Position.X > _currentTopLeft.X + 10 && Cursor.Position.Y < _currentBottomRight.Y - 10)
+                if (cursorPosition.X > _currentTopLeft.X + 10 && cursorPosition.Y < _currentBottomRight.Y - 10)
                 {
                     //Erase the previous rectangle
-                    _currentBottomRight.X = Cursor.Position.X;
-                    _currentTopLeft.Y = Cursor.Position.Y;
+                    _currentBottomRight.X = cursorPosition.X;
+                    _currentTopLeft.Y = cursorPosition.Y;
                     _rectangleWidth = _currentBottomRight.X - _currentTopLeft.X;
                     _rectangleHeight = _currentBottomRight.Y - _currentTopLeft.Y;
                 }
             }
             if (_currentAction == ClickAction.BottomRightSizing)
             {
-                if (Cursor.Position.X > _currentTopLeft.X + 10 && Cursor.Position.Y > _currentTopLeft.Y + 10)
+                if (cursorPosition.X > _currentTopLeft.X + 10 && cursorPosition.Y > _currentTopLeft.Y + 10)
                 {
                     //Erase the previous rectangle
-                    _currentBottomRight.X = Cursor.Position.X;
-                    _currentBottomRight.Y = Cursor.Position.Y;
+                    _currentBottomRight.X = cursorPosition.X;
+                    _currentBottomRight.Y = cursorPosition.Y;
                     _rectangleWidth = _currentBottomRight.X - _currentTopLeft.X;
                     _rectangleHeight = _currentBottomRight.Y - _currentTopLeft.Y;
                 }
             }
             if (_currentAction == ClickAction.TopSizing)
             {
-                if (Cursor.Position.Y < _currentBottomRight.Y - 10)
+                if (cursorPosition.Y < _currentBottomRight.Y - 10)
                 {
                     //Erase the previous rectangle
-                    _currentTopLeft.Y = Cursor.Position.Y;
+                    _currentTopLeft.Y = cursorPosition.Y;
                     _rectangleHeight = _currentBottomRight.Y - _currentTopLeft.Y;
                 }
             }
             if (_currentAction == ClickAction.BottomSizing)
             {
-                if (Cursor.Position.Y > _currentTopLeft.Y + 10)
+                if (cursorPosition.Y > _currentTopLeft.Y + 10)
                 {
                     //Erase the previous rectangle
-                    _currentBottomRight.Y = Cursor.Position.Y;
+                    _currentBottomRight.Y = cursorPosition.Y;
                     _rectangleHeight = _currentBottomRight.Y - _currentTopLeft.Y;
                 }
             }
@@ -290,7 +303,11 @@ namespace ZxcScreenShot
 
         private void MoveDrawingTool()
         {
-            _toolsPainter.MoveLatestTo(new Point(Cursor.Position.X - _currentTopLeft.X, Cursor.Position.Y - _currentTopLeft.Y));
+            var cursorPosition = Cursor.Position;
+            cursorPosition.X -= Left;
+            cursorPosition.Y -= Top;
+
+            _toolsPainter.MoveLatestTo(new Point(cursorPosition.X - _currentTopLeft.X, cursorPosition.Y - _currentTopLeft.Y));
 
             UpdateUi();
         }
@@ -298,16 +315,19 @@ namespace ZxcScreenShot
         private void DragSelection()
         {
             //Ensure that the rectangle stays within the bounds of the screen
+            var cursorPosition = Cursor.Position;
+            cursorPosition.X -= Left;
+            cursorPosition.Y -= Top;
 
-            if (Cursor.Position.X - _dragClickRelative.X > 0 &&
-                Cursor.Position.X - _dragClickRelative.X + _rectangleWidth < Screen.PrimaryScreen.Bounds.Width)
+            if (cursorPosition.X - _dragClickRelative.X > 0 &&
+                cursorPosition.X - _dragClickRelative.X + _rectangleWidth < Screen.PrimaryScreen.Bounds.Width)
             {
-                _currentTopLeft.X = Cursor.Position.X - _dragClickRelative.X;
+                _currentTopLeft.X = cursorPosition.X - _dragClickRelative.X;
                 _currentBottomRight.X = _currentTopLeft.X + _rectangleWidth;
             }
             else
                 //Selection area has reached the right side of the screen
-                if (Cursor.Position.X - _dragClickRelative.X > 0)
+                if (cursorPosition.X - _dragClickRelative.X > 0)
                 {
                     _currentTopLeft.X = Screen.PrimaryScreen.Bounds.Width - _rectangleWidth;
                     _currentBottomRight.X = _currentTopLeft.X + _rectangleWidth;
@@ -319,15 +339,15 @@ namespace ZxcScreenShot
                     _currentBottomRight.X = _currentTopLeft.X + _rectangleWidth;
                 }
 
-            if (Cursor.Position.Y - _dragClickRelative.Y > 0 &&
-                Cursor.Position.Y - _dragClickRelative.Y + _rectangleHeight < Screen.PrimaryScreen.Bounds.Height)
+            if (cursorPosition.Y - _dragClickRelative.Y > 0 &&
+                cursorPosition.Y - _dragClickRelative.Y + _rectangleHeight < Screen.PrimaryScreen.Bounds.Height)
             {
-                _currentTopLeft.Y = Cursor.Position.Y - _dragClickRelative.Y;
+                _currentTopLeft.Y = cursorPosition.Y - _dragClickRelative.Y;
                 _currentBottomRight.Y = _currentTopLeft.Y + _rectangleHeight;
             }
             else
                 //Selection area has reached the bottom of the screen
-                if (Cursor.Position.Y - _dragClickRelative.Y > 0)
+                if (cursorPosition.Y - _dragClickRelative.Y > 0)
                 {
                     _currentTopLeft.Y = Screen.PrimaryScreen.Bounds.Height - _rectangleHeight;
                     _currentBottomRight.Y = _currentTopLeft.Y + _rectangleHeight;
@@ -347,27 +367,31 @@ namespace ZxcScreenShot
             Cursor = Cursors.Arrow;
 
             //Calculate X Coordinates
-            if (Cursor.Position.X < _clickPoint.X)
+            var cursorPosition = Cursor.Position;
+            cursorPosition.X -= Left;
+            cursorPosition.Y -= Top;
+
+            if (cursorPosition.X < _clickPoint.X)
             {
-                _currentTopLeft.X = Cursor.Position.X;
+                _currentTopLeft.X = cursorPosition.X;
                 _currentBottomRight.X = _clickPoint.X;
             }
             else
             {
                 _currentTopLeft.X = _clickPoint.X;
-                _currentBottomRight.X = Cursor.Position.X;
+                _currentBottomRight.X = cursorPosition.X;
             }
 
             //Calculate Y Coordinates
-            if (Cursor.Position.Y < _clickPoint.Y)
+            if (cursorPosition.Y < _clickPoint.Y)
             {
-                _currentTopLeft.Y = Cursor.Position.Y;
+                _currentTopLeft.Y = cursorPosition.Y;
                 _currentBottomRight.Y = _clickPoint.Y;
             }
             else
             {
                 _currentTopLeft.Y = _clickPoint.Y;
-                _currentBottomRight.Y = Cursor.Position.Y;
+                _currentBottomRight.Y = cursorPosition.Y;
             }
 
             UpdateUi();
@@ -378,7 +402,7 @@ namespace ZxcScreenShot
             if (e.Button == MouseButtons.Left)
             {
                 _leftButtonDown = true;
-                _clickPoint = new Point(MousePosition.X, MousePosition.Y);
+                _clickPoint = new Point(MousePosition.X - Left, MousePosition.Y - Top);
 
                 if (_goingToDrawTool == DrawingTool.DrawingToolType.NotDrawingTool)
                 {
@@ -402,10 +426,14 @@ namespace ZxcScreenShot
 
                 if (_rectangleDrawn)
                 {
+                    var cursorPosition = Cursor.Position;
+                    cursorPosition.X -= Left;
+                    cursorPosition.Y -= Top;
+
                     _rectangleHeight = _currentBottomRight.Y - _currentTopLeft.Y;
                     _rectangleWidth = _currentBottomRight.X - _currentTopLeft.X;
-                    _dragClickRelative.X = Cursor.Position.X - _currentTopLeft.X;
-                    _dragClickRelative.Y = Cursor.Position.Y - _currentTopLeft.Y;
+                    _dragClickRelative.X = cursorPosition.X - _currentTopLeft.X;
+                    _dragClickRelative.Y = cursorPosition.Y - _currentTopLeft.Y;
                 }
             }
         }
@@ -426,6 +454,12 @@ namespace ZxcScreenShot
 
         private void Mouse_Move(object sender, MouseEventArgs e)
         {
+            if (_panelPainter.ThePanelContains(e.Location))
+            {
+                pictureBox1.Invalidate(_panelPainter.Bounds);
+                return;
+            }
+
             if (_leftButtonDown && !_rectangleDrawn)
             {
                 DrawSelection();
@@ -528,6 +562,8 @@ namespace ZxcScreenShot
         private void Do_Paint(Graphics graphics) {
             var box = new Rectangle(_currentTopLeft.X, _currentTopLeft.Y, _currentBottomRight.X - _currentTopLeft.X,
                 _currentBottomRight.Y - _currentTopLeft.Y); // new Rectangle(100, 50, 120, 70);
+
+            _panelPainter.DrawThePanel(graphics);
 
             DrawWorkarea(graphics, box);
             DrawFrame(graphics, box);

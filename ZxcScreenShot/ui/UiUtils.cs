@@ -7,62 +7,66 @@ namespace ZxcScreenShot.ui
     {
         static public FormOverlay.CursPos UpdateCursorAndGetCursorPosition(Form This, Point CurrentTopLeft, Point CurrentBottomRight, bool isResizable)
         {
+            var cursorPosition = Cursor.Position;
+            cursorPosition.X -= This.Left;
+            cursorPosition.Y -= This.Top;
+
             if (isResizable)
             {
-                if (((Cursor.Position.X > CurrentTopLeft.X - 5 && Cursor.Position.X < CurrentTopLeft.X + 5)) &&
-                    ((Cursor.Position.Y > CurrentTopLeft.Y + 5) && (Cursor.Position.Y < CurrentBottomRight.Y - 5)))
+                if (((cursorPosition.X > CurrentTopLeft.X - 5 && cursorPosition.X < CurrentTopLeft.X + 5)) &&
+                    ((cursorPosition.Y > CurrentTopLeft.Y + 5) && (cursorPosition.Y < CurrentBottomRight.Y - 5)))
                 {
                     This.Cursor = Cursors.SizeWE;
                     return FormOverlay.CursPos.LeftLine;
                 }
-                if (((Cursor.Position.X >= CurrentTopLeft.X - 5 && Cursor.Position.X <= CurrentTopLeft.X + 5)) &&
-                    ((Cursor.Position.Y >= CurrentTopLeft.Y - 5) && (Cursor.Position.Y <= CurrentTopLeft.Y + 5)))
+                if (((cursorPosition.X >= CurrentTopLeft.X - 5 && cursorPosition.X <= CurrentTopLeft.X + 5)) &&
+                    ((cursorPosition.Y >= CurrentTopLeft.Y - 5) && (cursorPosition.Y <= CurrentTopLeft.Y + 5)))
                 {
                     This.Cursor = Cursors.SizeNWSE;
                     return FormOverlay.CursPos.TopLeft;
                 }
-                if (((Cursor.Position.X >= CurrentTopLeft.X - 5 && Cursor.Position.X <= CurrentTopLeft.X + 5)) &&
-                    ((Cursor.Position.Y >= CurrentBottomRight.Y - 5) &&
-                     (Cursor.Position.Y <= CurrentBottomRight.Y + 5)))
+                if (((cursorPosition.X >= CurrentTopLeft.X - 5 && cursorPosition.X <= CurrentTopLeft.X + 5)) &&
+                    ((cursorPosition.Y >= CurrentBottomRight.Y - 5) &&
+                     (cursorPosition.Y <= CurrentBottomRight.Y + 5)))
                 {
                     This.Cursor = Cursors.SizeNESW;
                     return FormOverlay.CursPos.BottomLeft;
                 }
-                if (((Cursor.Position.X > CurrentBottomRight.X - 5 && Cursor.Position.X < CurrentBottomRight.X + 5)) &&
-                    ((Cursor.Position.Y > CurrentTopLeft.Y + 5) && (Cursor.Position.Y < CurrentBottomRight.Y - 5)))
+                if (((cursorPosition.X > CurrentBottomRight.X - 5 && cursorPosition.X < CurrentBottomRight.X + 5)) &&
+                    ((cursorPosition.Y > CurrentTopLeft.Y + 5) && (cursorPosition.Y < CurrentBottomRight.Y - 5)))
                 {
                     This.Cursor = Cursors.SizeWE;
                     return FormOverlay.CursPos.RightLine;
                 }
-                if (((Cursor.Position.X >= CurrentBottomRight.X - 5 && Cursor.Position.X <= CurrentBottomRight.X + 5)) &&
-                    ((Cursor.Position.Y >= CurrentTopLeft.Y - 5) && (Cursor.Position.Y <= CurrentTopLeft.Y + 5)))
+                if (((cursorPosition.X >= CurrentBottomRight.X - 5 && cursorPosition.X <= CurrentBottomRight.X + 5)) &&
+                    ((cursorPosition.Y >= CurrentTopLeft.Y - 5) && (cursorPosition.Y <= CurrentTopLeft.Y + 5)))
                 {
                     This.Cursor = Cursors.SizeNESW;
                     return FormOverlay.CursPos.TopRight;
                 }
-                if (((Cursor.Position.X >= CurrentBottomRight.X - 5 && Cursor.Position.X <= CurrentBottomRight.X + 5)) &&
-                    ((Cursor.Position.Y >= CurrentBottomRight.Y - 5) &&
-                     (Cursor.Position.Y <= CurrentBottomRight.Y + 5)))
+                if (((cursorPosition.X >= CurrentBottomRight.X - 5 && cursorPosition.X <= CurrentBottomRight.X + 5)) &&
+                    ((cursorPosition.Y >= CurrentBottomRight.Y - 5) &&
+                     (cursorPosition.Y <= CurrentBottomRight.Y + 5)))
                 {
                     This.Cursor = Cursors.SizeNWSE;
                     return FormOverlay.CursPos.BottomRight;
                 }
-                if (((Cursor.Position.Y > CurrentTopLeft.Y - 5) && (Cursor.Position.Y < CurrentTopLeft.Y + 5)) &&
-                    ((Cursor.Position.X > CurrentTopLeft.X + 5 && Cursor.Position.X < CurrentBottomRight.X - 5)))
+                if (((cursorPosition.Y > CurrentTopLeft.Y - 5) && (cursorPosition.Y < CurrentTopLeft.Y + 5)) &&
+                    ((cursorPosition.X > CurrentTopLeft.X + 5 && cursorPosition.X < CurrentBottomRight.X - 5)))
                 {
                     This.Cursor = Cursors.SizeNS;
                     return FormOverlay.CursPos.TopLine;
                 }
-                if (((Cursor.Position.Y > CurrentBottomRight.Y - 5) && (Cursor.Position.Y < CurrentBottomRight.Y + 5)) &&
-                    ((Cursor.Position.X > CurrentTopLeft.X + 5 && Cursor.Position.X < CurrentBottomRight.X - 5)))
+                if (((cursorPosition.Y > CurrentBottomRight.Y - 5) && (cursorPosition.Y < CurrentBottomRight.Y + 5)) &&
+                    ((cursorPosition.X > CurrentTopLeft.X + 5 && cursorPosition.X < CurrentBottomRight.X - 5)))
                 {
                     This.Cursor = Cursors.SizeNS;
                     return FormOverlay.CursPos.BottomLine;
                 }
 
                 if (
-                    (Cursor.Position.X >= CurrentTopLeft.X + 5 && Cursor.Position.X <= CurrentBottomRight.X - 5) &&
-                    (Cursor.Position.Y >= CurrentTopLeft.Y + 5 && Cursor.Position.Y <= CurrentBottomRight.Y - 5))
+                    (cursorPosition.X >= CurrentTopLeft.X + 5 && cursorPosition.X <= CurrentBottomRight.X - 5) &&
+                    (cursorPosition.Y >= CurrentTopLeft.Y + 5 && cursorPosition.Y <= CurrentBottomRight.Y - 5))
                 {
                     // This.Cursor = Cursors.SizeAll;
                     return FormOverlay.CursPos.WithinSelectionArea;
@@ -72,8 +76,8 @@ namespace ZxcScreenShot.ui
                 return FormOverlay.CursPos.OutsideSelectionArea;
             }
             if (
-                (Cursor.Position.X >= CurrentTopLeft.X && Cursor.Position.X <= CurrentBottomRight.X) &&
-                (Cursor.Position.Y >= CurrentTopLeft.Y && Cursor.Position.Y <= CurrentBottomRight.Y))
+                (cursorPosition.X >= CurrentTopLeft.X && cursorPosition.X <= CurrentBottomRight.X) &&
+                (cursorPosition.Y >= CurrentTopLeft.Y && cursorPosition.Y <= CurrentBottomRight.Y))
             {
                 // This.Cursor = Cursors.SizeAll;
                 return FormOverlay.CursPos.WithinSelectionArea;

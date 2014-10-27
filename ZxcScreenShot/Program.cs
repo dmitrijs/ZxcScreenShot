@@ -13,7 +13,8 @@ namespace ZxcScreenShot
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(AppContext.instance());
+            Application.Run(new FormOverlay());
+            // Application.Run(AppContext.instance());
         }
     }
 }

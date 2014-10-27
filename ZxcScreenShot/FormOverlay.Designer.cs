@@ -101,7 +101,6 @@
             this.panelTools.Name = "panelTools";
             this.panelTools.Size = new System.Drawing.Size(36, 197);
             this.panelTools.TabIndex = 2;
-            this.panelTools.Visible = false;
             // 
             // buttonColor8
             // 
@@ -296,7 +295,6 @@
             this.panelOutput.Name = "panelOutput";
             this.panelOutput.Size = new System.Drawing.Size(204, 36);
             this.panelOutput.TabIndex = 3;
-            this.panelOutput.Visible = false;
             // 
             // buttonJustSave
             // 
