@@ -614,7 +614,12 @@ namespace ZxcScreenShot
             }
 
             var doSaveImageToClipboard = (outputActions.HasFlag(OutputActions.PutImageToClipboard));
-            var imageFullPath = CaptureImage(doSaveImageToClipboard); 
+            var imageFullPath = CaptureImage(doSaveImageToClipboard);
+            if (imageFullPath == null)
+            {
+                Hide();
+                MessageBox.Show(string.Format("Could not save the image (empty selection?)"));
+            }
 
             if (outputActions.HasFlag(OutputActions.PutImagePathToClipboard))
             {
@@ -714,6 +719,11 @@ namespace ZxcScreenShot
             _dragStarted = true;
 
             var imageFullPath = CaptureImage(doSaveImageToClipboard: false);
+            if (imageFullPath == null)
+            {
+                Hide();
+                MessageBox.Show(string.Format("Could not save the image (empty selection?)"));
+            }
             var filePath = new System.Collections.Specialized.StringCollection { imageFullPath };
 
             var dataObject = new DataObject();

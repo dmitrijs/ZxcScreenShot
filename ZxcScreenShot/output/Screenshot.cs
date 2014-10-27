@@ -22,6 +22,11 @@ namespace ZxcScreenShot.output
 
         public static string CaptureImage(Point sourcePoint, Point destinationPoint, Rectangle selectionRectangle, PictureBox pictureBox1, ToolsPainter toolsPainter, bool updateClipboard)
         {
+            if (selectionRectangle.Width == 0 || selectionRectangle.Height == 0)
+            {
+                return null;
+            }
+
             using (var bitmap = new Bitmap(selectionRectangle.Width, selectionRectangle.Height))
             {
                 using (var g = Graphics.FromImage(bitmap))
