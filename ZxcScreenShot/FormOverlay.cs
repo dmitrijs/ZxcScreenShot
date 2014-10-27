@@ -44,6 +44,7 @@ namespace ZxcScreenShot
         [Flags]
         private enum OutputActions
         {
+            None = 0,
             EditInPaint = 1,
             PutImageToClipboard = 2,
             PutImagePathToClipboard = 4,
@@ -797,6 +798,11 @@ namespace ZxcScreenShot
             {
                 panelTools.Width = panelTools.Width != 60 ? 60 : 36;
             }
+        }
+
+        private void buttonJustSave_Click(object sender, EventArgs e)
+        {
+            Do_Output(OutputActions.None);
         }
     }
 }

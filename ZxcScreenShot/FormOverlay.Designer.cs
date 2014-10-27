@@ -62,6 +62,7 @@
             this.contextMenuStripPath = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyFilePathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewInExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonJustSave = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelTools.SuspendLayout();
             this.panelOutput.SuspendLayout();
@@ -206,12 +207,13 @@
             this.imageList1.Images.SetKeyName(3, "browser.png");
             this.imageList1.Images.SetKeyName(4, "pen.png");
             this.imageList1.Images.SetKeyName(5, "copy-2.png");
-            this.imageList1.Images.SetKeyName(6, "cross.png");
-            this.imageList1.Images.SetKeyName(7, "rectangle.png");
-            this.imageList1.Images.SetKeyName(8, "line.png");
-            this.imageList1.Images.SetKeyName(9, "left.png");
-            this.imageList1.Images.SetKeyName(10, "backward.png");
-            this.imageList1.Images.SetKeyName(11, "target.png");
+            this.imageList1.Images.SetKeyName(6, "download-files.png");
+            this.imageList1.Images.SetKeyName(7, "cross.png");
+            this.imageList1.Images.SetKeyName(8, "rectangle.png");
+            this.imageList1.Images.SetKeyName(9, "line.png");
+            this.imageList1.Images.SetKeyName(10, "left.png");
+            this.imageList1.Images.SetKeyName(11, "backward.png");
+            this.imageList1.Images.SetKeyName(12, "target.png");
             // 
             // buttonDrawResize
             // 
@@ -284,14 +286,15 @@
             // 
             // panelOutput
             // 
+            this.panelOutput.Controls.Add(this.buttonJustSave);
             this.panelOutput.Controls.Add(this.buttonCopy);
             this.panelOutput.Controls.Add(this.buttonEditInPaint);
             this.panelOutput.Controls.Add(this.buttonUrl);
             this.panelOutput.Controls.Add(this.buttonCancel);
             this.panelOutput.Controls.Add(this.buttonPath);
-            this.panelOutput.Location = new System.Drawing.Point(200, 304);
+            this.panelOutput.Location = new System.Drawing.Point(173, 304);
             this.panelOutput.Name = "panelOutput";
-            this.panelOutput.Size = new System.Drawing.Size(177, 36);
+            this.panelOutput.Size = new System.Drawing.Size(204, 36);
             this.panelOutput.TabIndex = 3;
             this.panelOutput.Visible = false;
             // 
@@ -300,7 +303,7 @@
             this.buttonCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCopy.ImageKey = "copy-2.png";
             this.buttonCopy.ImageList = this.imageList1;
-            this.buttonCopy.Location = new System.Drawing.Point(105, 2);
+            this.buttonCopy.Location = new System.Drawing.Point(101, 2);
             this.buttonCopy.Name = "buttonCopy";
             this.buttonCopy.Size = new System.Drawing.Size(32, 32);
             this.buttonCopy.TabIndex = 10;
@@ -315,7 +318,7 @@
             this.buttonEditInPaint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonEditInPaint.ImageKey = "pen.png";
             this.buttonEditInPaint.ImageList = this.imageList1;
-            this.buttonEditInPaint.Location = new System.Drawing.Point(71, 2);
+            this.buttonEditInPaint.Location = new System.Drawing.Point(68, 2);
             this.buttonEditInPaint.Name = "buttonEditInPaint";
             this.buttonEditInPaint.Size = new System.Drawing.Size(32, 32);
             this.buttonEditInPaint.TabIndex = 9;
@@ -328,7 +331,7 @@
             this.buttonUrl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonUrl.ImageKey = "link.png";
             this.buttonUrl.ImageList = this.imageList1;
-            this.buttonUrl.Location = new System.Drawing.Point(37, 2);
+            this.buttonUrl.Location = new System.Drawing.Point(35, 2);
             this.buttonUrl.Name = "buttonUrl";
             this.buttonUrl.Size = new System.Drawing.Size(32, 32);
             this.buttonUrl.TabIndex = 7;
@@ -344,7 +347,7 @@
             this.buttonCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonCancel.ImageKey = "cross.png";
             this.buttonCancel.ImageList = this.imageList1;
-            this.buttonCancel.Location = new System.Drawing.Point(143, 2);
+            this.buttonCancel.Location = new System.Drawing.Point(170, 2);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(32, 32);
             this.buttonCancel.TabIndex = 6;
@@ -357,7 +360,7 @@
             this.buttonPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonPath.ImageKey = "anchor.png";
             this.buttonPath.ImageList = this.imageList1;
-            this.buttonPath.Location = new System.Drawing.Point(3, 2);
+            this.buttonPath.Location = new System.Drawing.Point(2, 2);
             this.buttonPath.Name = "buttonPath";
             this.buttonPath.Size = new System.Drawing.Size(32, 32);
             this.buttonPath.TabIndex = 1;
@@ -419,6 +422,19 @@
             this.viewInExplorerToolStripMenuItem.Text = "View in Explorer";
             this.viewInExplorerToolStripMenuItem.Click += new System.EventHandler(this.viewInExplorerToolStripMenuItem_Click);
             // 
+            // buttonJustSave
+            // 
+            this.buttonJustSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonJustSave.ImageKey = "download-files.png";
+            this.buttonJustSave.ImageList = this.imageList1;
+            this.buttonJustSave.Location = new System.Drawing.Point(134, 2);
+            this.buttonJustSave.Name = "buttonJustSave";
+            this.buttonJustSave.Size = new System.Drawing.Size(32, 32);
+            this.buttonJustSave.TabIndex = 11;
+            this.toolTip1.SetToolTip(this.buttonJustSave, "Save at default location");
+            this.buttonJustSave.UseVisualStyleBackColor = true;
+            this.buttonJustSave.Click += new System.EventHandler(this.buttonJustSave_Click);
+            // 
             // FormOverlay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -475,6 +491,7 @@
         private System.Windows.Forms.Button buttonColor3;
         private System.Windows.Forms.Button buttonColor2;
         private System.Windows.Forms.Button buttonColor1;
+        private System.Windows.Forms.Button buttonJustSave;
     }
 }
 
