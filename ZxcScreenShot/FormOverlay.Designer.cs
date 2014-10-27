@@ -49,6 +49,7 @@
             this.buttonDrawRect = new System.Windows.Forms.Button();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.panelOutput = new System.Windows.Forms.Panel();
+            this.buttonJustSave = new System.Windows.Forms.Button();
             this.buttonCopy = new System.Windows.Forms.Button();
             this.buttonEditInPaint = new System.Windows.Forms.Button();
             this.buttonUrl = new System.Windows.Forms.Button();
@@ -62,7 +63,6 @@
             this.contextMenuStripPath = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyFilePathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewInExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.buttonJustSave = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelTools.SuspendLayout();
             this.panelOutput.SuspendLayout();
@@ -298,6 +298,19 @@
             this.panelOutput.TabIndex = 3;
             this.panelOutput.Visible = false;
             // 
+            // buttonJustSave
+            // 
+            this.buttonJustSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonJustSave.ImageKey = "download-files.png";
+            this.buttonJustSave.ImageList = this.imageList1;
+            this.buttonJustSave.Location = new System.Drawing.Point(134, 2);
+            this.buttonJustSave.Name = "buttonJustSave";
+            this.buttonJustSave.Size = new System.Drawing.Size(32, 32);
+            this.buttonJustSave.TabIndex = 11;
+            this.toolTip1.SetToolTip(this.buttonJustSave, "Save at default location");
+            this.buttonJustSave.UseVisualStyleBackColor = true;
+            this.buttonJustSave.Click += new System.EventHandler(this.buttonJustSave_Click);
+            // 
             // buttonCopy
             // 
             this.buttonCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -422,19 +435,6 @@
             this.viewInExplorerToolStripMenuItem.Text = "View in Explorer";
             this.viewInExplorerToolStripMenuItem.Click += new System.EventHandler(this.viewInExplorerToolStripMenuItem_Click);
             // 
-            // buttonJustSave
-            // 
-            this.buttonJustSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonJustSave.ImageKey = "download-files.png";
-            this.buttonJustSave.ImageList = this.imageList1;
-            this.buttonJustSave.Location = new System.Drawing.Point(134, 2);
-            this.buttonJustSave.Name = "buttonJustSave";
-            this.buttonJustSave.Size = new System.Drawing.Size(32, 32);
-            this.buttonJustSave.TabIndex = 11;
-            this.toolTip1.SetToolTip(this.buttonJustSave, "Save at default location");
-            this.buttonJustSave.UseVisualStyleBackColor = true;
-            this.buttonJustSave.Click += new System.EventHandler(this.buttonJustSave_Click);
-            // 
             // FormOverlay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -448,6 +448,7 @@
             this.Text = "Overlay";
             this.TopMost = true;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Shown += new System.EventHandler(this.FormOverlay_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panelTools.ResumeLayout(false);
             this.panelOutput.ResumeLayout(false);
