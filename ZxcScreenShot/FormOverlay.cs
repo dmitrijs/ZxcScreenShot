@@ -513,7 +513,6 @@ namespace ZxcScreenShot
                 }
                 panelOutput.Left = Math.Max(10, _currentBottomRight.X - panelOutput.Width - 10);
             }
-            pictureBox1.Update(); // force whole area redraw to restore shadow, which disappears after controls appear on pictureBox
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
