@@ -29,6 +29,20 @@ namespace ZxcScreenShot.ui
             get { return BOUNDS; }
         }
 
+        public int Top {
+            get { return BOUNDS.Y; }
+            set { BOUNDS.Y = value; }
+        }
+
+        public int Left {
+            get { return BOUNDS.X; }
+            set { BOUNDS.X = value; }
+        }
+
+        public int Height {
+            get { return BOUNDS.Height; }
+        }
+
         public void AddButton(Button btn, EventHandler clickHandler)
         {
             _buttons.Add(btn);

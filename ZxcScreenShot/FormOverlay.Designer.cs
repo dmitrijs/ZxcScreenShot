@@ -101,6 +101,7 @@
             this.panelTools.Name = "panelTools";
             this.panelTools.Size = new System.Drawing.Size(36, 197);
             this.panelTools.TabIndex = 2;
+            this.panelTools.Visible = false;
             // 
             // buttonColor8
             // 

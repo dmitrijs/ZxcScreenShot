@@ -120,12 +120,12 @@ namespace ZxcScreenShot
             _longPressAction = new LongPressAction(longPressTimer);
 
             _panelPainter = new PanelPainter(panelOutput.Bounds, Panel_Invalidates);
-            _panelPainter.AddButton(buttonPath, buttonPath_Click);
-            _panelPainter.AddButton(buttonUrl, buttonUrl_Click);
-            _panelPainter.AddButton(buttonEditInPaint, buttonEditInPaint_Click);
-            _panelPainter.AddButton(buttonCopy, buttonCopy_Click);
-            _panelPainter.AddButton(buttonJustSave, buttonJustSave_Click);
-            _panelPainter.AddButton(buttonCancel, buttonCancel_Click);
+            foreach (var control in panelOutput.Controls)
+            {
+                _panelPainter.AddButton((Button) control, null);
+            }
+
+            panelOutput.Left = -500; // do not show the panel, but do not hide it to be able to perform clicks
         }
 
         private void Panel_Invalidates(Rectangle invalidateRectangle)
@@ -451,8 +451,8 @@ namespace ZxcScreenShot
             _rectangleDrawn = true;
             _leftButtonDown = false;
             _currentAction = ClickAction.NoClick;
-            UpdatePanelPosition(force: true);
-            panelOutput.Visible = panelTools.Visible = true;
+            UpdatePanelPosition();
+            // panelOutput.Visible = panelTools.Visible = true;
         }
 
         private void Panel_Mouse_Move(object sender, MouseEventArgs e)
@@ -508,7 +508,7 @@ namespace ZxcScreenShot
             UpdatePanelPosition();
 
             // redraw rectangle
-            pictureBox1.Invalidate(GetExtendedBox());
+            pictureBox1.Invalidate(Rectangle.Union(GetExtendedBox(), _panelPainter.Bounds));
         }
 
         private Rectangle GetExtendedBox()
@@ -517,36 +517,33 @@ namespace ZxcScreenShot
                 _currentBottomRight.Y - _currentTopLeft.Y + 40);
         }
 
-        private void UpdatePanelPosition(Boolean force = false)
+        private void UpdatePanelPosition()
         {
-            if (force || panelTools.Visible)
+            // move panel
+            if (_currentBottomRight.X + 10 + panelTools.Width + 10 < Screen.PrimaryScreen.Bounds.Width)
             {
-                // move panel
-                if (_currentBottomRight.X + 10 + panelTools.Width + 10 < Screen.PrimaryScreen.Bounds.Width)
-                {
-                    // panel fits on the right
-                    panelTools.Left = _currentBottomRight.X + 10;
-                }
-                else
-                {
-                    // place panel on the left
-                    panelTools.Left = _currentTopLeft.X - panelTools.Width - 10;
-                }
-                panelTools.Top = Math.Max(10, _currentBottomRight.Y - panelTools.Height);
-
-                // move panel
-                if (_currentBottomRight.Y + 10 + panelOutput.Height + 10 < Screen.PrimaryScreen.Bounds.Height)
-                {
-                    // panel fits in the bottom
-                    panelOutput.Top = _currentBottomRight.Y + 10;
-                }
-                else
-                {
-                    // place panel on top
-                    panelOutput.Top = _currentTopLeft.Y - panelOutput.Height - 10;
-                }
-                panelOutput.Left = Math.Max(10, _currentBottomRight.X - panelOutput.Width - 10);
+                // panel fits on the right
+                panelTools.Left = _currentBottomRight.X + 10;
             }
+            else
+            {
+                // place panel on the left
+                panelTools.Left = _currentTopLeft.X - panelTools.Width - 10;
+            }
+            panelTools.Top = Math.Max(10, _currentBottomRight.Y - panelTools.Height);
+
+            // move panel
+            if (_currentBottomRight.Y + 10 + panelOutput.Height + 10 < Screen.PrimaryScreen.Bounds.Height)
+            {
+                // panel fits in the bottom
+                _panelPainter.Top = _currentBottomRight.Y + 10;
+            }
+            else
+            {
+                // place panel on top
+                _panelPainter.Top = _currentTopLeft.Y - _panelPainter.Height - 10;
+            }
+            _panelPainter.Left = Math.Max(10, _currentBottomRight.X - panelOutput.Width - 10);
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
@@ -582,6 +579,7 @@ namespace ZxcScreenShot
                 _currentBottomRight.Y - _currentTopLeft.Y + 40);
 
             graphics.SetClip(box, CombineMode.Exclude);
+            graphics.SetClip(_panelPainter.Bounds, CombineMode.Exclude);
             using (var b = new SolidBrush(Color.FromArgb(128, 0, 0, 0)))
             {
                 graphics.FillRectangle(b, extendedBox);
