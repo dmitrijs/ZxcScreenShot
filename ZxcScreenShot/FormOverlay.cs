@@ -68,6 +68,7 @@ namespace ZxcScreenShot
         private bool _dragStarted;
 
         private readonly LongPressAction _longPressAction;
+        private Rectangle _lastUpdateBox, _currentlyUpdatedBox;
 
         private const int MinimumPixelsDrag = 3;
 
@@ -311,7 +312,7 @@ namespace ZxcScreenShot
                     _currentTopLeft.X = Screen.PrimaryScreen.Bounds.Width - _rectangleWidth;
                     _currentBottomRight.X = _currentTopLeft.X + _rectangleWidth;
                 }
-                    //Selection area has reached the left side of the screen
+                //Selection area has reached the left side of the screen
                 else
                 {
                     _currentTopLeft.X = 0;
@@ -331,7 +332,7 @@ namespace ZxcScreenShot
                     _currentTopLeft.Y = Screen.PrimaryScreen.Bounds.Height - _rectangleHeight;
                     _currentBottomRight.Y = _currentTopLeft.Y + _rectangleHeight;
                 }
-                    //Selection area has reached the top of the screen
+                //Selection area has reached the top of the screen
                 else
                 {
                     _currentTopLeft.Y = 0;
@@ -371,7 +372,7 @@ namespace ZxcScreenShot
 
             UpdateUi();
         }
-        
+
         private void Mouse_Click(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -408,7 +409,7 @@ namespace ZxcScreenShot
                 }
             }
         }
-        
+
         private void Mouse_Up(object sender, MouseEventArgs e)
         {
             _rectangleDrawn = true;
@@ -463,13 +464,23 @@ namespace ZxcScreenShot
                 }
             }
         }
-        
+
         private void UpdateUi()
         {
+            _lastUpdateBox = _currentlyUpdatedBox;
+            _currentlyUpdatedBox = GetExtendedBox(); // Box is too extended. no need for extra pixels on sides.
+
             UpdatePanelPosition();
 
+            var combinedBox = Rectangle.Union(_lastUpdateBox, _currentlyUpdatedBox);
             // redraw rectangle
-            pictureBox1.Invalidate();
+            pictureBox1.Invalidate(combinedBox);
+        }
+
+        private Rectangle GetExtendedBox()
+        {
+            return new Rectangle(_currentTopLeft.X - 20, _currentTopLeft.Y - 20, _currentBottomRight.X - _currentTopLeft.X + 40,
+                _currentBottomRight.Y - _currentTopLeft.Y + 40);
         }
 
         private void UpdatePanelPosition(Boolean force = false)
@@ -506,29 +517,27 @@ namespace ZxcScreenShot
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            Do_Paint(e.Graphics);
+            Do_Paint(e.Graphics, e.ClipRectangle);
         }
 
-        private void Do_Paint(Graphics graphics) {
+        private void Do_Paint(Graphics graphics, Rectangle clipRectangle)
+        {
             var box = new Rectangle(_currentTopLeft.X, _currentTopLeft.Y, _currentBottomRight.X - _currentTopLeft.X,
                 _currentBottomRight.Y - _currentTopLeft.Y); // new Rectangle(100, 50, 120, 70);
 
-            var extendedBox = new Rectangle(_currentTopLeft.X - 20, _currentTopLeft.Y + 20, _currentBottomRight.X - _currentTopLeft.X + 40,
-                _currentBottomRight.Y - _currentTopLeft.Y + 40);
-
-            DrawWorkarea(graphics, box);
+            DrawWorkarea(graphics, box, clipRectangle);
             DrawFrame(graphics, box);
             _toolsPainter.DrawAllTools(graphics, _currentTopLeft, _currentTopLeft, _currentBottomRight);
 
             graphics.DrawString(string.Format(@"{0}x{1} @ {2},{3}", box.Width, box.Height, box.Left, box.Top), DefaultFont, Brushes.White, box.Left, box.Top - 20);
         }
 
-        private void DrawWorkarea(Graphics graphics, Rectangle box)
+        private void DrawWorkarea(Graphics graphics, Rectangle box, Rectangle clipRectangle)
         {
             graphics.SetClip(box, CombineMode.Exclude);
             using (var b = new SolidBrush(Color.FromArgb(128, 0, 0, 0)))
             {
-                graphics.FillRectangle(b, ClientRectangle);
+                graphics.FillRectangle(b, clipRectangle);
             }
             graphics.ResetClip();
         }
@@ -593,11 +602,11 @@ namespace ZxcScreenShot
             buttonDrawLine.Enabled = true;
             buttonDrawArrow.Enabled = false;
         }
-        
+
         private void buttonDrawColor_Click(object sender, EventArgs e)
         {
         }
-        
+
         private void buttonDone_Click(object sender, EventArgs e)
         {
             _goingToDrawTool = DrawingTool.DrawingToolType.NotDrawingTool;
@@ -613,13 +622,10 @@ namespace ZxcScreenShot
                 return;
             }
 
+            Hide();
+
             var doSaveImageToClipboard = (outputActions.HasFlag(OutputActions.PutImageToClipboard));
             var imageFullPath = CaptureImage(doSaveImageToClipboard);
-            if (imageFullPath == null)
-            {
-                Hide();
-                MessageBox.Show(string.Format("Could not save the image (empty selection?)"));
-            }
 
             if (outputActions.HasFlag(OutputActions.PutImagePathToClipboard))
             {
@@ -657,12 +663,9 @@ namespace ZxcScreenShot
                 }
                 else
                 {
-                    Hide();
                     MessageBox.Show(string.Format("Upload error occured: {0}", msg));
                 }
             }
-
-            Hide();
         }
 
         private string CaptureImage(bool doSaveImageToClipboard)
@@ -681,7 +684,7 @@ namespace ZxcScreenShot
                 pictureBox1.Invalidate();
             }
         }
-        
+
         private void buttonEditInPaint_Click(object sender, EventArgs e)
         {
             Do_Output(OutputActions.EditInPaint);
@@ -719,11 +722,6 @@ namespace ZxcScreenShot
             _dragStarted = true;
 
             var imageFullPath = CaptureImage(doSaveImageToClipboard: false);
-            if (imageFullPath == null)
-            {
-                Hide();
-                MessageBox.Show(string.Format("Could not save the image (empty selection?)"));
-            }
             var filePath = new System.Collections.Specialized.StringCollection { imageFullPath };
 
             var dataObject = new DataObject();
