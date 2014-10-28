@@ -68,7 +68,7 @@ namespace ZxcScreenShot
         private bool _dragStarted;
 
         private readonly LongPressAction _longPressAction;
-        private bool _firstUpdate = true;
+        private Rectangle _lastUpdateBox, _currentlyUpdatedBox;
 
         private const int MinimumPixelsDrag = 3;
 
@@ -467,10 +467,14 @@ namespace ZxcScreenShot
 
         private void UpdateUi()
         {
+            _lastUpdateBox = _currentlyUpdatedBox;
+            _currentlyUpdatedBox = GetExtendedBox(); // Box is too extended. no need for extra pixels on sides.
+
             UpdatePanelPosition();
 
+            var combinedBox = Rectangle.Union(_lastUpdateBox, _currentlyUpdatedBox);
             // redraw rectangle
-            pictureBox1.Invalidate(GetExtendedBox());
+            pictureBox1.Invalidate(combinedBox);
         }
 
         private Rectangle GetExtendedBox()
@@ -514,48 +518,27 @@ namespace ZxcScreenShot
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            if (_firstUpdate)
-            {
-                _firstUpdate = false;
-                using (var b = new SolidBrush(Color.FromArgb(128, 0, 0, 0)))
-                {
-                    e.Graphics.FillRectangle(b, ClientRectangle);
-                }
-            }
-            else if ((e.ClipRectangle.Width == ClientRectangle.Width && e.ClipRectangle.Height == ClientRectangle.Height))
-            {
-                e.Graphics.SetClip(GetExtendedBox(), CombineMode.Exclude);
-                using (var b = new SolidBrush(Color.FromArgb(128, 0, 0, 0)))
-                {
-                    e.Graphics.FillRectangle(b, ClientRectangle);
-                }
-                e.Graphics.ResetClip();
-            }
-
-            Do_Paint(e.Graphics);
+            Do_Paint(e.Graphics, e.ClipRectangle);
         }
 
-        private void Do_Paint(Graphics graphics)
+        private void Do_Paint(Graphics graphics, Rectangle clipRectangle)
         {
             var box = new Rectangle(_currentTopLeft.X, _currentTopLeft.Y, _currentBottomRight.X - _currentTopLeft.X,
                 _currentBottomRight.Y - _currentTopLeft.Y); // new Rectangle(100, 50, 120, 70);
 
-            DrawWorkarea(graphics, box);
+            DrawWorkarea(graphics, box, clipRectangle);
             DrawFrame(graphics, box);
             _toolsPainter.DrawAllTools(graphics, _currentTopLeft, _currentTopLeft, _currentBottomRight);
 
             graphics.DrawString(string.Format(@"{0}x{1} @ {2},{3}", box.Width, box.Height, box.Left, box.Top), DefaultFont, Brushes.White, box.Left, box.Top - 20);
         }
 
-        private void DrawWorkarea(Graphics graphics, Rectangle box)
+        private void DrawWorkarea(Graphics graphics, Rectangle box, Rectangle clipRectangle)
         {
-            var extendedBox = new Rectangle(_currentTopLeft.X - 20, _currentTopLeft.Y - 20, _currentBottomRight.X - _currentTopLeft.X + 40,
-                _currentBottomRight.Y - _currentTopLeft.Y + 40);
-
             graphics.SetClip(box, CombineMode.Exclude);
             using (var b = new SolidBrush(Color.FromArgb(128, 0, 0, 0)))
             {
-                graphics.FillRectangle(b, extendedBox);
+                graphics.FillRectangle(b, clipRectangle);
             }
             graphics.ResetClip();
         }
@@ -640,6 +623,8 @@ namespace ZxcScreenShot
                 return;
             }
 
+            Hide();
+
             var doSaveImageToClipboard = (outputActions.HasFlag(OutputActions.PutImageToClipboard));
             var imageFullPath = CaptureImage(doSaveImageToClipboard);
 
@@ -679,12 +664,9 @@ namespace ZxcScreenShot
                 }
                 else
                 {
-                    Hide();
                     MessageBox.Show(string.Format("Upload error occured: {0}", msg));
                 }
             }
-
-            Hide();
         }
 
         private string CaptureImage(bool doSaveImageToClipboard)
