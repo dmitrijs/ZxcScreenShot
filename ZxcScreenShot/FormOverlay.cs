@@ -115,7 +115,7 @@ namespace ZxcScreenShot
             KeyDown += Key_Down;
             KeyUp += Key_Up;
 
-            Bitmap screenBitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Size.Width, Screen.PrimaryScreen.Bounds.Size.Height);
+            var screenBitmap = new Bitmap(Screen.PrimaryScreen.Bounds.Size.Width, Screen.PrimaryScreen.Bounds.Size.Height);
             ScreenShot.GetScreenCapture(screenBitmap);
 
             pictureBox1.Image = screenBitmap;
