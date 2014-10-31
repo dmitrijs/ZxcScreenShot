@@ -54,7 +54,7 @@ namespace ZxcScreenShot
         }
 
         private readonly ToolsPainter _toolsPainter = new ToolsPainter();
-        private bool _isHoldingShift;
+        private bool _isHoldingShift, _isHoldingControl;
 
         private ClickAction _currentAction;
         private Point _clickPoint;
@@ -71,7 +71,8 @@ namespace ZxcScreenShot
         private Rectangle _lastUpdateBox, _currentlyUpdatedBox;
 
         private const int MinimumPixelsDrag = 3;
-        
+        private const double SensitivityModifier = 5.0d;
+
         public FormOverlay(bool startFullscreen = true)
         {
             InitializeComponent();
@@ -138,6 +139,10 @@ namespace ZxcScreenShot
                     _toolsPainter.DrawStraightLatest(true);
                 }
             }
+            if (e.Control)
+            {
+                _isHoldingControl = true;
+            }
         }
 
         private void Key_Up(object sender, KeyEventArgs e)
@@ -154,6 +159,10 @@ namespace ZxcScreenShot
                 {
                     _toolsPainter.DrawStraightLatest(false);
                 }
+            }
+            if (!e.Control)
+            {
+                _isHoldingControl = false;
             }
             if (e.Control && e.KeyCode == Keys.C)
             {
@@ -211,9 +220,7 @@ namespace ZxcScreenShot
 
         private void ResizeSelection()
         {
-            var curPos = Cursor.Position;
-            curPos.X -= Left;
-            curPos.Y -= Top;
+            var curPos = GetSensitivityAdjustedRelativeCursorPosition();
 
             if (_currentAction == ClickAction.LeftSizing)
             {
@@ -300,9 +307,7 @@ namespace ZxcScreenShot
 
         private void MoveDrawingTool()
         {
-            var curPos = Cursor.Position;
-            curPos.X -= Left;
-            curPos.Y -= Top;
+            var curPos = GetSensitivityAdjustedRelativeCursorPosition();
 
             _toolsPainter.MoveLatestTo(new Point(curPos.X - _currentTopLeft.X, curPos.Y - _currentTopLeft.Y));
 
@@ -311,9 +316,8 @@ namespace ZxcScreenShot
 
         private void DragSelection()
         {
-            var curPos = Cursor.Position;
-            curPos.X -= Left;
-            curPos.Y -= Top;
+            var curPos = GetSensitivityAdjustedRelativeCursorPosition();
+
             //Ensure that the rectangle stays within the bounds of the screen
 
             if (curPos.X - _dragClickRelative.X > 0 &&
@@ -359,11 +363,23 @@ namespace ZxcScreenShot
             UpdateUi();
         }
 
-        private void DrawSelection()
+        private Point GetSensitivityAdjustedRelativeCursorPosition()
         {
             var curPos = Cursor.Position;
             curPos.X -= Left;
             curPos.Y -= Top;
+
+            var sensitivyModifier = _isHoldingControl ? SensitivityModifier : 1.0;
+
+            curPos.X = _clickPoint.X + (int)((curPos.X - _clickPoint.X) / sensitivyModifier);
+            curPos.Y = _clickPoint.Y + (int)((curPos.Y - _clickPoint.Y) / sensitivyModifier);
+
+            return curPos;
+        }
+
+        private void DrawSelection()
+        {
+            var curPos = GetSensitivityAdjustedRelativeCursorPosition();
 
             Cursor = Cursors.Arrow;
 
