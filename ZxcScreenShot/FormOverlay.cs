@@ -555,6 +555,14 @@ namespace ZxcScreenShot
             _toolsPainter.DrawAllTools(graphics, _currentTopLeft, _currentTopLeft, _currentBottomRight);
 
             graphics.DrawString(string.Format(@"{0}x{1} @ {2},{3}", box.Width, box.Height, box.Left, box.Top), DefaultFont, Brushes.White, box.Left, box.Top - 20);
+
+            var curPos = Cursor.Position;
+            curPos.X -= Left;
+            curPos.Y -= Top;
+            var deltaX = curPos.X - _clickPoint.X;
+            var deltaY = curPos.Y - _clickPoint.Y;
+
+            graphics.DrawString(string.Format(@"delta: {0}w {1}h", deltaX, deltaY), DefaultFont, Brushes.White, box.Left + 120, box.Top - 20);
         }
 
         private void DrawWorkarea(Graphics graphics, Rectangle box, Rectangle clipRectangle)
