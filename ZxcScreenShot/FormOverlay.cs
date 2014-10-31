@@ -54,10 +54,11 @@ namespace ZxcScreenShot
         }
 
         private readonly ToolsPainter _toolsPainter = new ToolsPainter();
-        private bool _isHoldingShift;
+        private bool _isHoldingShift, _isHoldingControl;
 
         private ClickAction _currentAction;
         private Point _clickPoint;
+        private Point _controlDownPoint;
         private Point _currentBottomRight, _currentTopLeft, _dragClickRelative;
         private bool _leftButtonDown, _rectangleDrawn;
         private int _rectangleHeight, _rectangleWidth;
@@ -71,7 +72,8 @@ namespace ZxcScreenShot
         private Rectangle _lastUpdateBox, _currentlyUpdatedBox;
 
         private const int MinimumPixelsDrag = 3;
-        
+        private const double SensitivityModifier = 10.0d;
+
         public FormOverlay(bool startFullscreen = true)
         {
             InitializeComponent();
@@ -138,6 +140,19 @@ namespace ZxcScreenShot
                     _toolsPainter.DrawStraightLatest(true);
                 }
             }
+            if (e.Control)
+            {
+                if (!_isHoldingControl)
+                {
+                    _isHoldingControl = true;
+
+                    var curPos = Cursor.Position;
+                    curPos.X -= Left;
+                    curPos.Y -= Top;
+
+                    _controlDownPoint = curPos;
+                }
+            }
         }
 
         private void Key_Up(object sender, KeyEventArgs e)
@@ -154,6 +169,10 @@ namespace ZxcScreenShot
                 {
                     _toolsPainter.DrawStraightLatest(false);
                 }
+            }
+            if (!e.Control)
+            {
+                _isHoldingControl = false;
             }
             if (e.Control && e.KeyCode == Keys.C)
             {
@@ -211,9 +230,7 @@ namespace ZxcScreenShot
 
         private void ResizeSelection()
         {
-            var curPos = Cursor.Position;
-            curPos.X -= Left;
-            curPos.Y -= Top;
+            var curPos = GetSensitivityAdjustedRelativeCursorPosition();
 
             if (_currentAction == ClickAction.LeftSizing)
             {
@@ -300,9 +317,7 @@ namespace ZxcScreenShot
 
         private void MoveDrawingTool()
         {
-            var curPos = Cursor.Position;
-            curPos.X -= Left;
-            curPos.Y -= Top;
+            var curPos = GetSensitivityAdjustedRelativeCursorPosition();
 
             _toolsPainter.MoveLatestTo(new Point(curPos.X - _currentTopLeft.X, curPos.Y - _currentTopLeft.Y));
 
@@ -311,9 +326,8 @@ namespace ZxcScreenShot
 
         private void DragSelection()
         {
-            var curPos = Cursor.Position;
-            curPos.X -= Left;
-            curPos.Y -= Top;
+            var curPos = GetSensitivityAdjustedRelativeCursorPosition();
+
             //Ensure that the rectangle stays within the bounds of the screen
 
             if (curPos.X - _dragClickRelative.X > 0 &&
@@ -359,11 +373,24 @@ namespace ZxcScreenShot
             UpdateUi();
         }
 
-        private void DrawSelection()
+        private Point GetSensitivityAdjustedRelativeCursorPosition()
         {
             var curPos = Cursor.Position;
             curPos.X -= Left;
             curPos.Y -= Top;
+
+            if (_isHoldingControl)
+            {
+                curPos.X = _controlDownPoint.X + (int)((curPos.X - _controlDownPoint.X) / SensitivityModifier);
+                curPos.Y = _controlDownPoint.Y + (int)((curPos.Y - _controlDownPoint.Y) / SensitivityModifier);
+            }
+
+            return curPos;
+        }
+
+        private void DrawSelection()
+        {
+            var curPos = GetSensitivityAdjustedRelativeCursorPosition();
 
             Cursor = Cursors.Arrow;
 
@@ -504,8 +531,13 @@ namespace ZxcScreenShot
 
         private Rectangle GetExtendedBox()
         {
-            return new Rectangle(_currentTopLeft.X - 20, _currentTopLeft.Y - 20, _currentBottomRight.X - _currentTopLeft.X + 40,
+            var extended = new Rectangle(_currentTopLeft.X - 20, _currentTopLeft.Y - 20, _currentBottomRight.X - _currentTopLeft.X + 40,
                 _currentBottomRight.Y - _currentTopLeft.Y + 40);
+            
+            // include text box with coordinates (roughly)
+            extended.X -= 20;
+            extended.Width += 80;
+            return extended;
         }
 
         private void UpdatePanelPosition(Boolean force = false)
