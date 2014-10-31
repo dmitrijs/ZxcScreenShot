@@ -24,7 +24,7 @@ After satisfied with everything:
 * ... or open the image in the default *image editor*
 * ... or *copy image to clipboard*
 * ... or *drag & drop* image by dragging the "Copy image" icon to any folder [since 1.0.1]
-* *Long-press the file/url buttons* to choose actions if want to use mouse only
+* *Long-press the file/url buttons* to choose actions if want to use mouse only [since 1.0.2]
 
 After screen shot was taken:
 * Right-Click tray icon and choose *"Retry last screen shot"* to get back to last workspace (protip: use Ctrl+Z to undo drawings)
