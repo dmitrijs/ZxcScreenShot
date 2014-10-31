@@ -71,15 +71,13 @@ namespace ZxcScreenShot
         private Rectangle _lastUpdateBox, _currentlyUpdatedBox;
 
         private const int MinimumPixelsDrag = 3;
-
-        private const bool StartInNormalWindow = false;
-
-        public FormOverlay()
+        
+        public FormOverlay(bool startFullscreen = true)
         {
             InitializeComponent();
             FormBorderStyle = FormBorderStyle.None;
 
-            if (StartInNormalWindow)
+            if (!startFullscreen)
             {
                 TopMost = false;
                 WindowState = FormWindowState.Normal;
