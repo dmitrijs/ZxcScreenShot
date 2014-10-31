@@ -58,6 +58,7 @@ namespace ZxcScreenShot
 
         private ClickAction _currentAction;
         private Point _clickPoint;
+        private Point _controlDownPoint;
         private Point _currentBottomRight, _currentTopLeft, _dragClickRelative;
         private bool _leftButtonDown, _rectangleDrawn;
         private int _rectangleHeight, _rectangleWidth;
@@ -71,7 +72,7 @@ namespace ZxcScreenShot
         private Rectangle _lastUpdateBox, _currentlyUpdatedBox;
 
         private const int MinimumPixelsDrag = 3;
-        private const double SensitivityModifier = 5.0d;
+        private const double SensitivityModifier = 10.0d;
 
         public FormOverlay(bool startFullscreen = true)
         {
@@ -141,7 +142,16 @@ namespace ZxcScreenShot
             }
             if (e.Control)
             {
-                _isHoldingControl = true;
+                if (!_isHoldingControl)
+                {
+                    _isHoldingControl = true;
+
+                    var curPos = Cursor.Position;
+                    curPos.X -= Left;
+                    curPos.Y -= Top;
+
+                    _controlDownPoint = curPos;
+                }
             }
         }
 
@@ -369,10 +379,11 @@ namespace ZxcScreenShot
             curPos.X -= Left;
             curPos.Y -= Top;
 
-            var sensitivyModifier = _isHoldingControl ? SensitivityModifier : 1.0;
-
-            curPos.X = _clickPoint.X + (int)((curPos.X - _clickPoint.X) / sensitivyModifier);
-            curPos.Y = _clickPoint.Y + (int)((curPos.Y - _clickPoint.Y) / sensitivyModifier);
+            if (_isHoldingControl)
+            {
+                curPos.X = _controlDownPoint.X + (int)((curPos.X - _controlDownPoint.X) / SensitivityModifier);
+                curPos.Y = _controlDownPoint.Y + (int)((curPos.Y - _controlDownPoint.Y) / SensitivityModifier);
+            }
 
             return curPos;
         }
@@ -520,8 +531,13 @@ namespace ZxcScreenShot
 
         private Rectangle GetExtendedBox()
         {
-            return new Rectangle(_currentTopLeft.X - 20, _currentTopLeft.Y - 20, _currentBottomRight.X - _currentTopLeft.X + 40,
+            var extended = new Rectangle(_currentTopLeft.X - 20, _currentTopLeft.Y - 20, _currentBottomRight.X - _currentTopLeft.X + 40,
                 _currentBottomRight.Y - _currentTopLeft.Y + 40);
+            
+            // include text box with coordinates (roughly)
+            extended.X -= 20;
+            extended.Width += 80;
+            return extended;
         }
 
         private void UpdatePanelPosition(Boolean force = false)
@@ -571,14 +587,6 @@ namespace ZxcScreenShot
             _toolsPainter.DrawAllTools(graphics, _currentTopLeft, _currentTopLeft, _currentBottomRight);
 
             graphics.DrawString(string.Format(@"{0}x{1} @ {2},{3}", box.Width, box.Height, box.Left, box.Top), DefaultFont, Brushes.White, box.Left, box.Top - 20);
-
-            var curPos = Cursor.Position;
-            curPos.X -= Left;
-            curPos.Y -= Top;
-            var deltaX = curPos.X - _clickPoint.X;
-            var deltaY = curPos.Y - _clickPoint.Y;
-
-            graphics.DrawString(string.Format(@"delta: {0}w {1}h", deltaX, deltaY), DefaultFont, Brushes.White, box.Left + 120, box.Top - 20);
         }
 
         private void DrawWorkarea(Graphics graphics, Rectangle box, Rectangle clipRectangle)
