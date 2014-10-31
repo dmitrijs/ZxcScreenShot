@@ -15,18 +15,21 @@ namespace ZxcScreenShot
         {
             Application.ApplicationExit += OnApplicationExit;
 
-            _main = new FormMain(); // creates notifyIcon
-
             // register hotkey
             _hook = new KeyboardHook();
             _hook.KeyPressed += Hook_KeyPressed;
 
-            if (!_hook.RegisterHotKey(0, Keys.PrintScreen))
+            if (_hook.RegisterHotKey(0, Keys.PrintScreen))
+            {
+                _main = new FormMain(); // creates notifyIcon
+            }
+            else
             {
                 MessageBox.Show(
                     "Could not register PrintScreen shortcut key.\n" +
-                    "Please make sure no other screen capture application is running.");
-                _main.MarkNotifyIconBroken();
+                    "Please make sure no other screen capture application is running.\n" +
+                    "\n" +
+                    "Application will now exit...");
             }
         }
 
@@ -52,6 +55,11 @@ namespace ZxcScreenShot
                 _overlay = new FormOverlay();
             }
             return _overlay;
+        }
+
+        public bool Ok()
+        {
+            return _main != null;
         }
 
         public void ShowNotifyMessage(string title, string msg)

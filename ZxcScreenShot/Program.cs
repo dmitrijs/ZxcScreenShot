@@ -14,8 +14,11 @@ namespace ZxcScreenShot
             if (Environment.OSVersion.Version.Major >= 6) SetProcessDPIAware();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(AppContext.instance());
-
+            var appContext = AppContext.instance();
+            if (appContext.Ok())
+            {
+                Application.Run(appContext);
+            }
         }
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]
