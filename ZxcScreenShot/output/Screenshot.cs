@@ -31,6 +31,8 @@ namespace ZxcScreenShot.output
             {
                 using (var g = Graphics.FromImage(bitmap))
                 {
+                    g.Clear(Color.Black); // transparent pixels will be black
+
                     var destRect = new Rectangle {Location = destinationPoint, Size = selectionRectangle.Size};
                     var srcRect = new Rectangle {Location = sourcePoint, Size = selectionRectangle.Size};
                     g.DrawImage(pictureBox1.Image, destRect, srcRect, GraphicsUnit.Pixel);

@@ -78,6 +78,7 @@ namespace ZxcScreenShot
         {
             InitializeComponent();
             FormBorderStyle = FormBorderStyle.None;
+            pictureBox1.BackColor = Color.Black; // show transparent pixels as black
 
             if (!startFullscreen)
             {
