@@ -89,7 +89,7 @@ namespace ZxcScreenShot
             this.toolStripSeparator1,
             this.toolStripMenuItem1});
             this.notifyMenuStrip.Name = "notifyMenuStrip";
-            this.notifyMenuStrip.Size = new System.Drawing.Size(186, 76);
+            this.notifyMenuStrip.Size = new System.Drawing.Size(186, 98);
             // 
             // toolStripMenuItem3
             // 
@@ -102,7 +102,7 @@ namespace ZxcScreenShot
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(185, 22);
-            this.toolStripMenuItem2.Text = "Options";
+            this.toolStripMenuItem2.Text = "Settings...";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripSeparator1
@@ -169,7 +169,7 @@ namespace ZxcScreenShot
             this.Controls.Add(this.tbSaveFileFolder);
             this.Name = "FormMain";
             this.ShowIcon = false;
-            this.Text = "ZxcScreenShot Options";
+            this.Text = "ZxcScreenShot Settings";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.notifyMenuStrip.ResumeLayout(false);

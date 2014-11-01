@@ -687,7 +687,7 @@ namespace ZxcScreenShot
             if (outputActions.HasFlag(OutputActions.PutImagePathToClipboard))
             {
                 Clipboard.SetText(imageFullPath);
-                AppContext.instance().ShowNotifyMessage("Path was copied to clipboard", string.Format("Path: {0}", imageFullPath));
+                AppContext.Instance().ShowNotifyMessage("Path was copied to clipboard", string.Format("Path: {0}", imageFullPath));
             }
 
             if (outputActions.HasFlag(OutputActions.ShowInFolder))
@@ -711,7 +711,7 @@ namespace ZxcScreenShot
                     if (outputActions.HasFlag(OutputActions.PutImageUrlToClipboard))
                     {
                         Clipboard.SetText(url);
-                        AppContext.instance().ShowNotifyMessage("Link was copied to clipboard", string.Format("URL: {0}", url));
+                        AppContext.Instance().ShowNotifyMessage("Link was copied to clipboard", string.Format("URL: {0}", url));
                     }
                     if (outputActions.HasFlag(OutputActions.ShowInBrowser))
                     {

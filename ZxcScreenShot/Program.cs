@@ -14,7 +14,7 @@ namespace ZxcScreenShot
             if (Environment.OSVersion.Version.Major >= 6) SetProcessDPIAware();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            var appContext = AppContext.instance();
+            var appContext = AppContext.Instance();
             if (appContext.Ok())
             {
                 Application.Run(appContext);

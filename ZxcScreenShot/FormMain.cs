@@ -91,7 +91,7 @@ namespace ZxcScreenShot
         {
             if (e.Button == MouseButtons.Left)
             {
-                AppContext.instance().GetOverlay(createNew: true).Show();
+                AppContext.Instance().GetOverlay(createNew: true).Show();
             }
         }
 
@@ -123,7 +123,7 @@ namespace ZxcScreenShot
 
         private void toolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            var overlay = AppContext.instance().GetOverlay(createNew: false);
+            var overlay = AppContext.Instance().GetOverlay(createNew: false);
             if (overlay == null)
             {
                 MessageBox.Show("This feature allows you to edit and retake the last made screen shot.\n" +

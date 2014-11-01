@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="ShotsServiceBaseUrl" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://shots.local/</Value>
+      <Value Profile="(Default)">http://shots.zxc.lv/</Value>
     </Setting>
     <Setting Name="DoSaveFile" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -13,6 +13,9 @@
     </Setting>
     <Setting Name="AutoStart" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="IsFirstRun" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

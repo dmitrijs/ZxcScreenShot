@@ -25,7 +25,7 @@ namespace ZxcScreenShot.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://shots.local/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://shots.zxc.lv/")]
         public string ShotsServiceBaseUrl {
             get {
                 return ((string)(this["ShotsServiceBaseUrl"]));
@@ -68,6 +68,18 @@ namespace ZxcScreenShot.Properties {
             }
             set {
                 this["AutoStart"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IsFirstRun {
+            get {
+                return ((bool)(this["IsFirstRun"]));
+            }
+            set {
+                this["IsFirstRun"] = value;
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using ZxcScreenShot.lib;
+using ZxcScreenShot.Properties;
 
 namespace ZxcScreenShot
 {
@@ -15,13 +16,11 @@ namespace ZxcScreenShot
         {
             Application.ApplicationExit += OnApplicationExit;
 
-            // register hotkey
-            _hook = new KeyboardHook();
-            _hook.KeyPressed += Hook_KeyPressed;
-
-            if (_hook.RegisterHotKey(0, Keys.PrintScreen))
+            if (RegisterTheHotKey())
             {
                 _main = new FormMain(); // creates notifyIcon
+
+                CheckIfFirstRun();
             }
             else
             {
@@ -33,6 +32,34 @@ namespace ZxcScreenShot
             }
         }
 
+        private bool RegisterTheHotKey()
+        {
+            // register hotkey
+            _hook = new KeyboardHook();
+            _hook.KeyPressed += Hook_KeyPressed;
+
+            return _hook.RegisterHotKey(0, Keys.PrintScreen);
+        }
+
+        private void CheckIfFirstRun()
+        {
+            if (!Settings.Default.IsFirstRun)
+            {
+                return;
+            }
+
+            Settings.Default.IsFirstRun = false;
+            Settings.Default.Save();
+
+            MessageBox.Show(
+                @"Thank you for downloading ZxcScreenShot!" +
+                "\n\n" +
+                @"Please take a minute to configure the settings."
+                );
+
+            _main.Show();
+        }
+
         private void OnApplicationExit(object sender, EventArgs e)
         {
             _main = null;
@@ -40,10 +67,10 @@ namespace ZxcScreenShot
 
         private static void Hook_KeyPressed(object sender, KeyPressedEventArgs e)
         {
-            instance().GetOverlay(createNew: true).Show();
+            Instance().GetOverlay(createNew: true).Show();
         }
 
-        public static AppContext instance()
+        public static AppContext Instance()
         {
             return _instance ?? (_instance = new AppContext());
         }
