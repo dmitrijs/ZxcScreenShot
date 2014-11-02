@@ -11,7 +11,6 @@ namespace ZxcScreenShot.tools
 
         private static IntPtr GetActiveWindow()
         {
-            // IntPtr handle = IntPtr.Zero;
             return GetForegroundWindow();
         }
 
@@ -27,6 +26,9 @@ namespace ZxcScreenShot.tools
             public readonly int Right;
             public readonly int Bottom;
         }
+
+        [DllImport("user32.dll")]
+        public static extern bool SetProcessDPIAware();
 
         public static Rectangle GetActiveWindowBounds()
         {
