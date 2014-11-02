@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using ZxcScreenShot.lib;
 using ZxcScreenShot.Properties;
+using ZxcScreenShot.tools;
 
 namespace ZxcScreenShot
 {
@@ -67,7 +68,7 @@ namespace ZxcScreenShot
 
         private static void Hook_KeyPressed(object sender, KeyPressedEventArgs e)
         {
-            Instance().GetOverlay(createNew: true).Show();
+            Instance().GetOverlay(createNew: true).SelectActiveWindow().Show();
         }
 
         public static AppContext Instance()

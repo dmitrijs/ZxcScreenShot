@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using ZxcScreenShot.output;
 using ZxcScreenShot.Properties;
+using ZxcScreenShot.tools;
 using ZxcScreenShot.ui;
 
 namespace ZxcScreenShot
@@ -126,6 +127,19 @@ namespace ZxcScreenShot
             _longPressAction = new LongPressAction(longPressTimer);
         }
         
+        public FormOverlay SelectActiveWindow()
+        {
+            var bounds = User32.GetActiveWindowBounds();
+            _currentTopLeft = bounds.Location;
+            _currentBottomRight = new Point(bounds.Left + bounds.Width, bounds.Top + bounds.Height);
+            _rectangleHeight = bounds.Height;
+            _rectangleWidth = bounds.Width;
+
+            MarkRectangleDrawn();
+
+            return this;
+        }
+
         private void Key_Down(object sender, KeyEventArgs e)
         {
             if (e.Shift)
@@ -465,8 +479,13 @@ namespace ZxcScreenShot
 
         private void Mouse_Up(object sender, MouseEventArgs e)
         {
-            _rectangleDrawn = true;
             _leftButtonDown = false;
+            MarkRectangleDrawn();
+        }
+
+        private void MarkRectangleDrawn()
+        {
+            _rectangleDrawn = true;
             _currentAction = ClickAction.NoClick;
             UpdatePanelPosition(force: true);
             panelOutput.Visible = panelTools.Visible = true;

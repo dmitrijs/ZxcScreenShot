@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using ZxcScreenShot.tools;
 
 namespace ZxcScreenShot
 {
@@ -17,7 +18,7 @@ namespace ZxcScreenShot
             var appContext = AppContext.Instance();
             if (appContext.Ok())
             {
-                Application.Run(appContext);
+                Application.Run(new FormOverlay(false));
             }
         }
 
