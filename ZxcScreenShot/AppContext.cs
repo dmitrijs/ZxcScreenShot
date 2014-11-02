@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using ZxcScreenShot.lib;
 using ZxcScreenShot.Properties;
-using ZxcScreenShot.tools;
 
 namespace ZxcScreenShot
 {
@@ -39,7 +38,7 @@ namespace ZxcScreenShot
             _hook = new KeyboardHook();
             _hook.KeyPressed += Hook_KeyPressed;
 
-            return _hook.RegisterHotKey(0, Keys.PrintScreen);
+            return _hook.RegisterHotKey(0, Keys.PrintScreen) & _hook.RegisterHotKey(ModifierKeys.Alt, Keys.PrintScreen);
         }
 
         private void CheckIfFirstRun()
@@ -68,7 +67,13 @@ namespace ZxcScreenShot
 
         private static void Hook_KeyPressed(object sender, KeyPressedEventArgs e)
         {
-            Instance().GetOverlay(createNew: true).SelectActiveWindow().Show();
+            var overlay = Instance().GetOverlay(createNew: true);
+
+            if (e.Modifier.HasFlag(ModifierKeys.Alt))
+            {
+                overlay.SelectActiveWindow();
+            }
+            overlay.Show();
         }
 
         public static AppContext Instance()

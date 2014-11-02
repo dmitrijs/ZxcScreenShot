@@ -127,7 +127,7 @@ namespace ZxcScreenShot
             _longPressAction = new LongPressAction(longPressTimer);
         }
         
-        public FormOverlay SelectActiveWindow()
+        public void SelectActiveWindow()
         {
             var bounds = User32.GetActiveWindowBounds();
             _currentTopLeft = bounds.Location;
@@ -136,8 +136,6 @@ namespace ZxcScreenShot
             _rectangleWidth = bounds.Width;
 
             MarkRectangleDrawn();
-
-            return this;
         }
 
         private void Key_Down(object sender, KeyEventArgs e)

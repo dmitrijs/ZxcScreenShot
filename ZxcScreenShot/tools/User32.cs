@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace ZxcScreenShot.tools
 {
-    class User32
+    static class User32
     {
         [DllImport("user32.dll")]
         static extern IntPtr GetForegroundWindow();
@@ -30,11 +30,10 @@ namespace ZxcScreenShot.tools
 
         public static Rectangle GetActiveWindowBounds()
         {
-            var r = new Rect();
-            var activeWindow = GetActiveWindow();
-            GetWindowRect(activeWindow, out r);
+            Rect windowRect;
+            GetWindowRect(GetActiveWindow(), out windowRect);
 
-            return new Rectangle(r.Left, r.Top, r.Right - r.Left, r.Bottom - r.Top);
+            return new Rectangle(windowRect.Left, windowRect.Top, windowRect.Right - windowRect.Left, windowRect.Bottom - windowRect.Top);
         }
     }
 }
