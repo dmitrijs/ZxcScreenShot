@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppContext.cs" />
+    <Compile Include="tools\User32.cs" />
     <Compile Include="ui\DrawingTool.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using ZxcScreenShot.tools;
 
 namespace ZxcScreenShot
 {
@@ -11,7 +12,8 @@ namespace ZxcScreenShot
         [STAThread]
         private static void Main()
         {
-            if (Environment.OSVersion.Version.Major >= 6) SetProcessDPIAware();
+            if (Environment.OSVersion.Version.Major >= 6) User32.SetProcessDPIAware();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             var appContext = AppContext.Instance();
@@ -20,8 +22,5 @@ namespace ZxcScreenShot
                 Application.Run(appContext);
             }
         }
-
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        private static extern bool SetProcessDPIAware();
     }
 }
