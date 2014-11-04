@@ -562,31 +562,52 @@ namespace ZxcScreenShot
         {
             if (force || panelTools.Visible)
             {
-                // move panel
-                if (_currentBottomRight.X + 10 + panelTools.Width + 10 < Width)
-                {
-                    // panel fits on the right
-                    panelTools.Left = _currentBottomRight.X + 10;
-                }
-                else
-                {
-                    // place panel on the left
-                    panelTools.Left = _currentTopLeft.X - panelTools.Width - 10;
-                }
-                panelTools.Top = Math.Max(10, _currentBottomRight.Y - panelTools.Height);
+                var panelOutputIsInside = false;
+                var panelOutputTopIfInBottom = _currentBottomRight.Y + 10;
+                var panelOutputTopIfOnTop = _currentTopLeft.Y - panelOutput.Height - 10;
+                var panelOutputTopIfInside = _currentBottomRight.Y - panelOutput.Height - 10;
 
-                // move panel
-                if (_currentBottomRight.Y + 10 + panelOutput.Height + 10 < Height)
+                if (panelOutputTopIfInBottom + panelOutput.Height + 10 < Height) // panel fits in the bottom
                 {
-                    // panel fits in the bottom
-                    panelOutput.Top = _currentBottomRight.Y + 10;
+                    panelOutput.Top = panelOutputTopIfInBottom;
                 }
-                else
+                else if (panelOutputTopIfOnTop > 0) // place panel on top
                 {
-                    // place panel on top
-                    panelOutput.Top = _currentTopLeft.Y - panelOutput.Height - 10;
+                    panelOutput.Top = panelOutputTopIfOnTop;
+                }
+                else // put panel inside
+                {
+                    panelOutput.Top = panelOutputTopIfInside;
+                    panelOutputIsInside = true;
                 }
                 panelOutput.Left = Math.Max(10, _currentBottomRight.X - panelOutput.Width - 10);
+
+                var outputPanelRestrictedArea = Rectangle.Union(panelOutput.Bounds,
+                    new Rectangle(_currentTopLeft, new Size(_currentBottomRight.X - _currentTopLeft.X, _currentBottomRight.Y - _currentTopLeft.Y)));
+
+                var top = Math.Max(10, _currentBottomRight.Y - panelTools.Height);
+
+                var panelToolsLeftIfOnRight = outputPanelRestrictedArea.Right + 10;
+                var panelToolsLeftIfOnLeft = outputPanelRestrictedArea.Left - panelTools.Width - 10;
+                var panelToolsLeftIfInside = outputPanelRestrictedArea.Right - panelTools.Width - 10;
+
+                if (panelToolsLeftIfOnRight + panelTools.Width + 10 < Width) // panel fits on the right
+                {
+                    panelTools.Left = panelToolsLeftIfOnRight;
+                }
+                else if (panelToolsLeftIfOnLeft > 0) // place panel on the left
+                {
+                    panelTools.Left = panelToolsLeftIfOnLeft;
+                }
+                else // place panel on the right, inside the selection
+                {
+                    panelTools.Left = panelToolsLeftIfInside;
+                    if (panelOutputIsInside)
+                    {
+                        top = panelOutput.Top - panelTools.Height - 10;
+                    }
+                }
+                panelTools.Top = top; // prevent panel ghosting
             }
         }
 
