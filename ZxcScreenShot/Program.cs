@@ -19,7 +19,7 @@ namespace ZxcScreenShot
             var appContext = AppContext.Instance();
             if (appContext.Ok())
             {
-                Application.Run(appContext);
+                Application.Run(new FormOverlay(false));
             }
         }
     }

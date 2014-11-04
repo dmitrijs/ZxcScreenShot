@@ -256,7 +256,7 @@
             this.buttonDrawColor.Name = "buttonDrawColor";
             this.buttonDrawColor.Size = new System.Drawing.Size(30, 30);
             this.buttonDrawColor.TabIndex = 7;
-            this.toolTip1.SetToolTip(this.buttonDrawColor, "Change color");
+            this.toolTip1.SetToolTip(this.buttonDrawColor, "Change color; Right click for palette; Middle for color picker");
             this.buttonDrawColor.UseVisualStyleBackColor = false;
             this.buttonDrawColor.Click += new System.EventHandler(this.buttonDrawColor_Click);
             this.buttonDrawColor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonDrawColor_MouseDown);

@@ -475,6 +475,12 @@ namespace ZxcScreenShot
                     _dragClickRelative.Y = curPos.Y - _currentTopLeft.Y;
                 }
             }
+
+            if (e.Button == MouseButtons.Middle)
+            {
+                var curPos = Cursor.Position;
+                buttonDrawColor.BackColor = User32.GetPixelColor(curPos.X, curPos.Y);
+            }
         }
 
         private void Mouse_Up(object sender, MouseEventArgs e)
