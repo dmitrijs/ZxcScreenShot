@@ -582,14 +582,14 @@ namespace ZxcScreenShot
                 }
                 panelOutput.Left = Math.Max(10, _currentBottomRight.X - panelOutput.Width - 10);
 
-                var outputPanelRestrictedArea = Rectangle.Union(panelOutput.Bounds,
+                var toolsPanelRestrictedArea = Rectangle.Union(panelOutput.Bounds,
                     new Rectangle(_currentTopLeft, new Size(_currentBottomRight.X - _currentTopLeft.X, _currentBottomRight.Y - _currentTopLeft.Y)));
 
                 var top = Math.Max(10, _currentBottomRight.Y - panelTools.Height);
 
-                var panelToolsLeftIfOnRight = outputPanelRestrictedArea.Right + 10;
-                var panelToolsLeftIfOnLeft = outputPanelRestrictedArea.Left - panelTools.Width - 10;
-                var panelToolsLeftIfInside = outputPanelRestrictedArea.Right - panelTools.Width - 10;
+                var panelToolsLeftIfOnRight = toolsPanelRestrictedArea.Right + 10;
+                var panelToolsLeftIfOnLeft = toolsPanelRestrictedArea.Left - panelTools.Width - 10;
+                var panelToolsLeftIfInside = toolsPanelRestrictedArea.Right - panelTools.Width - 10;
 
                 if (panelToolsLeftIfOnRight + panelTools.Width + 10 < Width) // panel fits on the right
                 {
@@ -599,12 +599,25 @@ namespace ZxcScreenShot
                 {
                     panelTools.Left = panelToolsLeftIfOnLeft;
                 }
-                else // place panel on the right, inside the selection
+                else // place panel inside the selection
                 {
                     panelTools.Left = panelToolsLeftIfInside;
-                    if (panelOutputIsInside)
+
+                    // need to adjust top coordinate
+                    if (toolsPanelRestrictedArea.Top - 10 - panelTools.Height > 0) // fits on top
                     {
-                        top = panelOutput.Top - panelTools.Height - 10;
+                        top = toolsPanelRestrictedArea.Top - 10 - panelTools.Height;
+                    }
+                    else if (panelOutput.Bottom + 10 + panelTools.Height + 10 < Height) // fits in bottom
+                    {
+                        top = panelOutput.Bottom + 10;
+                    }
+                    else
+                    {
+                        if (panelOutputIsInside)
+                        {
+                            top = panelOutput.Top - 10 - panelTools.Height;
+                        }
                     }
                 }
                 panelTools.Top = top; // prevent panel ghosting
@@ -903,6 +916,7 @@ namespace ZxcScreenShot
                 var widthCollapsed = buttonColor1.Left;
                 var widthExpanded = buttonColor1.Left + buttonColor1.Width + 3;
                 panelTools.Width = panelTools.Width > buttonColor1.Left ? widthCollapsed : widthExpanded;
+                UpdatePanelPosition();
             }
         }
 
