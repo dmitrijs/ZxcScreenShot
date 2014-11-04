@@ -125,6 +125,8 @@ namespace ZxcScreenShot
             _toolsPainter.Clear();
 
             _longPressAction = new LongPressAction(longPressTimer);
+
+            panelTools.Width = buttonColor1.Left;
         }
         
         public void SelectActiveWindow()
@@ -691,25 +693,19 @@ namespace ZxcScreenShot
         private void buttonDrawRect_Click(object sender, EventArgs e)
         {
             _goingToDrawTool = DrawingTool.DrawingToolType.Rectangle;
-            buttonDrawRect.Enabled = false;
-            buttonDrawLine.Enabled = true;
-            buttonDrawArrow.Enabled = true;
+            MakeOnlyOneButtonDisabled(buttonDrawRect);
         }
 
         private void buttonDrawLine_Click(object sender, EventArgs e)
         {
             _goingToDrawTool = DrawingTool.DrawingToolType.Line;
-            buttonDrawRect.Enabled = true;
-            buttonDrawLine.Enabled = false;
-            buttonDrawArrow.Enabled = true;
+            MakeOnlyOneButtonDisabled(buttonDrawLine);
         }
 
         private void buttonDrawArrow_Click(object sender, EventArgs e)
         {
             _goingToDrawTool = DrawingTool.DrawingToolType.Arrow;
-            buttonDrawRect.Enabled = true;
-            buttonDrawLine.Enabled = true;
-            buttonDrawArrow.Enabled = false;
+            MakeOnlyOneButtonDisabled(buttonDrawArrow);
         }
 
         private void buttonDrawColor_Click(object sender, EventArgs e)
@@ -719,9 +715,7 @@ namespace ZxcScreenShot
         private void buttonDone_Click(object sender, EventArgs e)
         {
             _goingToDrawTool = DrawingTool.DrawingToolType.NotDrawingTool;
-            buttonDrawRect.Enabled = true;
-            buttonDrawLine.Enabled = true;
-            buttonDrawArrow.Enabled = true;
+            MakeOnlyOneButtonDisabled(null); // enables all buttons. strange usage
         }
 
         private void Do_Output(OutputActions outputActions)
@@ -923,6 +917,20 @@ namespace ZxcScreenShot
         private void buttonJustSave_Click(object sender, EventArgs e)
         {
             Do_Output(OutputActions.None);
+        }
+
+        private void MakeOnlyOneButtonDisabled(Button disabledButton)
+        {
+            buttonDrawRect.Enabled = buttonDrawRect != disabledButton;
+            buttonDrawLine.Enabled = buttonDrawLine != disabledButton;
+            buttonDrawArrow.Enabled = buttonDrawArrow != disabledButton;
+            buttonDrawFilledRectangle.Enabled = buttonDrawFilledRectangle != disabledButton;
+        }
+
+        private void buttonDrawFilledRectangle_Click(object sender, EventArgs e)
+        {
+            _goingToDrawTool = DrawingTool.DrawingToolType.FilledRectangle;
+            MakeOnlyOneButtonDisabled(buttonDrawFilledRectangle);
         }
     }
 }

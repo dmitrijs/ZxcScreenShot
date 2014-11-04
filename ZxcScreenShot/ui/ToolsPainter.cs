@@ -77,6 +77,27 @@ namespace ZxcScreenShot.ui
                         }
                         break;
 
+                    case DrawingTool.DrawingToolType.FilledRectangle:
+                        topLeft = new Point { X = Math.Min(src.X, dest.X), Y = Math.Min(src.Y, dest.Y) };
+                        bottomRight = new Point { X = Math.Max(src.X, dest.X), Y = Math.Max(src.Y, dest.Y) };
+
+                        if (topLeft.X < boundsTopLeft.X) topLeft.X = boundsTopLeft.X;
+                        if (topLeft.Y < boundsTopLeft.Y) topLeft.Y = boundsTopLeft.Y;
+                        if (bottomRight.X > boundsBottomRight.X) bottomRight.X = boundsBottomRight.X;
+                        if (bottomRight.Y > boundsBottomRight.Y) bottomRight.Y = boundsBottomRight.Y;
+
+                        using (var brush = new SolidBrush(drawing.Color))
+                        {
+                            picG.FillRectangle(brush,
+                                new Rectangle
+                                {
+                                    Location = topLeft,
+                                    Width = bottomRight.X - topLeft.X,
+                                    Height = bottomRight.Y - topLeft.Y
+                                });
+                        }
+                        break;
+
                     case DrawingTool.DrawingToolType.Line:
                         if (dest.X < boundsTopLeft.X) dest.X = boundsTopLeft.X;
                         if (dest.Y < boundsTopLeft.Y) dest.Y = boundsTopLeft.Y;

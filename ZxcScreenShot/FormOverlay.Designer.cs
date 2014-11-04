@@ -32,6 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormOverlay));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelTools = new System.Windows.Forms.Panel();
+            this.buttonDrawFilledRectangle = new System.Windows.Forms.Button();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.buttonColor8 = new System.Windows.Forms.Button();
             this.buttonColor7 = new System.Windows.Forms.Button();
             this.buttonColor6 = new System.Windows.Forms.Button();
@@ -41,7 +43,6 @@
             this.buttonColor2 = new System.Windows.Forms.Button();
             this.buttonColor1 = new System.Windows.Forms.Button();
             this.buttonDrawUndo = new System.Windows.Forms.Button();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.buttonDrawResize = new System.Windows.Forms.Button();
             this.buttonDrawColor = new System.Windows.Forms.Button();
             this.buttonDrawArrow = new System.Windows.Forms.Button();
@@ -49,6 +50,7 @@
             this.buttonDrawRect = new System.Windows.Forms.Button();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.panelOutput = new System.Windows.Forms.Panel();
+            this.buttonJustSave = new System.Windows.Forms.Button();
             this.buttonCopy = new System.Windows.Forms.Button();
             this.buttonEditInPaint = new System.Windows.Forms.Button();
             this.buttonUrl = new System.Windows.Forms.Button();
@@ -62,7 +64,6 @@
             this.contextMenuStripPath = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyFilePathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewInExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.buttonJustSave = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelTools.SuspendLayout();
             this.panelOutput.SuspendLayout();
@@ -83,6 +84,7 @@
             // panelTools
             // 
             this.panelTools.BackColor = System.Drawing.Color.Transparent;
+            this.panelTools.Controls.Add(this.buttonDrawFilledRectangle);
             this.panelTools.Controls.Add(this.buttonColor8);
             this.panelTools.Controls.Add(this.buttonColor7);
             this.panelTools.Controls.Add(this.buttonColor6);
@@ -97,105 +99,25 @@
             this.panelTools.Controls.Add(this.buttonDrawArrow);
             this.panelTools.Controls.Add(this.buttonDrawLine);
             this.panelTools.Controls.Add(this.buttonDrawRect);
-            this.panelTools.Location = new System.Drawing.Point(388, 104);
+            this.panelTools.Location = new System.Drawing.Point(388, 70);
             this.panelTools.Name = "panelTools";
-            this.panelTools.Size = new System.Drawing.Size(36, 197);
+            this.panelTools.Size = new System.Drawing.Size(60, 229);
             this.panelTools.TabIndex = 2;
             this.panelTools.Visible = false;
             // 
-            // buttonColor8
+            // buttonDrawFilledRectangle
             // 
-            this.buttonColor8.BackColor = System.Drawing.Color.Blue;
-            this.buttonColor8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColor8.Location = new System.Drawing.Point(36, 124);
-            this.buttonColor8.Name = "buttonColor8";
-            this.buttonColor8.Size = new System.Drawing.Size(20, 20);
-            this.buttonColor8.TabIndex = 17;
-            this.buttonColor8.UseVisualStyleBackColor = false;
-            // 
-            // buttonColor7
-            // 
-            this.buttonColor7.BackColor = System.Drawing.Color.Yellow;
-            this.buttonColor7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColor7.Location = new System.Drawing.Point(36, 52);
-            this.buttonColor7.Name = "buttonColor7";
-            this.buttonColor7.Size = new System.Drawing.Size(20, 20);
-            this.buttonColor7.TabIndex = 16;
-            this.buttonColor7.UseVisualStyleBackColor = false;
-            // 
-            // buttonColor6
-            // 
-            this.buttonColor6.BackColor = System.Drawing.Color.White;
-            this.buttonColor6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColor6.Location = new System.Drawing.Point(36, 3);
-            this.buttonColor6.Name = "buttonColor6";
-            this.buttonColor6.Size = new System.Drawing.Size(20, 21);
-            this.buttonColor6.TabIndex = 15;
-            this.buttonColor6.UseVisualStyleBackColor = false;
-            // 
-            // buttonColor5
-            // 
-            this.buttonColor5.BackColor = System.Drawing.Color.Red;
-            this.buttonColor5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColor5.Location = new System.Drawing.Point(36, 28);
-            this.buttonColor5.Name = "buttonColor5";
-            this.buttonColor5.Size = new System.Drawing.Size(20, 20);
-            this.buttonColor5.TabIndex = 14;
-            this.buttonColor5.UseVisualStyleBackColor = false;
-            // 
-            // buttonColor4
-            // 
-            this.buttonColor4.BackColor = System.Drawing.Color.Purple;
-            this.buttonColor4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColor4.Location = new System.Drawing.Point(36, 148);
-            this.buttonColor4.Name = "buttonColor4";
-            this.buttonColor4.Size = new System.Drawing.Size(20, 20);
-            this.buttonColor4.TabIndex = 13;
-            this.buttonColor4.UseVisualStyleBackColor = false;
-            // 
-            // buttonColor3
-            // 
-            this.buttonColor3.BackColor = System.Drawing.Color.Cyan;
-            this.buttonColor3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColor3.Location = new System.Drawing.Point(36, 100);
-            this.buttonColor3.Name = "buttonColor3";
-            this.buttonColor3.Size = new System.Drawing.Size(20, 20);
-            this.buttonColor3.TabIndex = 12;
-            this.buttonColor3.UseVisualStyleBackColor = false;
-            // 
-            // buttonColor2
-            // 
-            this.buttonColor2.BackColor = System.Drawing.Color.Lime;
-            this.buttonColor2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColor2.Location = new System.Drawing.Point(36, 76);
-            this.buttonColor2.Name = "buttonColor2";
-            this.buttonColor2.Size = new System.Drawing.Size(20, 20);
-            this.buttonColor2.TabIndex = 11;
-            this.buttonColor2.UseVisualStyleBackColor = false;
-            // 
-            // buttonColor1
-            // 
-            this.buttonColor1.BackColor = System.Drawing.Color.Black;
-            this.buttonColor1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColor1.Location = new System.Drawing.Point(36, 172);
-            this.buttonColor1.Name = "buttonColor1";
-            this.buttonColor1.Size = new System.Drawing.Size(20, 21);
-            this.buttonColor1.TabIndex = 10;
-            this.buttonColor1.UseVisualStyleBackColor = false;
-            // 
-            // buttonDrawUndo
-            // 
-            this.buttonDrawUndo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonDrawUndo.ImageKey = "backward.png";
-            this.buttonDrawUndo.ImageList = this.imageList1;
-            this.buttonDrawUndo.Location = new System.Drawing.Point(2, 163);
-            this.buttonDrawUndo.Name = "buttonDrawUndo";
-            this.buttonDrawUndo.Size = new System.Drawing.Size(32, 32);
-            this.buttonDrawUndo.TabIndex = 9;
-            this.buttonDrawUndo.TabStop = false;
-            this.toolTip1.SetToolTip(this.buttonDrawUndo, "Undo (Ctrl+Z)");
-            this.buttonDrawUndo.UseVisualStyleBackColor = true;
-            this.buttonDrawUndo.Click += new System.EventHandler(this.buttonDrawUndo_Click);
+            this.buttonDrawFilledRectangle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonDrawFilledRectangle.ImageKey = "fill-rectangle.png";
+            this.buttonDrawFilledRectangle.ImageList = this.imageList1;
+            this.buttonDrawFilledRectangle.Location = new System.Drawing.Point(2, 34);
+            this.buttonDrawFilledRectangle.Name = "buttonDrawFilledRectangle";
+            this.buttonDrawFilledRectangle.Size = new System.Drawing.Size(32, 32);
+            this.buttonDrawFilledRectangle.TabIndex = 18;
+            this.buttonDrawFilledRectangle.TabStop = false;
+            this.toolTip1.SetToolTip(this.buttonDrawFilledRectangle, "Draw a filled rectangle");
+            this.buttonDrawFilledRectangle.UseVisualStyleBackColor = true;
+            this.buttonDrawFilledRectangle.Click += new System.EventHandler(this.buttonDrawFilledRectangle_Click);
             // 
             // imageList1
             // 
@@ -210,16 +132,112 @@
             this.imageList1.Images.SetKeyName(6, "download-files.png");
             this.imageList1.Images.SetKeyName(7, "cross.png");
             this.imageList1.Images.SetKeyName(8, "rectangle.png");
-            this.imageList1.Images.SetKeyName(9, "line.png");
-            this.imageList1.Images.SetKeyName(10, "left.png");
-            this.imageList1.Images.SetKeyName(11, "backward.png");
-            this.imageList1.Images.SetKeyName(12, "target.png");
+            this.imageList1.Images.SetKeyName(9, "fill-rectangle.png");
+            this.imageList1.Images.SetKeyName(10, "line.png");
+            this.imageList1.Images.SetKeyName(11, "left.png");
+            this.imageList1.Images.SetKeyName(12, "fat-brush.png");
+            this.imageList1.Images.SetKeyName(13, "backward.png");
+            this.imageList1.Images.SetKeyName(14, "target.png");
+            // 
+            // buttonColor8
+            // 
+            this.buttonColor8.BackColor = System.Drawing.Color.Blue;
+            this.buttonColor8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonColor8.Location = new System.Drawing.Point(36, 155);
+            this.buttonColor8.Name = "buttonColor8";
+            this.buttonColor8.Size = new System.Drawing.Size(20, 20);
+            this.buttonColor8.TabIndex = 17;
+            this.buttonColor8.UseVisualStyleBackColor = false;
+            // 
+            // buttonColor7
+            // 
+            this.buttonColor7.BackColor = System.Drawing.Color.Yellow;
+            this.buttonColor7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonColor7.Location = new System.Drawing.Point(36, 83);
+            this.buttonColor7.Name = "buttonColor7";
+            this.buttonColor7.Size = new System.Drawing.Size(20, 20);
+            this.buttonColor7.TabIndex = 16;
+            this.buttonColor7.UseVisualStyleBackColor = false;
+            // 
+            // buttonColor6
+            // 
+            this.buttonColor6.BackColor = System.Drawing.Color.White;
+            this.buttonColor6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonColor6.Location = new System.Drawing.Point(36, 34);
+            this.buttonColor6.Name = "buttonColor6";
+            this.buttonColor6.Size = new System.Drawing.Size(20, 21);
+            this.buttonColor6.TabIndex = 15;
+            this.buttonColor6.UseVisualStyleBackColor = false;
+            // 
+            // buttonColor5
+            // 
+            this.buttonColor5.BackColor = System.Drawing.Color.Red;
+            this.buttonColor5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonColor5.Location = new System.Drawing.Point(36, 59);
+            this.buttonColor5.Name = "buttonColor5";
+            this.buttonColor5.Size = new System.Drawing.Size(20, 20);
+            this.buttonColor5.TabIndex = 14;
+            this.buttonColor5.UseVisualStyleBackColor = false;
+            // 
+            // buttonColor4
+            // 
+            this.buttonColor4.BackColor = System.Drawing.Color.Purple;
+            this.buttonColor4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonColor4.Location = new System.Drawing.Point(36, 179);
+            this.buttonColor4.Name = "buttonColor4";
+            this.buttonColor4.Size = new System.Drawing.Size(20, 20);
+            this.buttonColor4.TabIndex = 13;
+            this.buttonColor4.UseVisualStyleBackColor = false;
+            // 
+            // buttonColor3
+            // 
+            this.buttonColor3.BackColor = System.Drawing.Color.Cyan;
+            this.buttonColor3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonColor3.Location = new System.Drawing.Point(36, 131);
+            this.buttonColor3.Name = "buttonColor3";
+            this.buttonColor3.Size = new System.Drawing.Size(20, 20);
+            this.buttonColor3.TabIndex = 12;
+            this.buttonColor3.UseVisualStyleBackColor = false;
+            // 
+            // buttonColor2
+            // 
+            this.buttonColor2.BackColor = System.Drawing.Color.Lime;
+            this.buttonColor2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonColor2.Location = new System.Drawing.Point(36, 107);
+            this.buttonColor2.Name = "buttonColor2";
+            this.buttonColor2.Size = new System.Drawing.Size(20, 20);
+            this.buttonColor2.TabIndex = 11;
+            this.buttonColor2.UseVisualStyleBackColor = false;
+            // 
+            // buttonColor1
+            // 
+            this.buttonColor1.BackColor = System.Drawing.Color.Black;
+            this.buttonColor1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonColor1.Location = new System.Drawing.Point(36, 203);
+            this.buttonColor1.Name = "buttonColor1";
+            this.buttonColor1.Size = new System.Drawing.Size(20, 21);
+            this.buttonColor1.TabIndex = 10;
+            this.buttonColor1.UseVisualStyleBackColor = false;
+            // 
+            // buttonDrawUndo
+            // 
+            this.buttonDrawUndo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonDrawUndo.ImageKey = "backward.png";
+            this.buttonDrawUndo.ImageList = this.imageList1;
+            this.buttonDrawUndo.Location = new System.Drawing.Point(2, 194);
+            this.buttonDrawUndo.Name = "buttonDrawUndo";
+            this.buttonDrawUndo.Size = new System.Drawing.Size(32, 32);
+            this.buttonDrawUndo.TabIndex = 9;
+            this.buttonDrawUndo.TabStop = false;
+            this.toolTip1.SetToolTip(this.buttonDrawUndo, "Undo (Ctrl+Z)");
+            this.buttonDrawUndo.UseVisualStyleBackColor = true;
+            this.buttonDrawUndo.Click += new System.EventHandler(this.buttonDrawUndo_Click);
             // 
             // buttonDrawResize
             // 
             this.buttonDrawResize.ImageKey = "target.png";
             this.buttonDrawResize.ImageList = this.imageList1;
-            this.buttonDrawResize.Location = new System.Drawing.Point(2, 131);
+            this.buttonDrawResize.Location = new System.Drawing.Point(2, 162);
             this.buttonDrawResize.Name = "buttonDrawResize";
             this.buttonDrawResize.Size = new System.Drawing.Size(32, 32);
             this.buttonDrawResize.TabIndex = 8;
@@ -234,7 +252,7 @@
             this.buttonDrawColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonDrawColor.ForeColor = System.Drawing.Color.Black;
             this.buttonDrawColor.ImageList = this.imageList1;
-            this.buttonDrawColor.Location = new System.Drawing.Point(3, 99);
+            this.buttonDrawColor.Location = new System.Drawing.Point(3, 131);
             this.buttonDrawColor.Name = "buttonDrawColor";
             this.buttonDrawColor.Size = new System.Drawing.Size(30, 30);
             this.buttonDrawColor.TabIndex = 7;
@@ -248,7 +266,7 @@
             this.buttonDrawArrow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonDrawArrow.ImageKey = "left.png";
             this.buttonDrawArrow.ImageList = this.imageList1;
-            this.buttonDrawArrow.Location = new System.Drawing.Point(2, 66);
+            this.buttonDrawArrow.Location = new System.Drawing.Point(2, 98);
             this.buttonDrawArrow.Name = "buttonDrawArrow";
             this.buttonDrawArrow.Size = new System.Drawing.Size(32, 32);
             this.buttonDrawArrow.TabIndex = 4;
@@ -262,7 +280,7 @@
             this.buttonDrawLine.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonDrawLine.ImageKey = "line.png";
             this.buttonDrawLine.ImageList = this.imageList1;
-            this.buttonDrawLine.Location = new System.Drawing.Point(2, 34);
+            this.buttonDrawLine.Location = new System.Drawing.Point(2, 66);
             this.buttonDrawLine.Name = "buttonDrawLine";
             this.buttonDrawLine.Size = new System.Drawing.Size(32, 32);
             this.buttonDrawLine.TabIndex = 3;
@@ -297,6 +315,19 @@
             this.panelOutput.Size = new System.Drawing.Size(204, 36);
             this.panelOutput.TabIndex = 3;
             this.panelOutput.Visible = false;
+            // 
+            // buttonJustSave
+            // 
+            this.buttonJustSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonJustSave.ImageKey = "download-files.png";
+            this.buttonJustSave.ImageList = this.imageList1;
+            this.buttonJustSave.Location = new System.Drawing.Point(134, 2);
+            this.buttonJustSave.Name = "buttonJustSave";
+            this.buttonJustSave.Size = new System.Drawing.Size(32, 32);
+            this.buttonJustSave.TabIndex = 11;
+            this.toolTip1.SetToolTip(this.buttonJustSave, "Save at default location");
+            this.buttonJustSave.UseVisualStyleBackColor = true;
+            this.buttonJustSave.Click += new System.EventHandler(this.buttonJustSave_Click);
             // 
             // buttonCopy
             // 
@@ -422,19 +453,6 @@
             this.viewInExplorerToolStripMenuItem.Text = "View in Explorer";
             this.viewInExplorerToolStripMenuItem.Click += new System.EventHandler(this.viewInExplorerToolStripMenuItem_Click);
             // 
-            // buttonJustSave
-            // 
-            this.buttonJustSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonJustSave.ImageKey = "download-files.png";
-            this.buttonJustSave.ImageList = this.imageList1;
-            this.buttonJustSave.Location = new System.Drawing.Point(134, 2);
-            this.buttonJustSave.Name = "buttonJustSave";
-            this.buttonJustSave.Size = new System.Drawing.Size(32, 32);
-            this.buttonJustSave.TabIndex = 11;
-            this.toolTip1.SetToolTip(this.buttonJustSave, "Save at default location");
-            this.buttonJustSave.UseVisualStyleBackColor = true;
-            this.buttonJustSave.Click += new System.EventHandler(this.buttonJustSave_Click);
-            // 
             // FormOverlay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -492,6 +510,7 @@
         private System.Windows.Forms.Button buttonColor2;
         private System.Windows.Forms.Button buttonColor1;
         private System.Windows.Forms.Button buttonJustSave;
+        private System.Windows.Forms.Button buttonDrawFilledRectangle;
     }
 }
 
