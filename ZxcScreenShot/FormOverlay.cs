@@ -879,7 +879,9 @@ namespace ZxcScreenShot
             }
             else if (e.Button == MouseButtons.Left)
             {
-                panelTools.Width = panelTools.Width != 60 ? 60 : 36;
+                var widthCollapsed = buttonColor1.Left;
+                var widthExpanded = buttonColor1.Left + buttonColor1.Width + 3;
+                panelTools.Width = panelTools.Width > buttonColor1.Left ? widthCollapsed : widthExpanded;
             }
         }
 

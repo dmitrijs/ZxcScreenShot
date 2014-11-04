@@ -38,7 +38,7 @@ namespace ZxcScreenShot
             _hook = new KeyboardHook();
             _hook.KeyPressed += Hook_KeyPressed;
 
-            return _hook.RegisterHotKey(0, Keys.PrintScreen) & _hook.RegisterHotKey(ModifierKeys.Alt, Keys.PrintScreen);
+            return _hook.RegisterHotKey(0, Keys.PrintScreen) && _hook.RegisterHotKey(ModifierKeys.Alt, Keys.PrintScreen);
         }
 
         private void CheckIfFirstRun()
@@ -51,11 +51,7 @@ namespace ZxcScreenShot
             Settings.Default.IsFirstRun = false;
             Settings.Default.Save();
 
-            MessageBox.Show(
-                @"Thank you for downloading ZxcScreenShot!" +
-                "\n\n" +
-                @"Please take a minute to configure the settings."
-                );
+            MessageBox.Show(string.Format("{0}\n\n{1}", @"Thank you for downloading ZxcScreenShot!", @"Please take a minute to configure the settings."));
 
             _main.Show();
         }
