@@ -9,6 +9,7 @@ Features
 When selecting screen shot target:
 * *move and resize* target window at any time
 * hold Control to decrease *mouse sensitivity* [since 1.2]
+* or press Alt + PrintScreen to have active window preselected [since 1.3]
 
 After target is selected:
 * annotate with *rectangle, line, and/or arrow*;
