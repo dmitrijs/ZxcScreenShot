@@ -9,7 +9,8 @@ namespace ZxcScreenShot.ui
             NotDrawingTool = 0,
             Rectangle,
             Line,
-            Arrow
+            Arrow,
+            FilledRectangle
         }
 
         public DrawingToolType Type { get; set; }
