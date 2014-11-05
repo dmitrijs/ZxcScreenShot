@@ -127,6 +127,7 @@ namespace ZxcScreenShot
             _longPressAction = new LongPressAction(longPressTimer);
 
             panelTools.Width = buttonColor1.Left;
+            buttonDrawUndo.Enabled = false;
         }
         
         public void SelectActiveWindow()
@@ -465,6 +466,7 @@ namespace ZxcScreenShot
                         Color = buttonDrawColor.BackColor,
                         DrawStraight = false
                     });
+                    buttonDrawUndo.Enabled = true;
                 }
 
                 if (_rectangleDrawn)
@@ -792,6 +794,7 @@ namespace ZxcScreenShot
             {
                 pictureBox1.Invalidate();
             }
+            buttonDrawUndo.Enabled = _toolsPainter.HasAnythingToUndo();
         }
 
         private void buttonEditInPaint_Click(object sender, EventArgs e)

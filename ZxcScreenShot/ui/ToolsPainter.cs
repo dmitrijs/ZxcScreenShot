@@ -31,6 +31,11 @@ namespace ZxcScreenShot.ui
             return false;
         }
 
+        public bool HasAnythingToUndo()
+        {
+            return _drawings.Count > 0;
+        }
+
         public void MoveLatestTo(Point point)
         {
             _drawings.Peek().To = point;
