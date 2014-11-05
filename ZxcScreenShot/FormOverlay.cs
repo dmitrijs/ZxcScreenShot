@@ -113,6 +113,7 @@ namespace ZxcScreenShot
             buttonColor6.Click += SwitchColor_Click;
             buttonColor7.Click += SwitchColor_Click;
             buttonColor8.Click += SwitchColor_Click;
+            buttonColorPicker.Click += SwitchColor_Click;
 
             KeyDown += Key_Down;
             KeyUp += Key_Up;
@@ -940,6 +941,14 @@ namespace ZxcScreenShot
         {
             _goingToDrawTool = DrawingTool.DrawingToolType.FilledRectangle;
             MakeOnlyOneButtonDisabled(buttonDrawFilledRectangle);
+        }
+
+        private void buttonColorPicker_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(string.Format(
+                "{0}\n\n{1}", 
+                "Click Middle Mouse Button to pick a color from target selection.",
+                "Note: This works at any time, with any tool."));
         }
     }
 }

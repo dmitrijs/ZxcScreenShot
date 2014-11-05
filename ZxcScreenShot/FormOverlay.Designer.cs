@@ -64,6 +64,7 @@
             this.contextMenuStripPath = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyFilePathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewInExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonColorPicker = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelTools.SuspendLayout();
             this.panelOutput.SuspendLayout();
@@ -84,6 +85,7 @@
             // panelTools
             // 
             this.panelTools.BackColor = System.Drawing.Color.Transparent;
+            this.panelTools.Controls.Add(this.buttonColorPicker);
             this.panelTools.Controls.Add(this.buttonDrawFilledRectangle);
             this.panelTools.Controls.Add(this.buttonColor8);
             this.panelTools.Controls.Add(this.buttonColor7);
@@ -135,15 +137,15 @@
             this.imageList1.Images.SetKeyName(9, "fill-rectangle.png");
             this.imageList1.Images.SetKeyName(10, "line.png");
             this.imageList1.Images.SetKeyName(11, "left.png");
-            this.imageList1.Images.SetKeyName(12, "fat-brush.png");
-            this.imageList1.Images.SetKeyName(13, "backward.png");
+            this.imageList1.Images.SetKeyName(12, "backward.png");
+            this.imageList1.Images.SetKeyName(13, "color.png");
             this.imageList1.Images.SetKeyName(14, "target.png");
             // 
             // buttonColor8
             // 
             this.buttonColor8.BackColor = System.Drawing.Color.Blue;
             this.buttonColor8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColor8.Location = new System.Drawing.Point(36, 155);
+            this.buttonColor8.Location = new System.Drawing.Point(36, 156);
             this.buttonColor8.Name = "buttonColor8";
             this.buttonColor8.Size = new System.Drawing.Size(20, 20);
             this.buttonColor8.TabIndex = 17;
@@ -153,7 +155,7 @@
             // 
             this.buttonColor7.BackColor = System.Drawing.Color.Yellow;
             this.buttonColor7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColor7.Location = new System.Drawing.Point(36, 83);
+            this.buttonColor7.Location = new System.Drawing.Point(36, 84);
             this.buttonColor7.Name = "buttonColor7";
             this.buttonColor7.Size = new System.Drawing.Size(20, 20);
             this.buttonColor7.TabIndex = 16;
@@ -163,9 +165,9 @@
             // 
             this.buttonColor6.BackColor = System.Drawing.Color.White;
             this.buttonColor6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColor6.Location = new System.Drawing.Point(36, 34);
+            this.buttonColor6.Location = new System.Drawing.Point(36, 35);
             this.buttonColor6.Name = "buttonColor6";
-            this.buttonColor6.Size = new System.Drawing.Size(20, 21);
+            this.buttonColor6.Size = new System.Drawing.Size(20, 20);
             this.buttonColor6.TabIndex = 15;
             this.buttonColor6.UseVisualStyleBackColor = false;
             // 
@@ -173,7 +175,7 @@
             // 
             this.buttonColor5.BackColor = System.Drawing.Color.Red;
             this.buttonColor5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColor5.Location = new System.Drawing.Point(36, 59);
+            this.buttonColor5.Location = new System.Drawing.Point(36, 60);
             this.buttonColor5.Name = "buttonColor5";
             this.buttonColor5.Size = new System.Drawing.Size(20, 20);
             this.buttonColor5.TabIndex = 14;
@@ -183,7 +185,7 @@
             // 
             this.buttonColor4.BackColor = System.Drawing.Color.Purple;
             this.buttonColor4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColor4.Location = new System.Drawing.Point(36, 179);
+            this.buttonColor4.Location = new System.Drawing.Point(36, 180);
             this.buttonColor4.Name = "buttonColor4";
             this.buttonColor4.Size = new System.Drawing.Size(20, 20);
             this.buttonColor4.TabIndex = 13;
@@ -193,7 +195,7 @@
             // 
             this.buttonColor3.BackColor = System.Drawing.Color.Cyan;
             this.buttonColor3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColor3.Location = new System.Drawing.Point(36, 131);
+            this.buttonColor3.Location = new System.Drawing.Point(36, 132);
             this.buttonColor3.Name = "buttonColor3";
             this.buttonColor3.Size = new System.Drawing.Size(20, 20);
             this.buttonColor3.TabIndex = 12;
@@ -203,7 +205,7 @@
             // 
             this.buttonColor2.BackColor = System.Drawing.Color.Lime;
             this.buttonColor2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColor2.Location = new System.Drawing.Point(36, 107);
+            this.buttonColor2.Location = new System.Drawing.Point(36, 108);
             this.buttonColor2.Name = "buttonColor2";
             this.buttonColor2.Size = new System.Drawing.Size(20, 20);
             this.buttonColor2.TabIndex = 11;
@@ -213,9 +215,9 @@
             // 
             this.buttonColor1.BackColor = System.Drawing.Color.Black;
             this.buttonColor1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColor1.Location = new System.Drawing.Point(36, 203);
+            this.buttonColor1.Location = new System.Drawing.Point(36, 204);
             this.buttonColor1.Name = "buttonColor1";
-            this.buttonColor1.Size = new System.Drawing.Size(20, 21);
+            this.buttonColor1.Size = new System.Drawing.Size(20, 20);
             this.buttonColor1.TabIndex = 10;
             this.buttonColor1.UseVisualStyleBackColor = false;
             // 
@@ -453,6 +455,19 @@
             this.viewInExplorerToolStripMenuItem.Text = "View in Explorer";
             this.viewInExplorerToolStripMenuItem.Click += new System.EventHandler(this.viewInExplorerToolStripMenuItem_Click);
             // 
+            // buttonColorPicker
+            // 
+            this.buttonColorPicker.BackColor = System.Drawing.SystemColors.Control;
+            this.buttonColorPicker.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonColorPicker.ImageKey = "color.png";
+            this.buttonColorPicker.ImageList = this.imageList1;
+            this.buttonColorPicker.Location = new System.Drawing.Point(36, 3);
+            this.buttonColorPicker.Name = "buttonColorPicker";
+            this.buttonColorPicker.Size = new System.Drawing.Size(20, 22);
+            this.buttonColorPicker.TabIndex = 19;
+            this.buttonColorPicker.UseVisualStyleBackColor = false;
+            this.buttonColorPicker.Click += new System.EventHandler(this.buttonColorPicker_Click);
+            // 
             // FormOverlay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -511,6 +526,7 @@
         private System.Windows.Forms.Button buttonColor1;
         private System.Windows.Forms.Button buttonJustSave;
         private System.Windows.Forms.Button buttonDrawFilledRectangle;
+        private System.Windows.Forms.Button buttonColorPicker;
     }
 }
 
