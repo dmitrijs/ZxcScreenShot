@@ -13,7 +13,8 @@ When selecting screen shot target:
 
 After target is selected:
 * annotate with *rectangle, line, and/or arrow*;
-* *choose color from quick-list* of from a palette (Right-Click color selection button)
+* *choose color from quick-list* or from a palette (Right-Click color selection button)
+* or middle click anywhere to *pick a color from the screen* [since 1.4]
 * undo drawings by pressing *Ctrl+Z*
 
 After satisfied with everything:
