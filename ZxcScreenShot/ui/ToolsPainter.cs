@@ -31,6 +31,11 @@ namespace ZxcScreenShot.ui
             return false;
         }
 
+        public bool HasAnythingToUndo()
+        {
+            return _drawings.Count > 0;
+        }
+
         public void MoveLatestTo(Point point)
         {
             _drawings.Peek().To = point;
@@ -68,6 +73,27 @@ namespace ZxcScreenShot.ui
                         using (var pen = new Pen(drawing.Color, 3))
                         {
                             picG.DrawRectangle(pen,
+                                new Rectangle
+                                {
+                                    Location = topLeft,
+                                    Width = bottomRight.X - topLeft.X,
+                                    Height = bottomRight.Y - topLeft.Y
+                                });
+                        }
+                        break;
+
+                    case DrawingTool.DrawingToolType.FilledRectangle:
+                        topLeft = new Point { X = Math.Min(src.X, dest.X), Y = Math.Min(src.Y, dest.Y) };
+                        bottomRight = new Point { X = Math.Max(src.X, dest.X), Y = Math.Max(src.Y, dest.Y) };
+
+                        if (topLeft.X < boundsTopLeft.X) topLeft.X = boundsTopLeft.X;
+                        if (topLeft.Y < boundsTopLeft.Y) topLeft.Y = boundsTopLeft.Y;
+                        if (bottomRight.X > boundsBottomRight.X) bottomRight.X = boundsBottomRight.X;
+                        if (bottomRight.Y > boundsBottomRight.Y) bottomRight.Y = boundsBottomRight.Y;
+
+                        using (var brush = new SolidBrush(drawing.Color))
+                        {
+                            picG.FillRectangle(brush,
                                 new Rectangle
                                 {
                                     Location = topLeft,
