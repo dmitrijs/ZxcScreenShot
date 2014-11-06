@@ -4,12 +4,22 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using ZxcScreenShot.Properties;
+using ZxcScreenShot.tools;
 
 namespace ZxcScreenShot
 {
     public partial class FormMain : Form
     {
         private const string APP_REG_KEY = "ZxcScreenShot";
+
+        private enum NotifyIconBaloonAction
+        {
+            NONE,
+            CHECK_FOR_UPDATES
+        }
+        NotifyIconBaloonAction _baloonAction = NotifyIconBaloonAction.NONE;
+
+        private readonly Updater _updater = new Updater();
 
         public FormMain()
         {
@@ -18,6 +28,9 @@ namespace ZxcScreenShot
             comboBox1.Items.Add(new ComboBoxItem { Text = "", Value = null });
             comboBox1.Items.Add(new ComboBoxItem {Text = "Local Environment", Value = "http://shots.local/"});
             comboBox1.Items.Add(new ComboBoxItem {Text = "shots.zxc.lv", Value = "http://shots.zxc.lv/"});
+
+            timerCheckForUpdates.Interval = (int) new TimeSpan(hours: 0, minutes: 10, seconds: 0).TotalMilliseconds;
+            timerCheckForUpdates.Enabled = true;
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -141,28 +154,41 @@ namespace ZxcScreenShot
         
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!ApplicationDeployment.IsNetworkDeployed) return;
-
-            var updateInfo = ApplicationDeployment.CurrentDeployment.CheckForDetailedUpdate();
-            if (updateInfo.UpdateAvailable)
+            if (_updater.IsUpdateAvailable())
             {
-                var message =
-                    string.Format(
-                        "New version of ZxcScreenShot is available!\n\nYour version: {0}\nNew version:{1}\n\nInstall the update?",
-                        ApplicationDeployment.CurrentDeployment.CurrentVersion,
-                        updateInfo.AvailableVersion
-                        );
-
-                if (MessageBox.Show(message, "Update found", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    ApplicationDeployment.CurrentDeployment.Update();
-                    Application.Restart();
-                }
+                _updater.ShowApplicationUpdatePrompt();
             }
             else
             {
                 MessageBox.Show("No updates were found.");
             }
+        }
+
+        private void timerCheckForUpdates_Tick(object sender, EventArgs e)
+        {
+            if (_updater.IsUpdateAvailable())
+            {
+                _baloonAction = NotifyIconBaloonAction.CHECK_FOR_UPDATES;
+                notifyIcon.ShowBalloonTip(10000, "Update is available", "A new version of ZxcScreenShot is available!", ToolTipIcon.Info);
+            }
+        }
+
+        private void notifyIcon_BalloonTipClicked(object sender, EventArgs e)
+        {
+            switch (_baloonAction)
+            {
+                case NotifyIconBaloonAction.CHECK_FOR_UPDATES:
+                    _updater.ShowApplicationUpdatePrompt();
+
+                    timerCheckForUpdates.Enabled = false;
+                    break;
+            }
+            _baloonAction = NotifyIconBaloonAction.NONE;
+        }
+
+        private void notifyIcon_BalloonTipClosed(object sender, EventArgs e)
+        {
+            _baloonAction = NotifyIconBaloonAction.NONE;
         }
     }
 

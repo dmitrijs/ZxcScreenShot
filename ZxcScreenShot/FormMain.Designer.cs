@@ -49,6 +49,7 @@ namespace ZxcScreenShot
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.cbAutoStart = new System.Windows.Forms.CheckBox();
+            this.timerCheckForUpdates = new System.Windows.Forms.Timer(this.components);
             this.notifyMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,7 +92,7 @@ namespace ZxcScreenShot
             this.checkForUpdatesToolStripMenuItem,
             this.toolStripMenuItem1});
             this.notifyMenuStrip.Name = "notifyMenuStrip";
-            this.notifyMenuStrip.Size = new System.Drawing.Size(218, 82);
+            this.notifyMenuStrip.Size = new System.Drawing.Size(218, 106);
             // 
             // toolStripMenuItem3
             // 
@@ -115,7 +116,7 @@ namespace ZxcScreenShot
             // checkForUpdatesToolStripMenuItem
             // 
             this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(217, 24);
             this.checkForUpdatesToolStripMenuItem.Text = "Check for Updates";
             this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
             // 
@@ -132,6 +133,8 @@ namespace ZxcScreenShot
             this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
             this.notifyIcon.Text = "ZxcScreenShot v1.0";
             this.notifyIcon.Visible = true;
+            this.notifyIcon.BalloonTipClicked += new System.EventHandler(this.notifyIcon_BalloonTipClicked);
+            this.notifyIcon.BalloonTipClosed += new System.EventHandler(this.notifyIcon_BalloonTipClosed);
             this.notifyIcon.Click += new System.EventHandler(this.notifyIcon_Click);
             this.notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseClick);
             // 
@@ -165,6 +168,10 @@ namespace ZxcScreenShot
             this.cbAutoStart.Text = "Auto start";
             this.cbAutoStart.UseVisualStyleBackColor = true;
             this.cbAutoStart.CheckedChanged += new System.EventHandler(this.cbAutoStart_CheckedChanged);
+            // 
+            // timerCheckForUpdates
+            // 
+            this.timerCheckForUpdates.Tick += new System.EventHandler(this.timerCheckForUpdates_Tick);
             // 
             // FormMain
             // 
@@ -202,5 +209,6 @@ namespace ZxcScreenShot
         private CheckBox cbAutoStart;
         private ToolStripMenuItem toolStripMenuItem3;
         private ToolStripMenuItem checkForUpdatesToolStripMenuItem;
+        private Timer timerCheckForUpdates;
     }
 }
