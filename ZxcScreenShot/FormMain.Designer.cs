@@ -43,6 +43,7 @@ namespace ZxcScreenShot
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.label1 = new System.Windows.Forms.Label();
@@ -87,6 +88,7 @@ namespace ZxcScreenShot
             this.toolStripMenuItem3,
             this.toolStripMenuItem2,
             this.toolStripSeparator1,
+            this.checkForUpdatesToolStripMenuItem,
             this.toolStripMenuItem1});
             this.notifyMenuStrip.Name = "notifyMenuStrip";
             this.notifyMenuStrip.Size = new System.Drawing.Size(218, 82);
@@ -110,6 +112,13 @@ namespace ZxcScreenShot
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(214, 6);
             // 
+            // checkForUpdatesToolStripMenuItem
+            // 
+            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.checkForUpdatesToolStripMenuItem.Text = "Check for Updates";
+            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
+            // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
@@ -123,7 +132,6 @@ namespace ZxcScreenShot
             this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
             this.notifyIcon.Text = "ZxcScreenShot v1.0";
             this.notifyIcon.Visible = true;
-            this.notifyIcon.BalloonTipClicked += new System.EventHandler(this.notifyIcon_BalloonTipClicked);
             this.notifyIcon.Click += new System.EventHandler(this.notifyIcon_Click);
             this.notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseClick);
             // 
@@ -193,5 +201,6 @@ namespace ZxcScreenShot
         private ComboBox comboBox1;
         private CheckBox cbAutoStart;
         private ToolStripMenuItem toolStripMenuItem3;
+        private ToolStripMenuItem checkForUpdatesToolStripMenuItem;
     }
 }

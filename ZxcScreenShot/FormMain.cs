@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Deployment.Application;
 using System.Diagnostics;
-using System.Drawing;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using ZxcScreenShot.Properties;
@@ -138,15 +138,31 @@ namespace ZxcScreenShot
         {
             notifyIcon.ShowBalloonTip(1000, title, msg, ToolTipIcon.Info);
         }
-
-        public void MarkNotifyIconBroken()
+        
+        private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            notifyIcon.Icon = SystemIcons.Error;
-        }
+            if (!ApplicationDeployment.IsNetworkDeployed) return;
 
-        private void notifyIcon_BalloonTipClicked(object sender, EventArgs e)
-        {
+            var updateInfo = ApplicationDeployment.CurrentDeployment.CheckForDetailedUpdate();
+            if (updateInfo.UpdateAvailable)
+            {
+                var message =
+                    string.Format(
+                        "New version of ZxcScreenShot is available!\n\nYour version: {0}\nNew version:{1}\n\nInstall the update?",
+                        ApplicationDeployment.CurrentDeployment.CurrentVersion,
+                        updateInfo.AvailableVersion
+                        );
 
+                if (MessageBox.Show(message, "Update found", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    ApplicationDeployment.CurrentDeployment.Update();
+                    Application.Restart();
+                }
+            }
+            else
+            {
+                MessageBox.Show("No updates were found.");
+            }
         }
     }
 
