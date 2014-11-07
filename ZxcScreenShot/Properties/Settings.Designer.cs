@@ -82,5 +82,17 @@ namespace ZxcScreenShot.Properties {
                 this["IsFirstRun"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastUsedVersion {
+            get {
+                return ((string)(this["LastUsedVersion"]));
+            }
+            set {
+                this["LastUsedVersion"] = value;
+            }
+        }
     }
 }

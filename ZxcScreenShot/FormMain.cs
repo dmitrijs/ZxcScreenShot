@@ -29,7 +29,7 @@ namespace ZxcScreenShot
             comboBox1.Items.Add(new ComboBoxItem {Text = "Local Environment", Value = "http://shots.local/"});
             comboBox1.Items.Add(new ComboBoxItem {Text = "shots.zxc.lv", Value = "http://shots.zxc.lv/"});
 
-            timerCheckForUpdates.Interval = (int) new TimeSpan(hours: 0, minutes: 10, seconds: 0).TotalMilliseconds;
+            timerCheckForUpdates.Interval = (int) new TimeSpan(hours: 0, minutes: 30, seconds: 0).TotalMilliseconds;
             timerCheckForUpdates.Enabled = true;
         }
 

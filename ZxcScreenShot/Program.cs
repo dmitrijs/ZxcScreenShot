@@ -16,6 +16,9 @@ namespace ZxcScreenShot
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            Updater.ShowUpdateChangeLog();
+
             var appContext = AppContext.Instance();
             if (appContext.Ok())
             {
