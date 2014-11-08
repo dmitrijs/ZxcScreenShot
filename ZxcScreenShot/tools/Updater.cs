@@ -48,23 +48,17 @@ namespace ZxcScreenShot.tools
 
         private void CheckForUpdates()
         {
-            if (!ApplicationDeployment.IsNetworkDeployed) return;
-
             _updateInfo = ApplicationDeployment.CurrentDeployment.CheckForDetailedUpdate();
         }
 
         public override bool IsUpdateAvailable()
         {
-            if (!ApplicationDeployment.IsNetworkDeployed) return false;
-
             CheckForUpdates();
-            return _updateInfo != null && _updateInfo.UpdateAvailable;
+            return _updateInfo.UpdateAvailable;
         }
 
         public override void ShowApplicationUpdatePrompt()
         {
-            if (_updateInfo == null) return;
-
             var message =
                 string.Format(
                     "New version of ZxcScreenShot is available!\n\nYour version: {0}\nNew version: {1}\n\nInstall the update?",
@@ -81,8 +75,6 @@ namespace ZxcScreenShot.tools
 
         public override void ShowUpdateChangeLog()
         {
-            if (!ApplicationDeployment.IsNetworkDeployed) return;
-
             var previousVersion = GetAndUpdateLastUsedVersion();
             if (previousVersion == null)
             {
