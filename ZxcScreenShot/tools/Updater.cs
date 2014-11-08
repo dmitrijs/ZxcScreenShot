@@ -68,14 +68,11 @@ namespace ZxcScreenShot.tools
     class NetworkDeployedUpdater : Updater
     {
         private UpdateCheckInfo _updateInfo;
-
         private readonly Version _lastUsedVersion;
-        private readonly Version _currentVersion;
 
         public NetworkDeployedUpdater()
         {
             _lastUsedVersion = GetAndUpdateLastUsedVersion();
-            _currentVersion = ApplicationDeployment.CurrentDeployment.CurrentVersion;
         }
 
         private void CheckForUpdates()
@@ -95,7 +92,7 @@ namespace ZxcScreenShot.tools
             if (_updateInfo.UpdateAvailable)
             {
                 var updateVersionWithoutRevision = new Version(_updateInfo.AvailableVersion.ToString(3));
-                var currentVersionWithoutRevision = new Version(_currentVersion.ToString(3));
+                var currentVersionWithoutRevision = new Version(ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(3));
 
                 if (updateVersionWithoutRevision > currentVersionWithoutRevision)
                 {
@@ -110,7 +107,7 @@ namespace ZxcScreenShot.tools
             var message =
                 string.Format(
                     "New version of ZxcScreenShot is available!\n\nYour version: {0}\nNew version: {1}\n\nInstall the update?",
-                    _currentVersion,
+                    ApplicationDeployment.CurrentDeployment.CurrentVersion,
                     _updateInfo.AvailableVersion
                     );
 
@@ -127,26 +124,26 @@ namespace ZxcScreenShot.tools
             {
                 return;
             }
-            ShowChangeLog(_currentVersion, _lastUsedVersion);
+            ShowChangeLog(ApplicationDeployment.CurrentDeployment.CurrentVersion, _lastUsedVersion);
         }
 
         public override Version GetCurrentVersion()
         {
-            return _currentVersion;
+            return ApplicationDeployment.CurrentDeployment.CurrentVersion;
         }
 
         public override bool AppHasUpdated()
         {
-            return _lastUsedVersion != _currentVersion;
+            return _lastUsedVersion != ApplicationDeployment.CurrentDeployment.CurrentVersion;
         }
 
         private Version GetAndUpdateLastUsedVersion()
         {
             var previousVersionStr = Settings.Default.LastUsedVersion;
 
-            Settings.Default.LastUsedVersion = _currentVersion.ToString();
+            Settings.Default.LastUsedVersion = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
             Settings.Default.Save();
-            
+
             if (previousVersionStr.Length == 0)
             {
                 return null;
