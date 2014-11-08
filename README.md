@@ -31,6 +31,10 @@ After satisfied with everything:
 After screen shot was taken:
 * Right-Click tray icon and choose *"Retry last screen shot"* to get back to last workspace (protip: use Ctrl+Z to undo drawings)
 
+And if you use it long enough:
+* Receive a notification whenever a new version of ZxcScreenshot is available and isntall the update with a single click [since 1.5]
+* ... and then see what changes were introduced since the last time you updated the application. [since 1.5]
+
 Kudos
 -----
 
