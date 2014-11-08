@@ -6,7 +6,43 @@ using ZxcScreenShot.Properties;
 
 namespace ZxcScreenShot.tools
 {
-    class Updater
+    abstract class Updater
+    {
+        private static Updater _instance;
+
+        public static Updater GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = ApplicationDeployment.IsNetworkDeployed
+                    ? (Updater) new NetworkDeployedUpdater()
+                    : new NonUpdater();
+            }
+            return _instance;
+        }
+
+        public abstract bool IsUpdateAvailable();
+        public abstract void ShowApplicationUpdatePrompt();
+        public abstract void ShowUpdateChangeLog();
+    }
+
+    class NonUpdater : Updater
+    {
+        public override bool IsUpdateAvailable()
+        {
+            return false;
+        }
+
+        public override void ShowApplicationUpdatePrompt()
+        {
+        }
+
+        public override void ShowUpdateChangeLog()
+        {
+        }
+    }
+
+    class NetworkDeployedUpdater : Updater
     {
         private UpdateCheckInfo _updateInfo;
 
@@ -17,13 +53,15 @@ namespace ZxcScreenShot.tools
             _updateInfo = ApplicationDeployment.CurrentDeployment.CheckForDetailedUpdate();
         }
 
-        public bool IsUpdateAvailable()
+        public override bool IsUpdateAvailable()
         {
+            if (!ApplicationDeployment.IsNetworkDeployed) return false;
+
             CheckForUpdates();
             return _updateInfo != null && _updateInfo.UpdateAvailable;
         }
 
-        public void ShowApplicationUpdatePrompt()
+        public override void ShowApplicationUpdatePrompt()
         {
             if (_updateInfo == null) return;
 
@@ -41,7 +79,7 @@ namespace ZxcScreenShot.tools
             }
         }
 
-        public static void ShowUpdateChangeLog()
+        public override void ShowUpdateChangeLog()
         {
             if (!ApplicationDeployment.IsNetworkDeployed) return;
 

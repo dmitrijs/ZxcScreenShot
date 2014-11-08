@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Deployment.Application;
 using System.Diagnostics;
 using System.Windows.Forms;
 using Microsoft.Win32;
@@ -19,7 +18,7 @@ namespace ZxcScreenShot
         }
         NotifyIconBaloonAction _baloonAction = NotifyIconBaloonAction.NONE;
 
-        private readonly Updater _updater = new Updater();
+        private readonly Updater _updater = Updater.GetInstance();
 
         public FormMain()
         {
