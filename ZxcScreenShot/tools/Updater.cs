@@ -91,7 +91,7 @@ namespace ZxcScreenShot.tools
             {
                 if (versionToChange.Key > previousVersion && versionToChange.Key <= currentVersion)
                 {
-                    changeLog += "** Version " + versionToChange.Key + "\n";
+                    changeLog += "** Version " + versionToChange.Key + "\n\n";
                     changeLog += string.Join("\n", versionToChange.Value) + "\n\n";
                 }
             }
