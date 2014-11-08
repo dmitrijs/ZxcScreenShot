@@ -149,7 +149,7 @@ namespace ZxcScreenShot
         
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_updater.IsUpdateAvailable())
+            if (_updater.IsAnyUpdateAvailable())
             {
                 _updater.ShowApplicationUpdatePrompt();
             }
@@ -161,7 +161,7 @@ namespace ZxcScreenShot
 
         private void timerCheckForUpdates_Tick(object sender, EventArgs e)
         {
-            if (_updater.IsUpdateAvailable())
+            if (_updater.IsImportantUpdateAvailable())
             {
                 _baloonAction = NotifyIconBaloonAction.CHECK_FOR_UPDATES;
                 notifyIcon.ShowBalloonTip(10000, "Update is available", "A new version of ZxcScreenShot is available!", ToolTipIcon.Info);

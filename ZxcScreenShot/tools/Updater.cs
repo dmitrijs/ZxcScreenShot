@@ -21,14 +21,20 @@ namespace ZxcScreenShot.tools
             return _instance;
         }
 
-        public abstract bool IsUpdateAvailable();
+        public abstract bool IsAnyUpdateAvailable();
+        public abstract bool IsImportantUpdateAvailable();
         public abstract void ShowApplicationUpdatePrompt();
         public abstract void ShowUpdateChangeLog();
     }
 
     class NonUpdater : Updater
     {
-        public override bool IsUpdateAvailable()
+        public override bool IsAnyUpdateAvailable()
+        {
+            return false;
+        }
+
+        public override bool IsImportantUpdateAvailable()
         {
             return false;
         }
@@ -51,10 +57,26 @@ namespace ZxcScreenShot.tools
             _updateInfo = ApplicationDeployment.CurrentDeployment.CheckForDetailedUpdate();
         }
 
-        public override bool IsUpdateAvailable()
+        public override bool IsAnyUpdateAvailable()
         {
             CheckForUpdates();
             return _updateInfo.UpdateAvailable;
+        }
+
+        public override bool IsImportantUpdateAvailable()
+        {
+            CheckForUpdates();
+            if (_updateInfo.UpdateAvailable)
+            {
+                var updateVersionWithoutRevision = new Version(_updateInfo.AvailableVersion.ToString(3));
+                var currentVersionWithoutRevision = new Version(ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(3));
+
+                if (updateVersionWithoutRevision > currentVersionWithoutRevision)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public override void ShowApplicationUpdatePrompt()
