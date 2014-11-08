@@ -101,5 +101,11 @@ namespace ZxcScreenShot
             _main.Close();
             ExitThread();
         }
+
+        public void Restart()
+        {
+            _main.Close();
+            Application.Restart();
+        }
     }
 }

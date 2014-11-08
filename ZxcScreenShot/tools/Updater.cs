@@ -91,7 +91,7 @@ namespace ZxcScreenShot.tools
             if (MessageBox.Show(message, @"Update found", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 ApplicationDeployment.CurrentDeployment.Update();
-                Application.Restart();
+                AppContext.Instance().Restart();
             }
         }
 
