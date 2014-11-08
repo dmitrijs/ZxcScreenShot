@@ -25,6 +25,7 @@ namespace ZxcScreenShot.tools
         public abstract bool IsImportantUpdateAvailable();
         public abstract void ShowApplicationUpdatePrompt();
         public abstract void ShowUpdateChangeLog();
+        public abstract Version GetCurrentVersion();
     }
 
     class NonUpdater : Updater
@@ -45,6 +46,11 @@ namespace ZxcScreenShot.tools
 
         public override void ShowUpdateChangeLog()
         {
+        }
+
+        public override Version GetCurrentVersion()
+        {
+            return null;
         }
     }
 
@@ -105,6 +111,11 @@ namespace ZxcScreenShot.tools
             var currentVersion = ApplicationDeployment.CurrentDeployment.CurrentVersion;
 
             ShowChangeLog(currentVersion, previousVersion);
+        }
+
+        public override Version GetCurrentVersion()
+        {
+            return ApplicationDeployment.CurrentDeployment.CurrentVersion;
         }
 
         private static Version GetAndUpdateLastUsedVersion()

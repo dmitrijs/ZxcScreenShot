@@ -30,6 +30,12 @@ namespace ZxcScreenShot
 
             timerCheckForUpdates.Interval = (int) new TimeSpan(hours: 0, minutes: 30, seconds: 0).TotalMilliseconds;
             timerCheckForUpdates.Enabled = true;
+
+            var currentVersion = Updater.GetInstance().GetCurrentVersion();
+            if (currentVersion != null)
+            {
+                notifyIcon.Text += string.Format(" v{0}", currentVersion);
+            }
         }
 
         private void FormMain_Load(object sender, EventArgs e)
