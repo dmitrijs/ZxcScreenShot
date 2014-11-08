@@ -150,7 +150,7 @@ namespace ZxcScreenShot.tools
 
             if (changeLog.Length == 0)
             {
-                MessageBox.Show(@"You are now using the latest version!", @"Update was successful");
+                AppContext.Instance().ShowNotifyMessage(@"Success", @"You are now using the latest version of ZxcScreenShot!");
             }
             else
             {
