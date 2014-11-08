@@ -29,7 +29,7 @@ namespace ZxcScreenShot.tools
 
             var message =
                 string.Format(
-                    "New version of ZxcScreenShot is available!\n\nYour version: {0}\nNew version:{1}\n\nInstall the update?",
+                    "New version of ZxcScreenShot is available!\n\nYour version: {0}\nNew version: {1}\n\nInstall the update?",
                     ApplicationDeployment.CurrentDeployment.CurrentVersion,
                     _updateInfo.AvailableVersion
                     );
@@ -45,19 +45,28 @@ namespace ZxcScreenShot.tools
         {
             if (!ApplicationDeployment.IsNetworkDeployed) return;
 
-            var previousVersionStr = Settings.Default.LastUsedVersion;
-            if (previousVersionStr.Length == 0)
+            var previousVersion = GetAndUpdateLastUsedVersion();
+            if (previousVersion == null)
             {
                 return;
             }
-
             var currentVersion = ApplicationDeployment.CurrentDeployment.CurrentVersion;
-            var previousVersion = new Version(previousVersionStr);
 
             ShowChangeLog(currentVersion, previousVersion);
+        }
 
-            Settings.Default.LastUsedVersion = currentVersion.ToString();
+        private static Version GetAndUpdateLastUsedVersion()
+        {
+            var previousVersionStr = Settings.Default.LastUsedVersion;
+
+            Settings.Default.LastUsedVersion = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
             Settings.Default.Save();
+            
+            if (previousVersionStr.Length == 0)
+            {
+                return null;
+            }
+            return new Version(previousVersionStr);
         }
 
         private static void ShowChangeLog(Version currentVersion, Version previousVersion)
@@ -86,7 +95,15 @@ namespace ZxcScreenShot.tools
                     changeLog += string.Join("\n", versionToChange.Value) + "\n\n";
                 }
             }
-            MessageBox.Show(string.Format("Changes since last installed version:\n\n{0}", changeLog), @"Update was successful");
+
+            if (changeLog.Length == 0)
+            {
+                MessageBox.Show(@"You are now using the latest version!", @"Update was successful");
+            }
+            else
+            {
+                MessageBox.Show(string.Format("Changes since last installed version:\n\n{0}", changeLog), @"Update was successful");
+            }
         }
     }
 }
