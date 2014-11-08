@@ -10,6 +10,11 @@ namespace ZxcScreenShot.tools
     {
         private static Updater _instance;
 
+        // ReSharper disable once EmptyConstructor
+        protected Updater()
+        {
+        }
+
         public static Updater GetInstance()
         {
             if (_instance == null)
@@ -26,6 +31,7 @@ namespace ZxcScreenShot.tools
         public abstract void ShowApplicationUpdatePrompt();
         public abstract void ShowUpdateChangeLog();
         public abstract Version GetCurrentVersion();
+        public abstract bool AppHasUpdated();
     }
 
     class NonUpdater : Updater
@@ -52,11 +58,25 @@ namespace ZxcScreenShot.tools
         {
             return null;
         }
+
+        public override bool AppHasUpdated()
+        {
+            return false;
+        }
     }
 
     class NetworkDeployedUpdater : Updater
     {
         private UpdateCheckInfo _updateInfo;
+
+        private readonly Version _lastUsedVersion;
+        private readonly Version _currentVersion;
+
+        public NetworkDeployedUpdater()
+        {
+            _lastUsedVersion = GetAndUpdateLastUsedVersion();
+            _currentVersion = ApplicationDeployment.CurrentDeployment.CurrentVersion;
+        }
 
         private void CheckForUpdates()
         {
@@ -75,7 +95,7 @@ namespace ZxcScreenShot.tools
             if (_updateInfo.UpdateAvailable)
             {
                 var updateVersionWithoutRevision = new Version(_updateInfo.AvailableVersion.ToString(3));
-                var currentVersionWithoutRevision = new Version(ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(3));
+                var currentVersionWithoutRevision = new Version(_currentVersion.ToString(3));
 
                 if (updateVersionWithoutRevision > currentVersionWithoutRevision)
                 {
@@ -90,11 +110,11 @@ namespace ZxcScreenShot.tools
             var message =
                 string.Format(
                     "New version of ZxcScreenShot is available!\n\nYour version: {0}\nNew version: {1}\n\nInstall the update?",
-                    ApplicationDeployment.CurrentDeployment.CurrentVersion,
+                    _currentVersion,
                     _updateInfo.AvailableVersion
                     );
 
-            if (MessageBox.Show(message, @"Update found", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show(message, @"Update found", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
             {
                 ApplicationDeployment.CurrentDeployment.Update();
                 AppContext.Instance().Restart();
@@ -103,26 +123,28 @@ namespace ZxcScreenShot.tools
 
         public override void ShowUpdateChangeLog()
         {
-            var previousVersion = GetAndUpdateLastUsedVersion();
-            if (previousVersion == null)
+            if (_lastUsedVersion == null)
             {
                 return;
             }
-            var currentVersion = ApplicationDeployment.CurrentDeployment.CurrentVersion;
-
-            ShowChangeLog(currentVersion, previousVersion);
+            ShowChangeLog(_currentVersion, _lastUsedVersion);
         }
 
         public override Version GetCurrentVersion()
         {
-            return ApplicationDeployment.CurrentDeployment.CurrentVersion;
+            return _currentVersion;
         }
 
-        private static Version GetAndUpdateLastUsedVersion()
+        public override bool AppHasUpdated()
+        {
+            return _lastUsedVersion != _currentVersion;
+        }
+
+        private Version GetAndUpdateLastUsedVersion()
         {
             var previousVersionStr = Settings.Default.LastUsedVersion;
 
-            Settings.Default.LastUsedVersion = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
+            Settings.Default.LastUsedVersion = _currentVersion.ToString();
             Settings.Default.Save();
             
             if (previousVersionStr.Length == 0)
@@ -132,7 +154,7 @@ namespace ZxcScreenShot.tools
             return new Version(previousVersionStr);
         }
 
-        private static void ShowChangeLog(Version currentVersion, Version previousVersion)
+        private void ShowChangeLog(Version currentVersion, Version previousVersion)
         {
             var versionToChanges = new Dictionary<Version, List<string>>
             {
