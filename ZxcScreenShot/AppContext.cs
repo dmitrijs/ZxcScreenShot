@@ -95,5 +95,11 @@ namespace ZxcScreenShot
         {
             _main.ShowNotifyMessage(title, msg);
         }
+
+        public void Exit()
+        {
+            _main.Close();
+            ExitThread();
+        }
     }
 }

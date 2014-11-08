@@ -68,7 +68,7 @@ namespace ZxcScreenShot
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            AppContext.Instance().Exit();
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
@@ -89,10 +89,6 @@ namespace ZxcScreenShot
             {
                 e.Cancel = true;
                 Hide();
-            }
-            else
-            {
-                notifyIcon.Visible = false;
             }
         }
 

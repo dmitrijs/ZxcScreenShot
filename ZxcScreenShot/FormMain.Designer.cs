@@ -58,7 +58,7 @@ namespace ZxcScreenShot
             this.tbSaveFileFolder.Location = new System.Drawing.Point(12, 31);
             this.tbSaveFileFolder.Name = "tbSaveFileFolder";
             this.tbSaveFileFolder.ReadOnly = true;
-            this.tbSaveFileFolder.Size = new System.Drawing.Size(452, 22);
+            this.tbSaveFileFolder.Size = new System.Drawing.Size(452, 20);
             this.tbSaveFileFolder.TabIndex = 2;
             // 
             // cbDoSaveFile
@@ -66,7 +66,7 @@ namespace ZxcScreenShot
             this.cbDoSaveFile.AutoSize = true;
             this.cbDoSaveFile.Location = new System.Drawing.Point(12, 8);
             this.cbDoSaveFile.Name = "cbDoSaveFile";
-            this.cbDoSaveFile.Size = new System.Drawing.Size(212, 21);
+            this.cbDoSaveFile.Size = new System.Drawing.Size(162, 17);
             this.cbDoSaveFile.TabIndex = 3;
             this.cbDoSaveFile.Text = "Save every screenshot here:";
             this.cbDoSaveFile.UseVisualStyleBackColor = true;
@@ -92,38 +92,38 @@ namespace ZxcScreenShot
             this.checkForUpdatesToolStripMenuItem,
             this.toolStripMenuItem1});
             this.notifyMenuStrip.Name = "notifyMenuStrip";
-            this.notifyMenuStrip.Size = new System.Drawing.Size(218, 106);
+            this.notifyMenuStrip.Size = new System.Drawing.Size(186, 98);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(217, 24);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(185, 22);
             this.toolStripMenuItem3.Text = "Retry last screen shot";
             this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(217, 24);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(185, 22);
             this.toolStripMenuItem2.Text = "Settings...";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(214, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(182, 6);
             // 
             // checkForUpdatesToolStripMenuItem
             // 
             this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(217, 24);
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.checkForUpdatesToolStripMenuItem.Text = "Check for Updates";
             this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(217, 24);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(185, 22);
             this.toolStripMenuItem1.Text = "Exit";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
@@ -143,7 +143,7 @@ namespace ZxcScreenShot
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 68);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(110, 17);
+            this.label1.Size = new System.Drawing.Size(84, 13);
             this.label1.TabIndex = 5;
             this.label1.Text = "Remote service:";
             // 
@@ -151,10 +151,10 @@ namespace ZxcScreenShot
             // 
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.ItemHeight = 16;
+            this.comboBox1.ItemHeight = 13;
             this.comboBox1.Location = new System.Drawing.Point(128, 65);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(379, 24);
+            this.comboBox1.Size = new System.Drawing.Size(379, 21);
             this.comboBox1.TabIndex = 6;
             this.comboBox1.SelectionChangeCommitted += new System.EventHandler(this.comboBox1_SelectionChangeCommitted);
             // 
@@ -163,7 +163,7 @@ namespace ZxcScreenShot
             this.cbAutoStart.AutoSize = true;
             this.cbAutoStart.Location = new System.Drawing.Point(15, 94);
             this.cbAutoStart.Name = "cbAutoStart";
-            this.cbAutoStart.Size = new System.Drawing.Size(91, 21);
+            this.cbAutoStart.Size = new System.Drawing.Size(71, 17);
             this.cbAutoStart.TabIndex = 7;
             this.cbAutoStart.Text = "Auto start";
             this.cbAutoStart.UseVisualStyleBackColor = true;
