@@ -13,10 +13,10 @@ namespace ZxcScreenShot
 
         private enum NotifyIconBaloonAction
         {
-            NONE,
-            CHECK_FOR_UPDATES
+            None,
+            CheckForUpdates
         }
-        NotifyIconBaloonAction _baloonAction = NotifyIconBaloonAction.NONE;
+        NotifyIconBaloonAction _baloonAction = NotifyIconBaloonAction.None;
 
         private readonly Updater _updater = Updater.GetInstance();
 
@@ -169,7 +169,7 @@ namespace ZxcScreenShot
         {
             if (_updater.IsImportantUpdateAvailable())
             {
-                _baloonAction = NotifyIconBaloonAction.CHECK_FOR_UPDATES;
+                _baloonAction = NotifyIconBaloonAction.CheckForUpdates;
                 notifyIcon.ShowBalloonTip(10000, "Update is available", "A new version of ZxcScreenShot is available!", ToolTipIcon.Info);
             }
         }
@@ -178,18 +178,18 @@ namespace ZxcScreenShot
         {
             switch (_baloonAction)
             {
-                case NotifyIconBaloonAction.CHECK_FOR_UPDATES:
+                case NotifyIconBaloonAction.CheckForUpdates:
                     _updater.ShowApplicationUpdatePrompt();
 
                     timerCheckForUpdates.Enabled = false;
                     break;
             }
-            _baloonAction = NotifyIconBaloonAction.NONE;
+            _baloonAction = NotifyIconBaloonAction.None;
         }
 
         private void notifyIcon_BalloonTipClosed(object sender, EventArgs e)
         {
-            _baloonAction = NotifyIconBaloonAction.NONE;
+            _baloonAction = NotifyIconBaloonAction.None;
         }
     }
 
