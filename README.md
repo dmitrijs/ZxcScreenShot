@@ -1,5 +1,6 @@
 ZxcScreenShot
 =============
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/dmitrijs/ZxcScreenShot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Just right tool to do screen shots and upload them to [shots.zxc.lv](http://shots.zxc.lv/) image server.
 
