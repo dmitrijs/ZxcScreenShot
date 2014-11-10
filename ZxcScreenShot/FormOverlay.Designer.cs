@@ -32,8 +32,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormOverlay));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelTools = new System.Windows.Forms.Panel();
-            this.buttonDrawFilledRectangle = new System.Windows.Forms.Button();
+            this.buttonColorPicker = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.buttonDrawFilledRectangle = new System.Windows.Forms.Button();
             this.buttonColor8 = new System.Windows.Forms.Button();
             this.buttonColor7 = new System.Windows.Forms.Button();
             this.buttonColor6 = new System.Windows.Forms.Button();
@@ -64,7 +65,6 @@
             this.contextMenuStripPath = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyFilePathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewInExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.buttonColorPicker = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panelTools.SuspendLayout();
             this.panelOutput.SuspendLayout();
@@ -107,19 +107,18 @@
             this.panelTools.TabIndex = 2;
             this.panelTools.Visible = false;
             // 
-            // buttonDrawFilledRectangle
+            // buttonColorPicker
             // 
-            this.buttonDrawFilledRectangle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonDrawFilledRectangle.ImageKey = "fill-rectangle.png";
-            this.buttonDrawFilledRectangle.ImageList = this.imageList1;
-            this.buttonDrawFilledRectangle.Location = new System.Drawing.Point(2, 34);
-            this.buttonDrawFilledRectangle.Name = "buttonDrawFilledRectangle";
-            this.buttonDrawFilledRectangle.Size = new System.Drawing.Size(32, 32);
-            this.buttonDrawFilledRectangle.TabIndex = 18;
-            this.buttonDrawFilledRectangle.TabStop = false;
-            this.toolTip1.SetToolTip(this.buttonDrawFilledRectangle, "Draw a filled rectangle");
-            this.buttonDrawFilledRectangle.UseVisualStyleBackColor = true;
-            this.buttonDrawFilledRectangle.Click += new System.EventHandler(this.buttonDrawFilledRectangle_Click);
+            this.buttonColorPicker.BackColor = System.Drawing.SystemColors.Control;
+            this.buttonColorPicker.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonColorPicker.ImageKey = "color.png";
+            this.buttonColorPicker.ImageList = this.imageList1;
+            this.buttonColorPicker.Location = new System.Drawing.Point(36, 3);
+            this.buttonColorPicker.Name = "buttonColorPicker";
+            this.buttonColorPicker.Size = new System.Drawing.Size(20, 23);
+            this.buttonColorPicker.TabIndex = 19;
+            this.buttonColorPicker.UseVisualStyleBackColor = false;
+            this.buttonColorPicker.Click += new System.EventHandler(this.buttonColorPicker_Click);
             // 
             // imageList1
             // 
@@ -140,6 +139,20 @@
             this.imageList1.Images.SetKeyName(12, "backward.png");
             this.imageList1.Images.SetKeyName(13, "color.png");
             this.imageList1.Images.SetKeyName(14, "target.png");
+            // 
+            // buttonDrawFilledRectangle
+            // 
+            this.buttonDrawFilledRectangle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonDrawFilledRectangle.ImageKey = "fill-rectangle.png";
+            this.buttonDrawFilledRectangle.ImageList = this.imageList1;
+            this.buttonDrawFilledRectangle.Location = new System.Drawing.Point(2, 34);
+            this.buttonDrawFilledRectangle.Name = "buttonDrawFilledRectangle";
+            this.buttonDrawFilledRectangle.Size = new System.Drawing.Size(32, 32);
+            this.buttonDrawFilledRectangle.TabIndex = 18;
+            this.buttonDrawFilledRectangle.TabStop = false;
+            this.toolTip1.SetToolTip(this.buttonDrawFilledRectangle, "Draw a filled rectangle");
+            this.buttonDrawFilledRectangle.UseVisualStyleBackColor = true;
+            this.buttonDrawFilledRectangle.Click += new System.EventHandler(this.buttonDrawFilledRectangle_Click);
             // 
             // buttonColor8
             // 
@@ -454,19 +467,6 @@
             this.viewInExplorerToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.viewInExplorerToolStripMenuItem.Text = "View in Explorer";
             this.viewInExplorerToolStripMenuItem.Click += new System.EventHandler(this.viewInExplorerToolStripMenuItem_Click);
-            // 
-            // buttonColorPicker
-            // 
-            this.buttonColorPicker.BackColor = System.Drawing.SystemColors.Control;
-            this.buttonColorPicker.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonColorPicker.ImageKey = "color.png";
-            this.buttonColorPicker.ImageList = this.imageList1;
-            this.buttonColorPicker.Location = new System.Drawing.Point(36, 3);
-            this.buttonColorPicker.Name = "buttonColorPicker";
-            this.buttonColorPicker.Size = new System.Drawing.Size(20, 22);
-            this.buttonColorPicker.TabIndex = 19;
-            this.buttonColorPicker.UseVisualStyleBackColor = false;
-            this.buttonColorPicker.Click += new System.EventHandler(this.buttonColorPicker_Click);
             // 
             // FormOverlay
             // 
