@@ -1,0 +1,1 @@
+sn -i ZxcScreenShotCA.pfx VS_KEY_173F502C1FCC052F
