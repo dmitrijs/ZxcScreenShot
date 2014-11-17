@@ -11,7 +11,7 @@ namespace ZxcScreenShot.output
         {
             using (var client = new HttpClient())
             {
-                var response = client.GetAsync(Settings.Default.ShotsServiceBaseUrl + "?action=get_token").Result;
+                var response = client.GetAsync(Settings.Default.ShotsServiceBaseUrl + "/get_token").Result;
                 if (response.IsSuccessStatusCode)
                 {
                     using (var reader = new StreamReader(response.Content.ReadAsStreamAsync().Result, Encoding.UTF8))
@@ -37,7 +37,7 @@ namespace ZxcScreenShot.output
 
                 formData.Add(fileStreamContent, "shot_file", "shot_file");
 
-                var response = client.PostAsync(Settings.Default.ShotsServiceBaseUrl, formData).Result;
+                var response = client.PostAsync(Settings.Default.ShotsServiceBaseUrl + "/upload", formData).Result;
                 if (!response.IsSuccessStatusCode)
                 {
                     return null;
