@@ -45,7 +45,7 @@ namespace ZxcScreenShot.output
                 {
                     Directory.CreateDirectory(Settings.Default.SaveFileFolder);
                 }
-                var imagePath = Path.Combine(Settings.Default.SaveFileFolder, "Screen shot " + DateTime.Now.ToString("yyyy-M-dd HH.mm.ss") + ".png");
+                var imagePath = Path.Combine(Settings.Default.SaveFileFolder, "Screen shot " + DateTime.Now.ToString("yyyy-MM-dd HH.mm.ss") + ".png");
                 bitmap.Save(imagePath, ImageFormat.Png);
 
                 // update clipboard
